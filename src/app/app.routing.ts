@@ -5,12 +5,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './not-found/not-found.component'
+
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -19,7 +23,9 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
-      }]
+      }
+    ],
+    // canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -27,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home'
+    component: NotFoundComponent
   }
 ];
 

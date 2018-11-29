@@ -59,42 +59,16 @@
       }
     }
   }
-
-  .toast-error{
-    background-image: none;
-  }
-
-  .toast-success{
-    background-image: none;
-  }
-
-  .toast-info{
-    background-image: none;
-  }
-
-  .toast-warning{
-    background-image: none;
-  }
 }
-.toast-top-center, .toast-bottom-center{
- .alert{
-    margin-left: auto;
-    margin-right: auto;
-  }
+.toast-container>.toast {
+  position: absolute !important;
+  right: 0 !important;
 }
-.toast-top-right, .toast-bottom-right{
- .alert{
+.toast-top-right {
+  .alert {
     margin-left: auto;
     margin-right: 0;
   }
-}
-
-.toast-top-center{
-  top: 12px;
-}
-
-.toast-bottom-center{
-  bottom: 12px;
 }
 
 @media screen and (max-width: 767px) {

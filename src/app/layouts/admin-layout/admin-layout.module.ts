@@ -9,9 +9,9 @@ import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
+import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -19,8 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     ChartsModule,
-    NgbModule,
-    ToastrModule.forRoot()
+    NgbModule
   ],
   declarations: [
     DashboardComponent,
@@ -29,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
     TypographyComponent,
     IconsComponent,
     NotificationsComponent,
+    FileUploaderComponent
   ]
 })
 

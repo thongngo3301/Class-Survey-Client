@@ -1,5 +1,5 @@
 {
-  "name": "now-ui-dashboard-angular",
+  "name": "ClassSurvey",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "6.0.2",
     "@angular/platform-server": "6.0.2",
     "@angular/router": "6.0.2",
+    "@auth0/angular-jwt": "^2.0.0",
     "@ng-bootstrap/ng-bootstrap": "2.0.0",
     "ajv": "6.2.1",
     "ajv-keywords": "3.1.0",
