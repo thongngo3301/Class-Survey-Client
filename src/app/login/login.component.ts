@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
@@ -14,11 +15,14 @@ const jwtHelper = new JwtHelperService();
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  private loginForm: FormGroup;
+  private isSubmitted = false;
   private username: string;
   private password: string;
 
   constructor(
+    private formBuilder: FormBuilder,
     private apiService: ApiService,
     private userService: UserService,
     private router: Router,
@@ -29,8 +33,23 @@ export class LoginComponent {
     const authToken = localStorage.getItem('auth_token') || '';
     if (authToken && !jwtHelper.isTokenExpired(authToken)) {
       this.router.navigate(['']);
+    } else {
+      this.loginForm = this.formBuilder.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+      });
     }
   }
+
+  onSubmit() {
+    this.isSubmitted = true;
+
+    if (this.loginForm.invalid) return;
+
+    this.login();
+  }
+
+  get formCtrl() { return this.loginForm.controls; }
 
   login() {
     const payload = {

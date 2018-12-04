@@ -5209,6 +5209,20 @@ ngx-toastr@^8.5.0:
   dependencies:
     tslib "^1.9.0"
 
+ngx-uploader@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-uploader/-/ngx-uploader-7.0.0.tgz#725d745e1938182b4d63d2bcd797a856a16e622a"
+  integrity sha512-+u3daQ1WYWGy1t/dUv1dPjz68nEfH+dX87MMFmNcoeg2L3Bf2pSOHgxKM07MFWmSlHec3ddt3zDIeRk8FGcP+A==
+  dependencies:
+    tslib "^1.9.0"
+
+ngxf-uploader@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/ngxf-uploader/-/ngxf-uploader-1.5.3.tgz#c3f0785f11b167f58b6a17521e4b0b33b6cbde71"
+  integrity sha512-9q+fDM4G4BozKgFuM7gPzSPeLlKrej1pNKQICynxja6x47MsV2zPgUCH146kb//wTZfgeiMQoqwqWo16RwNmyg==
+  dependencies:
+    tslib "^1.9.0"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
@@ -5289,7 +5303,7 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
-node-sass@^4.7.2:
+node-sass@^4.10.0, node-sass@^4.7.2:
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.10.0.tgz#dcc2b364c0913630945ccbf7a2bbf1f926effca4"
   integrity sha512-fDQJfXszw6vek63Fe/ldkYXmRYK/QS6NbvM3i5oEo9ntPDy4XX7BcKZyTKv+/kSSxRtXXc7l+MSwEmYc0CSy6Q==

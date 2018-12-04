@@ -3,16 +3,22 @@
     <div class="col-md-4">
       <img src="./assets/img/angular2-logo-white.png" width="150px" class="user-avatar" />
       <h1>Class Survey</h1>
-      <form role="form">
+      <form role="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-content">
           <div class="form-group">
-            <input type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" class="form-control input-underline input-lg" placeholder="Username">
+            <input type="text" [(ngModel)]="username" formControlName="username" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.username.errors }" class="form-control input-underline input-lg" placeholder="Username">
+            <div *ngIf="isSubmitted && formCtrl.username.errors" class="invalid-feedback">
+                <div *ngIf="formCtrl.username.errors.required">Username is required</div>
+            </div>
           </div>
           <div class="form-group">
-            <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control input-underline input-lg" placeholder="Password">
+            <input type="password" [(ngModel)]="password" formControlName="password" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.password.errors }" class="form-control input-underline input-lg" placeholder="Password">
+            <div *ngIf="isSubmitted && formCtrl.password.errors" class="invalid-feedback">
+                <div *ngIf="formCtrl.password.errors.required">Password is required</div>
+            </div>
           </div>
         </div>
-        <button type="submit" class="btn rounded-btn" (click)="login()"> Log in </button>
+        <button type="submit" class="btn rounded-btn"> Log in </button>
       </form>
     </div>
   </div>

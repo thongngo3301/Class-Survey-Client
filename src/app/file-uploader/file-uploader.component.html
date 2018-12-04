@@ -1,3 +1,40 @@
-<p>
-  file-uploader works!
-</p>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row"></div>
+          <ul class="no-padding-no-margin">
+            <!-- Drop area, you can also bind click to call click event -->
+            <div class="upload-block cursor-pointer"
+              (ngxf-select)="uploadFiles($event)"
+              (ngxf-drop)="uploadFiles($event)"
+              [ngxf-validate]="{min:5000, max:2566621 ,skipInvalid: true}"
+              drop-class="drop" accept="image/*,.xls,.xlsx"
+              [multiple]="true">
+              <div class="mask" style="z-index: 1;">
+              </div>
+              <i id="upload-icon" class="now-ui-icons arrows-1_cloud-upload-94"></i>
+              <h3>Drag files into here or click to upload files.</h3>
+            </div>
+
+            <li *ngIf="progress">
+              <div class="progress-container progress-primary">
+                <i *ngIf="isUploading" class="now-ui-icons loader_refresh spin upload-spinner"></i>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-warning" role="progressbar"
+                  aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"
+                  [style.width]="progress + '%'">
+                    <span class="progress-value">{{progress}}%</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

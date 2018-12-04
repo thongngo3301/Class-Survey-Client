@@ -5,7 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
-import { NotFoundComponent } from './not-found/not-found.component'
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -25,6 +26,11 @@ const routes: Routes = [
         loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
       }
     ],
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
     // canActivate: [AuthGuard]
   },
   {
