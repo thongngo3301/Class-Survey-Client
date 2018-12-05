@@ -1,13 +1,32 @@
-import { Component, OnInit, OnChanges, SimpleChanges, SimpleChange, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, SimpleChange, Input, AfterViewInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalStudentInfoEditorComponent } from '../../modals/modal-student-info-editor/modal-student-info-editor.component';
+import { ModalLecturerInfoEditorComponent } from '../../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-user-manager',
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.scss']
 })
-export class UserManagerComponent implements OnInit, OnChanges {
+export class UserManagerComponent implements OnInit, OnChanges, AfterViewInit {
+  public constructor(private modalRef: BsModalRef, private modalService: BsModalService) { }
+
   @Input() columns: Array<any>;
   @Input() data: Array<any>;
+
+  private actionColumn = { title: 'Action', name: 'action', sort: false };
+  private actionButtons = `
+    <div style="display: flex">
+      <button class="btn btn-info edit-user-btn" style="flex: 1; border-radius: 50%">
+        <i class="fas fa-user-edit"></i>
+      </button>
+      <button class="btn btn-info remove-user-btn" style="flex: 1; border-radius: 50%">
+        <i class="fas fa-user-slash"></i>
+      </button>
+    </div>
+  `;
+  private selectedData: any;
 
   public rows: Array<any> = [];
   public page: number = 1;
@@ -17,9 +36,8 @@ export class UserManagerComponent implements OnInit, OnChanges {
   public length: number = 0;
   public config: any;
 
-  public constructor() { }
-
-  public ngOnInit(): void {
+  public ngOnInit() {
+    this.prepareTable();
     this.config = {
       paging: true,
       sorting: { columns: this.columns },
@@ -35,6 +53,57 @@ export class UserManagerComponent implements OnInit, OnChanges {
     const data: SimpleChange = changes.data;
     this.columns = columns.currentValue;
     this.data = data.currentValue;
+  }
+
+  public ngAfterViewInit() {
+    $(document).on('click','button.edit-user-btn', this.editUser);
+    $(document).on('click','button.remove-user-btn', this.removeUser);
+  }
+
+  public prepareTable() {
+    this.columns.unshift(this.actionColumn);
+    this.data.forEach(d => d.action = this.actionButtons);
+  }
+
+  private setSelectedData(data: any) {
+    this.selectedData = data;
+  }
+  private getSelectedData() {
+    return this.selectedData;
+  }
+
+  public editUser = () => {
+    let _selectedData = this.getSelectedData();
+    console.log(_selectedData);
+    const initialState = {
+      list: [
+        'Open a modal with component',
+        'Pass your data',
+        'Do something else',
+        '...'
+      ],
+      title: 'Modal with component',
+      data: _selectedData
+    };
+    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, { initialState });
+    this.modalRef.content.closeBtnName = 'Close';
+  }
+
+  public removeUser = () => {
+    let _selectedData = this.getSelectedData();
+    console.log(_selectedData);
+    const initialState = {
+      list: [
+        'Open a modal with component',
+        'Pass your data',
+        'Do something else',
+        '...'
+      ],
+      title: 'Modal with component',
+      data: _selectedData
+    };
+    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, { initialState });
+    this.modalRef.content.closeBtnName = 'Close';
   }
 
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
@@ -126,6 +195,6 @@ export class UserManagerComponent implements OnInit, OnChanges {
   }
 
   public onCellClick(data: any): any {
-    console.log(data);
+    this.setSelectedData(data);
   }
 }

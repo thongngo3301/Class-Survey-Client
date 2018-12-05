@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-student-manager',
   templateUrl: './student-manager.component.html',
   styleUrls: ['./student-manager.component.scss']
 })
-export class StudentManagerComponent {
+export class StudentManagerComponent implements OnInit {
   public columns: Array<any> = [
     { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
     { title: 'Position', name: 'position', filtering: { filterString: '', placeholder: 'Filter by position' } },
@@ -718,4 +718,6 @@ export class StudentManagerComponent {
       'salary': 223.227
     }
   ];
+
+  ngOnInit() { }
 }

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import { NgxfUploaderModule } from 'ngxf-uploader';
 import { ComponentsModule } from '../../components/components.module';
+import { ModalsModule } from '../../modals/modals.module';
 
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
@@ -16,6 +17,7 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 import { StudentManagerComponent } from '../../student-manager/student-manager.component';
 import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
+import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 @NgModule({
@@ -26,7 +28,8 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     ChartsModule,
     HttpClientModule,
     NgxfUploaderModule,
-    ComponentsModule
+    ComponentsModule,
+    ModalsModule
   ],
   declarations: [
     DashboardComponent,
@@ -37,7 +40,8 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     NotificationsComponent,
     FileUploaderComponent,
     StudentManagerComponent,
-    LecturerManagerComponent
+    LecturerManagerComponent,
+    SurveyManagerComponent
   ]
 })
 

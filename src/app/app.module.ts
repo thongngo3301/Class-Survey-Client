@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { ModalsModule } from './modals/modals.module';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
@@ -29,6 +30,7 @@ import { ToastrNotificationService } from './services/toastr-notification.servic
     HttpModule,
     HttpClientModule,
     ComponentsModule,
+    ModalsModule,
     RouterModule,
     AppRoutingModule,
     NgbModule.forRoot(),
