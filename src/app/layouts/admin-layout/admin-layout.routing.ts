@@ -7,13 +7,17 @@ import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
+import { StudentManagerComponent } from '../../student-manager/student-manager.component';
+import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'home',           component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'table-list',     component: TableListComponent },
-    { path: 'typography',     component: TypographyComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'file-uploader',  component: FileUploaderComponent }
+    { path: 'home', component: DashboardComponent },
+    { path: 'user-profile', component: UserProfileComponent },
+    { path: 'table-list', component: TableListComponent },
+    { path: 'typography', component: TypographyComponent },
+    { path: 'icons', component: IconsComponent },
+    { path: 'notifications', component: NotificationsComponent },
+    { path: 'file-uploader', component: FileUploaderComponent },
+    { path: 'student-manager', component: StudentManagerComponent },
+    { path: 'lecturer-manager', component: LecturerManagerComponent }
 ];

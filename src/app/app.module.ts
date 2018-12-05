@@ -12,6 +12,7 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { AuthGuard } from './guards/auth.guard';
@@ -19,7 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { UserService } from './services/user.service';
 import { ApiService } from './services/api.service';
 import { ToastrNotificationService } from './services/toastr-notification.service';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -44,8 +45,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
-    NotFoundComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    NotFoundComponent
   ],
   providers: [UserService, ApiService, ToastrNotificationService, AuthGuard],
   bootstrap: [AppComponent]
