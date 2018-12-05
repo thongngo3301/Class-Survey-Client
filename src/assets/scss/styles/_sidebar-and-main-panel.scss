@@ -111,11 +111,17 @@
                 i{
                   color: $white-color;
                 }
+                p{
+                  font-weight: $font-weight-bold;
+                }
             }
 
             &.active > a{
               background-color: $white-color;
               box-shadow: $box-shadow;
+            }
+            &.active > a > p{
+              font-weight: $font-weight-bold;
             }
         }
 
@@ -268,6 +274,9 @@
     }
     &[data-color="yellow"]{
       @include sidebar-color($warning-color);
+    }
+    &[data-color="france"]{
+      @include sidebar-color($france-color);
     }
 }
 
