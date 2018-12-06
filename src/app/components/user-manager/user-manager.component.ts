@@ -1,7 +1,5 @@
-import { Component, OnInit, OnChanges, SimpleChanges, SimpleChange, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, SimpleChanges, SimpleChange, Input, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ModalStudentInfoEditorComponent } from '../../modals/modal-student-info-editor/modal-student-info-editor.component';
-import { ModalLecturerInfoEditorComponent } from '../../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
 import * as $ from 'jquery';
 
 @Component({
@@ -9,11 +7,14 @@ import * as $ from 'jquery';
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.scss']
 })
-export class UserManagerComponent implements OnInit, OnChanges, AfterViewInit {
+export class UserManagerComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   public constructor(private modalRef: BsModalRef, private modalService: BsModalService) { }
 
   @Input() columns: Array<any>;
   @Input() data: Array<any>;
+
+  @Output() childEventEdit = new EventEmitter();
+  @Output() childEventRemove = new EventEmitter();
 
   private actionColumn = { title: 'Action', name: 'action', sort: false };
   private actionButtons = `
@@ -55,6 +56,11 @@ export class UserManagerComponent implements OnInit, OnChanges, AfterViewInit {
     this.data = data.currentValue;
   }
 
+  public ngOnDestroy() {
+    $(document).find('button.edit-user-btn').unbind('click');
+    $(document).find('button.remove-user-btn').unbind('click');
+  }
+
   public ngAfterViewInit() {
     $(document).on('click','button.edit-user-btn', this.editUser);
     $(document).on('click','button.remove-user-btn', this.removeUser);
@@ -72,38 +78,14 @@ export class UserManagerComponent implements OnInit, OnChanges, AfterViewInit {
     return this.selectedData;
   }
 
-  public editUser = () => {
+  private editUser = () => {
     let _selectedData = this.getSelectedData();
-    console.log(_selectedData);
-    const initialState = {
-      list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],
-      title: 'Modal with component',
-      data: _selectedData
-    };
-    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, { initialState });
-    this.modalRef.content.closeBtnName = 'Close';
+    this.childEventEdit.emit(_selectedData);
   }
 
-  public removeUser = () => {
+  private removeUser = () => {
     let _selectedData = this.getSelectedData();
-    console.log(_selectedData);
-    const initialState = {
-      list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],
-      title: 'Modal with component',
-      data: _selectedData
-    };
-    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, { initialState });
-    this.modalRef.content.closeBtnName = 'Close';
+    this.childEventRemove.emit(_selectedData);
   }
 
   public changePage(page: any, data: Array<any> = this.data): Array<any> {

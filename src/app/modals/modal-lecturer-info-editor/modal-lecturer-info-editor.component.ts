@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-modal-lecturer-info-editor',
@@ -12,10 +13,24 @@ export class ModalLecturerInfoEditorComponent implements OnInit {
   closeBtnName: string;
   list: any[] = [];
 
-  constructor(public bsModalRef: BsModalRef) { }
+  constructor(private modalRef: BsModalRef, private onClose: Subject<boolean>) { }
 
   ngOnInit() {
+    this.onClose = new Subject();
     this.list.push('PROFIT!!!');
     console.log('in modal', this.data);
+  }
+
+  onOkButtonClicked() {
+    const ret = this.data;
+    this.onClose.next(ret);
+    this.modalRef.hide();
+  }
+  onApplyButtonClicked() {
+    const ret = this.data;
+    this.onClose.next(ret);
+  }
+  onCancelButtonClicked() {
+    this.modalRef.hide();
   }
 }

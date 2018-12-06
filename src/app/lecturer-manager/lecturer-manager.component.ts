@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalLecturerInfoEditorComponent } from './../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
 
 @Component({
   selector: 'app-lecturer-manager',
@@ -6,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lecturer-manager.component.scss']
 })
 export class LecturerManagerComponent implements OnInit {
+  constructor(private modalRef: BsModalRef, private modalService: BsModalService) { }
 
   public columns: Array<any> = [
     { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
@@ -721,4 +724,45 @@ export class LecturerManagerComponent implements OnInit {
   ];
 
   ngOnInit() { }
+
+  private editLecturerInfo(data) {
+    const initialState = {
+      list: [
+        'Lecturer edit'
+      ],
+      class: 'modal-lg',
+      title: 'Modal with component',
+      data: data
+    }
+    const options = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    const config = Object.assign({ initialState }, options);
+    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      console.log('edit ret', ret);
+    });
+  }
+
+  private removeLecturerInfo(data) {
+    const initialState = {
+      list: [
+        'Lecturer remove'
+      ],
+      title: 'Modal with component',
+      data: data
+    }
+    const options = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    const config = Object.assign({ initialState }, options);
+    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      console.log('edit ret', ret);
+    });
+  }
 }

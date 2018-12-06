@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-editor/modal-student-info-editor.component';
 
 @Component({
   selector: 'app-student-manager',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./student-manager.component.scss']
 })
 export class StudentManagerComponent implements OnInit {
+  constructor(private modalRef: BsModalRef, private modalService: BsModalService) { }
+
   public columns: Array<any> = [
     { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
     { title: 'Position', name: 'position', filtering: { filterString: '', placeholder: 'Filter by position' } },
@@ -720,4 +724,46 @@ export class StudentManagerComponent implements OnInit {
   ];
 
   ngOnInit() { }
+
+  private editStudentInfo(data) {
+    // console.log(data);
+    const initialState = {
+      list: [
+        'Student edit'
+      ],
+      title: 'Modal with component',
+      data: data
+    }
+    const options = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    const config = Object.assign({ initialState }, options);
+    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      console.log('edit ret', ret);
+    });
+  }
+
+  private removeStudentInfo(data) {
+    // console.log(data);
+    const initialState = {
+      list: [
+        'Student remove'
+      ],
+      title: 'Modal with component',
+      data: data
+    }
+    const options = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    const config = Object.assign({ initialState }, options);
+    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      console.log('edit ret', ret);
+    });
+  }
 }
