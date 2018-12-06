@@ -1,8 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { UserManagerComponent } from './../components/user-manager/user-manager.component';
+import { DataManagerComponent } from './../components/data-manager/data-manager.component';
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-editor/modal-student-info-editor.component';
+
+const modalOptions = {
+  class: 'gray modal-lg',
+  ignoreBackdropClick: true,
+  keyboard: false
+}
 
 @Component({
   selector: 'app-student-manager',
@@ -730,7 +736,7 @@ export class StudentManagerComponent implements OnInit {
 
   ngOnInit() { }
 
-  @ViewChild('studentManager') _studentManager: UserManagerComponent;
+  @ViewChild('studentManager') _studentManager: DataManagerComponent;
 
   private editStudentInfo(data) {
     const initialState = {
@@ -740,15 +746,25 @@ export class StudentManagerComponent implements OnInit {
       title: 'Edit student',
       data: data
     }
-    const options = {
-      class: 'gray modal-lg',
-      ignoreBackdropClick: true,
-      keyboard: false
-    }
-    const config = Object.assign({ initialState }, options);
+    const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       console.log('edit ret', ret);
+    });
+  }
+
+  private viewStudentInfo(data) {
+    const initialState = {
+      list: [
+        'Student view'
+      ],
+      title: 'Student info',
+      data: data
+    }
+    const config = Object.assign({ initialState }, modalOptions);
+    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      console.log('view ret', ret);
     });
   }
 
@@ -757,11 +773,7 @@ export class StudentManagerComponent implements OnInit {
       title: 'Remove student',
       message: 'Are you sure to remove this student?'
     }
-    const options = {
-      ignoreBackdropClick: true,
-      keyboard: false
-    }
-    const config = Object.assign({ initialState }, options);
+    const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       if (ret) {

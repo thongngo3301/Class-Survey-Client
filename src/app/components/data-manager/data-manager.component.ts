@@ -2,27 +2,32 @@ import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output } from '@
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-user-manager',
-  templateUrl: './user-manager.component.html',
-  styleUrls: ['./user-manager.component.scss']
+  selector: 'app-data-manager',
+  templateUrl: './data-manager.component.html',
+  styleUrls: ['./data-manager.component.scss']
 })
-export class UserManagerComponent implements OnInit, AfterViewInit {
+export class DataManagerComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   @Input() columns: Array<any>;
   @Input() data: Array<any>;
+  @Input() type: string;
 
   @Output() childEventEdit = new EventEmitter();
+  @Output() childEventView = new EventEmitter();
   @Output() childEventRemove = new EventEmitter();
 
   private actionColumn = { title: 'Action', name: 'action', sort: false };
   private actionButtons = `
     <div style="display: flex">
-      <button class="btn btn-info edit-user-btn" style="flex: 1; border-radius: 50%">
-        <i class="fas fa-user-edit"></i>
+      <button class="btn btn-info edit-data-btn" style="border-radius: 50%">
+        <i class="fas fa-pen"></i>
       </button>
-      <button class="btn btn-info remove-user-btn" style="flex: 1; border-radius: 50%">
-        <i class="fas fa-user-slash"></i>
+      <button class="btn btn-info view-data-btn" style="border-radius: 50%">
+        <i class="far fa-eye"></i>
+      </button>
+      <button class="btn btn-info remove-data-btn" style="border-radius: 50%">
+        <i class="fas fa-trash-alt"></i>
       </button>
     </div>
   `;
@@ -49,8 +54,9 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    $(document).on('click','button.edit-user-btn', this.editUser);
-    $(document).on('click','button.remove-user-btn', this.removeUser);
+    $(document).on('click','button.edit-data-btn', this.editData);
+    $(document).on('click','button.view-data-btn', this.viewData);
+    $(document).on('click','button.remove-data-btn', this.removeData);
     $('ng-table > table').css('table-layout', 'fixed');
     $('ng-table > table').find('th:not(:first)').css('cursor', 'pointer');
     $('ng-table > table').find('input').css('width', '-webkit-fill-available');
@@ -83,12 +89,17 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     return this.selectedData;
   }
 
-  private editUser = () => {
+  private editData = () => {
     let _selectedData = this.getSelectedData();
     this.childEventEdit.emit(_selectedData);
   }
 
-  private removeUser = () => {
+  private viewData = () => {
+    let _selectedData = this.getSelectedData();
+    this.childEventView.emit(_selectedData);
+  }
+
+  private removeData = () => {
     let _selectedData = this.getSelectedData();
     this.childEventRemove.emit(_selectedData);
   }

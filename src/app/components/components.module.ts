@@ -9,7 +9,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { UserManagerComponent } from './user-manager/user-manager.component';
+import { DataManagerComponent } from './data-manager/data-manager.component';
 
 @NgModule({
   imports: [
@@ -25,13 +25,13 @@ import { UserManagerComponent } from './user-manager/user-manager.component';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    UserManagerComponent
+    DataManagerComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    UserManagerComponent
+    DataManagerComponent
   ]
 })
 export class ComponentsModule { }

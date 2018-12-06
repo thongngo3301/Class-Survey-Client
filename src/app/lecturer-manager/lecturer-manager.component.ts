@@ -1,8 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { UserManagerComponent } from './../components/user-manager/user-manager.component';
+import { DataManagerComponent } from './../components/data-manager/data-manager.component';
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalLecturerInfoEditorComponent } from './../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
+
+const modalOptions = {
+  class: 'gray modal-lg',
+  ignoreBackdropClick: true,
+  keyboard: false
+}
 
 @Component({
   selector: 'app-lecturer-manager',
@@ -727,7 +733,7 @@ export class LecturerManagerComponent implements OnInit {
 
   ngOnInit() { }
 
-  @ViewChild('lecturerManager') _lecturerManager: UserManagerComponent;
+  @ViewChild('lecturerManager') _lecturerManager: DataManagerComponent;
 
   private editLecturerInfo(data) {
     const initialState = {
@@ -737,15 +743,25 @@ export class LecturerManagerComponent implements OnInit {
       title: 'Edit lecturer',
       data: data
     }
-    const options = {
-      class: 'gray modal-lg',
-      ignoreBackdropClick: true,
-      keyboard: false
-    }
-    const config = Object.assign({ initialState }, options);
+    const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       console.log('edit ret', ret);
+    });
+  }
+
+  private viewLecturerInfo(data) {
+    const initialState = {
+      list: [
+        'Lecturer view'
+      ],
+      title: 'Lecturer info',
+      data: data
+    }
+    const config = Object.assign({ initialState }, modalOptions);
+    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      console.log('view ret', ret);
     });
   }
 
@@ -754,11 +770,7 @@ export class LecturerManagerComponent implements OnInit {
       title: 'Remove lecturer',
       message: 'Are you sure to remove this lecturer?'
     }
-    const options = {
-      ignoreBackdropClick: true,
-      keyboard: false
-    }
-    const config = Object.assign({ initialState }, options);
+    const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       if (ret) {

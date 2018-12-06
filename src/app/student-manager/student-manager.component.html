@@ -8,11 +8,12 @@
           <h4 class="card-title">Student Manager</h4>
         </div>
         <div class="card-body">
-          <app-user-manager #studentManager
-            [columns]="columns" [data]="data"
+          <app-data-manager #studentManager
+            [columns]="columns" [data]="data" [type]="'students'"
             (childEventEdit)="editStudentInfo($event)"
+            (childEventView)="viewStudentInfo($event)"
             (childEventRemove)="removeStudentInfo($event)">
-          </app-user-manager>
+          </app-data-manager>
         </div>
       </div>
     </div>
