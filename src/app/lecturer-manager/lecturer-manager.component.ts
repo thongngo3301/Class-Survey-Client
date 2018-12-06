@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalLecturerInfoEditorComponent } from './../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
 
 @Component({
@@ -730,8 +731,7 @@ export class LecturerManagerComponent implements OnInit {
       list: [
         'Lecturer edit'
       ],
-      class: 'modal-lg',
-      title: 'Modal with component',
+      title: 'Edit lecturer',
       data: data
     }
     const options = {
@@ -748,21 +748,17 @@ export class LecturerManagerComponent implements OnInit {
 
   private removeLecturerInfo(data) {
     const initialState = {
-      list: [
-        'Lecturer remove'
-      ],
-      title: 'Modal with component',
-      data: data
+      title: 'Remove lecturer',
+      message: 'Are you sure to remove this lecturer?'
     }
     const options = {
-      class: 'gray modal-lg',
       ignoreBackdropClick: true,
       keyboard: false
     }
     const config = Object.assign({ initialState }, options);
-    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, config);
+    this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
-      console.log('edit ret', ret);
+      console.log('remove ret', ret);
     });
   }
 }

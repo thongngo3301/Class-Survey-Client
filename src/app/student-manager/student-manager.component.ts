@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-editor/modal-student-info-editor.component';
 
 @Component({
@@ -731,7 +732,7 @@ export class StudentManagerComponent implements OnInit {
       list: [
         'Student edit'
       ],
-      title: 'Modal with component',
+      title: 'Edit student',
       data: data
     }
     const options = {
@@ -749,21 +750,17 @@ export class StudentManagerComponent implements OnInit {
   private removeStudentInfo(data) {
     // console.log(data);
     const initialState = {
-      list: [
-        'Student remove'
-      ],
-      title: 'Modal with component',
-      data: data
+      title: 'Remove student',
+      message: 'Are you sure to remove this student?'
     }
     const options = {
-      class: 'gray modal-lg',
       ignoreBackdropClick: true,
       keyboard: false
     }
     const config = Object.assign({ initialState }, options);
-    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
+    this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
-      console.log('edit ret', ret);
+      console.log('remove ret', ret);
     });
   }
 }

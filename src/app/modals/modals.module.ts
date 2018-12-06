@@ -4,6 +4,7 @@ import { ModalModule, BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
 import { ModalStudentInfoEditorComponent } from './modal-student-info-editor/modal-student-info-editor.component';
 import { ModalLecturerInfoEditorComponent } from './modal-lecturer-info-editor/modal-lecturer-info-editor.component';
+import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { ModalLecturerInfoEditorComponent } from './modal-lecturer-info-editor/m
   ],
   declarations: [
     ModalStudentInfoEditorComponent,
-    ModalLecturerInfoEditorComponent
+    ModalLecturerInfoEditorComponent,
+    ModalConfirmComponent
   ],
   providers: [
     BsModalRef,
@@ -21,11 +23,13 @@ import { ModalLecturerInfoEditorComponent } from './modal-lecturer-info-editor/m
   ],
   entryComponents: [
     ModalStudentInfoEditorComponent,
-    ModalLecturerInfoEditorComponent
+    ModalLecturerInfoEditorComponent,
+    ModalConfirmComponent
   ],
   exports: [
     ModalStudentInfoEditorComponent,
-    ModalLecturerInfoEditorComponent
+    ModalLecturerInfoEditorComponent,
+    ModalConfirmComponent
   ]
 })
 export class ModalsModule { }
