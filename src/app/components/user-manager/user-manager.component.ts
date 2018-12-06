@@ -51,6 +51,9 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit() {
     $(document).on('click','button.edit-user-btn', this.editUser);
     $(document).on('click','button.remove-user-btn', this.removeUser);
+    $('ng-table > table').css('table-layout', 'fixed');
+    $('ng-table > table').find('th:not(:first)').css('cursor', 'pointer');
+    $('ng-table > table').find('input').css('width', '-webkit-fill-available');
   }
 
   public rerenderTable(_data) {
