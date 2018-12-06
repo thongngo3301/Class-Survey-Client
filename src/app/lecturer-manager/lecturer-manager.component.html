@@ -8,7 +8,7 @@
           <h4 class="card-title">Lecturer Manager</h4>
         </div>
         <div class="card-body">
-          <app-user-manager
+          <app-user-manager #lecturerManager
             [columns]="columns" [data]="data"
             (childEventEdit)="editLecturerInfo($event)"
             (childEventRemove)="removeLecturerInfo($event)">

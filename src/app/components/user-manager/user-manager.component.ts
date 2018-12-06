@@ -1,5 +1,4 @@
-import { Component, OnInit, OnChanges, OnDestroy, SimpleChanges, SimpleChange, Input, AfterViewInit, EventEmitter, Output } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import * as $ from 'jquery';
 
 @Component({
@@ -7,8 +6,8 @@ import * as $ from 'jquery';
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.scss']
 })
-export class UserManagerComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
-  public constructor(private modalRef: BsModalRef, private modalService: BsModalService) { }
+export class UserManagerComponent implements OnInit, AfterViewInit {
+  constructor() { }
 
   @Input() columns: Array<any>;
   @Input() data: Array<any>;
@@ -49,26 +48,29 @@ export class UserManagerComponent implements OnInit, OnChanges, OnDestroy, After
     this.onChangeTable(this.config);
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    const columns: SimpleChange = changes.columns;
-    const data: SimpleChange = changes.data;
-    this.columns = columns.currentValue;
-    this.data = data.currentValue;
-  }
-
-  public ngOnDestroy() {
-    $(document).find('button.edit-user-btn').unbind('click');
-    $(document).find('button.remove-user-btn').unbind('click');
-  }
-
   public ngAfterViewInit() {
     $(document).on('click','button.edit-user-btn', this.editUser);
     $(document).on('click','button.remove-user-btn', this.removeUser);
   }
 
+  public rerenderTable(_data) {
+    this.data = _data;
+    this.ngOnInit();
+  }
+
+  public updateItemsPerPage(value) {
+    this.itemsPerPage = parseInt(value);
+    this.onChangeTable(this.config);
+  }
+
   public prepareTable() {
-    this.columns.unshift(this.actionColumn);
-    this.data.forEach(d => d.action = this.actionButtons);
+    if (this.columns[0].name != 'action') {
+      this.columns.unshift(this.actionColumn);
+    }
+    this.data.forEach((d, i) => {
+      d.index = i;
+      d.action = this.actionButtons;
+    });
   }
 
   private setSelectedData(data: any) {

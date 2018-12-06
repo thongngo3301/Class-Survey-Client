@@ -1,0 +1,16 @@
+.user-manager-footer {
+    display: flex;
+    align-items: baseline;
+    .user-manager-footer-right {
+        margin-left: auto;
+        order: 2;
+    }
+    label {
+        color: white !important;
+        margin: 0 !important;
+        border-radius: unset !important;
+    }
+    .is-checked {
+        background-color: #0062cc;
+    }
+}

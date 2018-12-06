@@ -3,15 +3,31 @@
           (cellClicked)="onCellClick($event)"
           [rows]="rows" [columns]="columns">
 </ng-table>
-<pagination *ngIf="config.paging"
-            class="pagination-sm"
-            [(ngModel)]="page"
-            [totalItems]="length"
-            [itemsPerPage]="itemsPerPage"
-            [maxSize]="maxSize"
-            [boundaryLinks]="true"
-            [rotate]="false"
-            (pageChanged)="onChangeTable(config, $event)"
-            (numPages)="numPages = $event"
-            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-</pagination>
+<div class="user-manager-footer">
+    <div>
+        <pagination *ngIf="config.paging"
+                    class="pagination-sm"
+                    [(ngModel)]="page"
+                    [totalItems]="length"
+                    [itemsPerPage]="itemsPerPage"
+                    [maxSize]="maxSize"
+                    [boundaryLinks]="true"
+                    [rotate]="false"
+                    (pageChanged)="onChangeTable(config, $event)"
+                    (numPages)="numPages = $event"
+                    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+        <label btnRadio="10" class="btn btn-info"
+            [ngClass]="{ 'is-checked': itemsPerPage == 10 }"
+            tabindex="0" role="button" (click)="updateItemsPerPage(10)">10</label>
+        <label btnRadio="25" class="btn btn-info"
+            [ngClass]="{ 'is-checked': itemsPerPage == 25 }"
+            tabindex="0" role="button" (click)="updateItemsPerPage(25)">25</label>
+        <label btnRadio="50" class="btn btn-info"
+            [ngClass]="{ 'is-checked': itemsPerPage == 50 }"
+            tabindex="0" role="button" (click)="updateItemsPerPage(50)">50</label>
+    </div>
+    <div class="user-manager-footer-right">
+        Total: {{length}} users
+    </div>
+</div>

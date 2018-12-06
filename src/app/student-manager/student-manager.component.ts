@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { UserManagerComponent } from './../components/user-manager/user-manager.component';
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-editor/modal-student-info-editor.component';
 
@@ -9,7 +10,10 @@ import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-
   styleUrls: ['./student-manager.component.scss']
 })
 export class StudentManagerComponent implements OnInit {
-  constructor(private modalRef: BsModalRef, private modalService: BsModalService) { }
+  constructor(
+    private modalRef: BsModalRef,
+    private modalService: BsModalService,
+  ) { }
 
   public columns: Array<any> = [
     { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
@@ -20,7 +24,7 @@ export class StudentManagerComponent implements OnInit {
     { title: 'Salary ($)', name: 'salary', filtering: { filterString: '', placeholder: 'Filter by salary' } }
   ];
 
-  private data: Array<any> = [
+  public data: Array<any> = [
     {
       'name': 'Victoria Cantrell',
       'position': 'Integer Corporation',
@@ -726,8 +730,9 @@ export class StudentManagerComponent implements OnInit {
 
   ngOnInit() { }
 
+  @ViewChild('studentManager') _studentManager: UserManagerComponent;
+
   private editStudentInfo(data) {
-    // console.log(data);
     const initialState = {
       list: [
         'Student edit'
@@ -748,7 +753,6 @@ export class StudentManagerComponent implements OnInit {
   }
 
   private removeStudentInfo(data) {
-    // console.log(data);
     const initialState = {
       title: 'Remove student',
       message: 'Are you sure to remove this student?'
@@ -760,7 +764,14 @@ export class StudentManagerComponent implements OnInit {
     const config = Object.assign({ initialState }, options);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
-      console.log('remove ret', ret);
+      if (ret) {
+        this.data.splice(data.row.index, 1);
+        this.rerenderStudentManager();
+      }
     });
+  }
+
+  private rerenderStudentManager() {
+    this._studentManager.rerenderTable(this.data);
   }
 }

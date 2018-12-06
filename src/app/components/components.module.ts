@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2TableModule } from 'ng2-table';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -17,6 +17,7 @@ import { UserManagerComponent } from './user-manager/user-manager.component';
     RouterModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     Ng2TableModule,
     PaginationModule.forRoot()
   ],

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { UserManagerComponent } from './../components/user-manager/user-manager.component';
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalLecturerInfoEditorComponent } from './../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
 
@@ -726,6 +727,8 @@ export class LecturerManagerComponent implements OnInit {
 
   ngOnInit() { }
 
+  @ViewChild('lecturerManager') _lecturerManager: UserManagerComponent;
+
   private editLecturerInfo(data) {
     const initialState = {
       list: [
@@ -758,7 +761,14 @@ export class LecturerManagerComponent implements OnInit {
     const config = Object.assign({ initialState }, options);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
-      console.log('remove ret', ret);
+      if (ret) {
+        this.data.splice(data.row.index, 1);
+        this.rerenderLecturerManager()
+      }
     });
+  }
+
+  private rerenderLecturerManager() {
+    this._lecturerManager.rerenderTable(this.data);
   }
 }
