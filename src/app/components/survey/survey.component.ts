@@ -36,7 +36,6 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     searchPlaceholder: 'Search...'
   };
   private isSubmitted = false;
-  private areSelectionsValid = false;
 
   ngOnInit() {
     this.surveyForm = this.formBuilder.group({
@@ -60,18 +59,14 @@ export class SurveyComponent implements OnInit, AfterViewInit {
 
     if (!this.selectedSemester) {
       this.toastr.error('Please select a semester!');
-      this.areSelectionsValid = false;
-    } else {
-      this.areSelectionsValid = true;
+      return;
     }
     if (!this.selectedTemplate) {
       this.toastr.error('Please select a survey template!');
-      this.areSelectionsValid = false;
-    } else {
-      this.areSelectionsValid = true;
+      return;
     }
 
-    if (this.surveyForm.invalid || !this.areSelectionsValid) return;
+    if (this.surveyForm.invalid) return;
 
     // TODO: call apiService to create/edit survey then navigate to survey manager
     this.router.navigate(['survey-manager']);

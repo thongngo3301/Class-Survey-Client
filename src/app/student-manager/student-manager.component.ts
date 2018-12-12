@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DataManagerComponent } from './../components/data-manager/data-manager.component';
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
@@ -15,10 +16,11 @@ const modalOptions = {
   templateUrl: './student-manager.component.html',
   styleUrls: ['./student-manager.component.scss']
 })
-export class StudentManagerComponent implements OnInit {
+export class StudentManagerComponent implements OnInit, AfterViewInit {
   constructor(
     private modalRef: BsModalRef,
     private modalService: BsModalService,
+    private router: Router
   ) { }
 
   public columns: Array<any> = [
@@ -1033,21 +1035,14 @@ export class StudentManagerComponent implements OnInit {
 
   ngOnInit() { }
 
+  ngAfterViewInit() {
+    $(document).on('click','button.add-student-btn', e => e.stopPropagation());
+  }
+
   @ViewChild('studentManager') _studentManager: DataManagerComponent;
 
   private editStudentInfo(data) {
-    const initialState = {
-      list: [
-        'Student edit'
-      ],
-      title: 'Edit student',
-      data: data
-    }
-    const config = Object.assign({ initialState }, modalOptions);
-    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
-    this.modalRef.content.onClose.subscribe(ret => {
-      console.log('edit ret', ret);
-    });
+    this.router.navigate(['/student-manager/edit', data.row.name]);
   }
 
   private viewStudentInfo(data) {

@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DataManagerComponent } from './data-manager/data-manager.component';
 import { SurveyComponent } from './survey/survey.component';
+import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 @NgModule({
   imports: [
@@ -31,14 +32,16 @@ import { SurveyComponent } from './survey/survey.component';
     NavbarComponent,
     SidebarComponent,
     DataManagerComponent,
-    SurveyComponent
+    SurveyComponent,
+    StudentProfileComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
     DataManagerComponent,
-    SurveyComponent
+    SurveyComponent,
+    StudentProfileComponent
   ]
 })
 export class ComponentsModule { }
