@@ -149,7 +149,7 @@ export class NavbarComponent implements OnInit {
     if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(2);
     }
-    titlee = titlee.split('/').pop().replace('-', ' ');
+    titlee = titlee.split('/')[1].replace('-', ' ');
 
     for (var item = 0; item < this.listTitles.length; item++) {
       if (this.listTitles[item].path === titlee) {
