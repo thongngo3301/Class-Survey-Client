@@ -1,3 +1,27 @@
-<p>
-  survey-manager works!
-</p>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header survey-manager-header">
+          <div>
+            <h4 class="card-title">Survey Manager</h4>
+          </div>
+          <div class="survey-manager-header-right">
+            <button class="btn btn-info add-survey-btn" [routerLink]="['/survey-manager/new']">Add survey</button>
+            <button class="btn btn-primary">Generate survey sheet template</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <app-data-manager #surveyManager
+            [columns]="columns" [data]="data" [type]="'surveys'"
+            (childEventEdit)="editSurveyInfo($event)"
+            (childEventView)="viewSurveyInfo($event)"
+            (childEventRemove)="removeSurveyInfo($event)">
+          </app-data-manager>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5229,6 +5229,11 @@ ngx-bootstrap@^3.1.2:
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.1.2.tgz#f466f6290b456806dac2a9b95a12f9dc4979782f"
   integrity sha512-ULooVAtHBir96PDOz8aDP+slkoY+YX3EWeYV7rwkwMQooc6MaFc+EFBBrAkQf1n0N/rJ4Z9GGccRS5vk/1JFog==
 
+ngx-select-dropdown@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/ngx-select-dropdown/-/ngx-select-dropdown-0.8.1.tgz#27e2bea7ba312c9cfeb2124e541e501e6d697368"
+  integrity sha512-FI2OBccUyPTK0ejjg1+BUD8kcfngj/Dmqmn9Ef1+dIzjv/Bq8OgqHdwBzUJCD1e3nP/grJYspOWvWsMnOyvpeQ==
+
 ngx-toastr@^8.5.0:
   version "8.10.2"
   resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-8.10.2.tgz#08f7d392a76d3d5c87cde92f55c81d51ced64e74"

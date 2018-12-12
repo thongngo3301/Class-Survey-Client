@@ -15,11 +15,12 @@ import { UserProfileComponent } from '../../user-profile/user-profile.component'
 import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
-import { NotificationsComponent } from '../../notifications/notifications.component';
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 import { StudentManagerComponent } from '../../student-manager/student-manager.component';
 import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
 import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
+import { NewSurveyComponent } from '../../survey-manager/new-survey/new-survey.component';
+import { EditSurveyComponent } from '../../survey-manager/edit-survey/edit-survey.component';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 @NgModule({
@@ -27,6 +28,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     ChartsModule,
     HttpClientModule,
     NgxfUploaderModule,
@@ -41,11 +43,12 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     TableListComponent,
     TypographyComponent,
     IconsComponent,
-    NotificationsComponent,
     FileUploaderComponent,
     StudentManagerComponent,
     LecturerManagerComponent,
-    SurveyManagerComponent
+    SurveyManagerComponent,
+    NewSurveyComponent,
+    EditSurveyComponent
   ]
 })
 

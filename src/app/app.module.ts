@@ -26,7 +26,7 @@ import { ToastrNotificationService } from './services/toastr-notification.servic
   imports: [
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     HttpModule,
     HttpClientModule,
     ComponentsModule,

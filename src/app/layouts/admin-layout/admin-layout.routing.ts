@@ -2,22 +2,24 @@ import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
-import { NotificationsComponent } from '../../notifications/notifications.component';
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 import { StudentManagerComponent } from '../../student-manager/student-manager.component';
 import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
+import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
+import { NewSurveyComponent } from '../../survey-manager/new-survey/new-survey.component';
+import { EditSurveyComponent } from '../../survey-manager/edit-survey/edit-survey.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home', component: DashboardComponent },
     { path: 'user-profile', component: UserProfileComponent },
-    { path: 'table-list', component: TableListComponent },
     { path: 'typography', component: TypographyComponent },
     { path: 'icons', component: IconsComponent },
-    { path: 'notifications', component: NotificationsComponent },
     { path: 'file-uploader', component: FileUploaderComponent },
     { path: 'student-manager', component: StudentManagerComponent },
-    { path: 'lecturer-manager', component: LecturerManagerComponent }
+    { path: 'lecturer-manager', component: LecturerManagerComponent },
+    { path: 'survey-manager', component: SurveyManagerComponent },
+    { path: 'survey-manager/new', component: NewSurveyComponent },
+    { path: 'survey-manager/edit/:id', component: EditSurveyComponent }
 ];
