@@ -17,11 +17,13 @@ export class NewSurveyComponent implements OnInit {
   private semesterOptions: Array<string>;
   // private selectedTemplate: any;
   private templateOptions: Array<any>;
+  private deadline: Date;
 
   ngOnInit() {
     this.type = 'new';
     this.title = 'New Survey';
     this.semesterOptions = ['HK1-2018', 'HK2-2018'];
     this.templateOptions = ['Template1', 'Template2'];
+    this.deadline = new Date();
   }
 }

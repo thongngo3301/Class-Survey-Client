@@ -19,6 +19,7 @@ export class EditSurveyComponent implements OnInit {
   private semesterOptions: Array<string>;
   private selectedTemplate: any;
   private templateOptions: Array<any>;
+  private deadline: Date;
 
   ngOnInit() {
     // this.surveyData = JSON.parse(this.activatedRouter.snapshot.paramMap.get('data'));
@@ -28,5 +29,6 @@ export class EditSurveyComponent implements OnInit {
     this.title = 'Edit Survey';
     this.semesterOptions = ['HK1-2018', 'HK2-2018'];
     this.templateOptions = ['Template1', 'Template2'];
+    this.deadline = new Date("Tue Dec 25 2018 22:21:53 GMT+0700 (Indochina Time)");
   }
 }

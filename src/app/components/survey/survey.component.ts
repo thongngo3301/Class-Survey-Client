@@ -26,6 +26,7 @@ export class SurveyComponent implements OnInit {
   @Input() semesterOptions: Array<string>;
   @Input() selectedTemplate: any;
   @Input() templateOptions: Array<any>;
+  @Input() deadline: Date;
 
   private surveyForm: FormGroup;
   private config: object = {
@@ -41,7 +42,8 @@ export class SurveyComponent implements OnInit {
     this.surveyForm = this.formBuilder.group({
       subjectName: ['', Validators.required],
       subjectId: ['', Validators.required],
-      subjectClassId: []
+      subjectClassId: [],
+      deadline: []
     });
   }
 

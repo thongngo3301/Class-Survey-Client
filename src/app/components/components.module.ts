@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2TableModule } from 'ng2-table';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 import { FooterComponent } from './footer/footer.component';
@@ -22,6 +23,7 @@ import { SurveyComponent } from './survey/survey.component';
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     Ng2TableModule,
     SelectDropDownModule,
+    BsDatepickerModule.forRoot(),
     PaginationModule.forRoot()
   ],
   declarations: [

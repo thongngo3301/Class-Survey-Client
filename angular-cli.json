@@ -22,6 +22,7 @@
         "../node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
         "../node_modules/ngx-toastr/toastr.css",
         "../node_modules/ngx-select-dropdown/dist/assets/style.css",
+        "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
         "./assets/scss/styles-helper.scss",
         "./styles.css"
       ],
