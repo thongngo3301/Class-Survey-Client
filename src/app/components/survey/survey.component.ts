@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -9,7 +9,7 @@ import { ToastrNotificationService } from '../../services/toastr-notification.se
   templateUrl: './survey.component.html',
   styleUrls: ['./survey.component.scss']
 })
-export class SurveyComponent implements OnInit {
+export class SurveyComponent implements OnInit, AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -45,6 +45,10 @@ export class SurveyComponent implements OnInit {
       subjectClassId: [],
       deadline: []
     });
+  }
+
+  ngAfterViewInit() {
+    $('ngx-select-dropdown button.ngx-dropdown-button').css('border-radius', '30px');
   }
 
   get formCtrl() { return this.surveyForm.controls; }
