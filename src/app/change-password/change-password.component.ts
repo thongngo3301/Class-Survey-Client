@@ -6,10 +6,6 @@ import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
 
-import { JwtHelperService } from "@auth0/angular-jwt";
-
-const jwtHelper = new JwtHelperService();
-
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -31,16 +27,11 @@ export class ChangePasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const authToken = localStorage.getItem('auth_token') || '';
-    if (authToken && !jwtHelper.isTokenExpired(authToken)) {
-      this.router.navigate(['']);
-    } else {
-      this.changePasswordForm = this.formBuilder.group({
-        oldPassword: ['', Validators.required],
-        newPassword: ['', [Validators.required, Validators.minLength(6)]],
-        newPasswordRetype: ['', [Validators.required, Validators.minLength(6)]]
-      });
-    }
+    this.changePasswordForm = this.formBuilder.group({
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      newPasswordRetype: ['', Validators.required]
+    });
   }
 
   onSubmit() {
@@ -71,11 +62,11 @@ export class ChangePasswordComponent implements OnInit {
       newPassword: this.newPassword
     }
     this.apiService.changePassword(payload).subscribe((result) => {
-      if (result) {
+      if (result && result.success) {
         this.toastr.success('Change password successfully!');
         this.router.navigate(['']);
       } else {
-        this.toastr.error('Change password unsuccessfully!');
+        this.toastr.error(result.message);
       }
     });
   }

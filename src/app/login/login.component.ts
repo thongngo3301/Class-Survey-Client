@@ -6,10 +6,6 @@ import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
 
-import { JwtHelperService } from "@auth0/angular-jwt";
-
-const jwtHelper = new JwtHelperService();
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,14 +26,14 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const authToken = localStorage.getItem('auth_token') || '';
-    if (authToken && !jwtHelper.isTokenExpired(authToken)) {
+    const authToken = localStorage.getItem('auth_token');
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+    if (authToken != "undefined") {
       this.router.navigate(['']);
-    } else {
-      this.loginForm = this.formBuilder.group({
-        username: ['', Validators.required],
-        password: ['', Validators.required]
-      });
+      return;
     }
   }
 
@@ -57,8 +53,8 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
     this.apiService.login(payload).subscribe((result) => {
-      if (result) {
-        this.userService.login(result.authToken, function () {
+      if (result && result.success) {
+        this.userService.login(result.data, () => {
           this.toastr.success('Login successfully!');
           this.router.navigate(['']);
         });

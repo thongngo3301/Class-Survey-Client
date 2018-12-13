@@ -8,15 +8,7 @@ import { NgxfUploaderService } from 'ngxf-uploader';
 import { throwError, Observable } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    "Content-Type": "application/json",
-    "Authorization":
-      localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token")
-  })
-};
-
-const baseURL = "http://localhost:5000";
+const baseURL = "http://192.168.16.158:5000";
 
 @Injectable({
   providedIn: "root"
@@ -24,15 +16,26 @@ const baseURL = "http://localhost:5000";
 export class ApiService {
   baseURL: string;
   constructor(private httpClient: HttpClient, private Upload: NgxfUploaderService) {
-    this.baseURL = location.origin;
+    this.baseURL = baseURL;
+  }
+
+  getHeaderOptions() {
+    return {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "access_token":
+          localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token")
+      })
+    }
   }
 
   login(payload: any): Observable<any> {
-    return this.httpClient.post(`${this.baseURL}/login`, payload);
+    return this.httpClient.post(`${this.baseURL}/users/login`, payload);
   }
 
   changePassword(payload: any): Observable<any> {
-    return this.httpClient.post(`${this.baseURL}/change-password`, payload);
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.post(`${this.baseURL}/users/change-password`, payload, httpOptions);
   }
 
   uploadFiles(payload: any): Observable<any> {
