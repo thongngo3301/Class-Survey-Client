@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../services/api.service';
+import { ToastrNotificationService } from '../../services/toastr-notification.service';
 
 @Component({
   selector: 'app-edit-student',
@@ -7,12 +9,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-student.component.scss']
 })
 export class EditStudentComponent implements OnInit {
-  constructor(private activatedRouter: ActivatedRoute) { }
+  constructor(
+    private activatedRouter: ActivatedRoute,
+    private apiService: ApiService,
+    private toastr: ToastrNotificationService
+  ) { }
+
+  private isReady: boolean = false;
 
   private studentData: any;
   private title: string;
-  private firstName: string;
-  private lastName: string;
+  private fullName: string;
   private studentId: string;
   private dob: Date;
   private baseClass: string;
@@ -20,16 +27,21 @@ export class EditStudentComponent implements OnInit {
   private subjectClassOptions: Array<any>;
 
   ngOnInit() {
-    // this.surveyData = JSON.parse(this.activatedRouter.snapshot.paramMap.get('data'));
-    this.studentData = this.activatedRouter.snapshot.paramMap.get('id');
-    console.log(this.studentData);
-    this.title = 'Edit Survey';
-    this.firstName = "Thong";
-    this.lastName = "Ngo";
-    this.studentId = "16022451";
-    this.dob = new Date("Fri Dec 11 1998 00:00:00 GMT+0700 (Indochina Time)");
-    this.baseClass = "K61N";
-    this.selectedSubjectClasses = ['INT3304'];
-    this.subjectClassOptions = ['INT3304', 'INT3306 3'];
+    const _id = this.activatedRouter.snapshot.paramMap.get('id');
+    this.apiService.getStudentData(_id).subscribe((result) => {
+      if (result && result.success) {
+        const _data = result.data;
+        this.title = 'Edit Student';
+        this.fullName = _data.name;
+        this.studentId = _data._id;
+        this.dob = _data.date_of_birth;
+        this.baseClass = _data.base_class;
+        this.selectedSubjectClasses = _data.class.map(c => c.name);
+        this.subjectClassOptions = _data.class.map(c => c.name);
+        this.isReady = true;
+      } else {
+        this.toastr.error(result.message);
+      }
+    });
   }
 }

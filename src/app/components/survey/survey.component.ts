@@ -48,6 +48,10 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     $('ngx-select-dropdown button.ngx-dropdown-button').css('border-radius', '30px');
   }
 
+  stringifyDate(date: Date) {
+    return ((date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+  }
+
   get formCtrl() { return this.surveyForm.controls; }
 
   onSubmit() {

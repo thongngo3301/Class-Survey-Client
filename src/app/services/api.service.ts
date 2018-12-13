@@ -56,6 +56,16 @@ export class ApiService {
     // });
   }
 
+  getAllStudentData(): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/students`, httpOptions);
+  }
+
+  getStudentData(payload: string): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/students/${payload}`, httpOptions);
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error("An error occurred:", error.error.message);

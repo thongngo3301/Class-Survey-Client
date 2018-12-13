@@ -18,8 +18,7 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
   ) { }
 
   @Input() title: string;
-  @Input() firstName: string;
-  @Input() lastName: string;
+  @Input() fullName: string;
   @Input() studentId: string;
   @Input() dob: Date;
   @Input() baseClass: string;
@@ -37,8 +36,7 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.studentProfileForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      fullName: ['', Validators.required],
       studentId: ['', Validators.required],
       baseClass: ['', Validators.required],
       dob: []

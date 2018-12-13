@@ -5,6 +5,9 @@ import { DataManagerComponent } from './../components/data-manager/data-manager.
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-editor/modal-student-info-editor.component';
 
+import { ApiService } from './../services/api.service';
+import { ToastrNotificationService } from './../services/toastr-notification.service';
+
 const modalOptions = {
   class: 'gray modal-lg',
   ignoreBackdropClick: true,
@@ -20,19 +23,23 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
   constructor(
     private modalRef: BsModalRef,
     private modalService: BsModalService,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService,
+    private toastr: ToastrNotificationService
   ) { }
 
   public columns: Array<any> = [
     { title: 'Student ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by SID' } },
     { title: 'Student Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by SN' } },
-    { title: 'DoB', name: 'dob', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
+    { title: 'Date of Birth', name: 'dob', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
     { title: 'Base Class', name: 'base_class', filtering: { filterString: '', placeholder: 'Filter by BC' } },
-    { title: 'Class ID', name: 'class_id', filtering: { filterString: '', placeholder: 'Filter by CID' } },
-    { title: 'Class Name', name: 'class_name', filtering: { filterString: '', placeholder: 'Filter by CN' } }
+    // { title: 'Class ID', name: 'class_id', filtering: { filterString: '', placeholder: 'Filter by CID' } },
+    // { title: 'Class Name', name: 'class_name', filtering: { filterString: '', placeholder: 'Filter by CN' } }
   ];
 
-  public data: Array<any> = [{"id":"4296","name":"Berky Ray","dob":"5/27/2018","base_class":"Gottlieb-Watsica","class_id":"KoO5hxl","class_name":"Marketing"},
+  public data: Array<any>;
+
+  public _data: Array<any> = [{"id":"4296","name":"Berky Ray","dob":"5/27/2018","base_class":"Gottlieb-Watsica","class_id":"KoO5hxl","class_name":"Marketing"},
   {"id":"537","name":"Wallie Kenset","dob":"10/10/2018","base_class":"Kutch, Howell and Legros","class_id":"mmHutrFE1VZ2","class_name":"Research and Development"},
   {"id":"749","name":"Dominic Cranfield","dob":"1/30/2018","base_class":"Sanford-Cartwright","class_id":"1AkAGi7SIeq","class_name":"Engineering"},
   {"id":"1","name":"Joete Charlwood","dob":"4/29/2018","base_class":"Fay and Sons","class_id":"75RIhXYb2dsu","class_name":"Training"},
@@ -1033,16 +1040,44 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
   {"id":"8","name":"Kylila Coan","dob":"11/19/2018","base_class":"Romaguera-Corkery","class_id":"Y6HpFxtK","class_name":"Business Development"},
   {"id":"5","name":"Ramsay Cretney","dob":"10/13/2018","base_class":"Stark, Hills and Stehr","class_id":"XJBWstvL","class_name":"Human Resources"}]
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.apiService.getAllStudentData().subscribe((result) => {
+      if (result && result.success) {
+        this.data = this.reconstructData(result.data);
+      } else {
+        this.toastr.error(result.message);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     $(document).on('click','button.add-student-btn', e => e.stopPropagation());
   }
 
+  reconstructData(data: Array<any>) {
+    let ret = new Array<any>();
+    data.forEach(d => {
+      // if (d.class && d.class.length) {
+        // d.class.forEach(c => {
+          let _row = {
+            id: d._id,
+            name: d.name,
+            dob: d.date_of_birth,
+            base_class: d.base_class,
+            // class_id: c.id,
+            // class_name: c.name
+          }
+          ret.push(_row);
+        // });
+      // }
+    });
+    return ret;
+  }
+
   @ViewChild('studentManager') _studentManager: DataManagerComponent;
 
   private editStudentInfo(data) {
-    this.router.navigate(['/student-manager/edit', data.row.name]);
+    this.router.navigate(['/student-manager/edit', data.row.id]);
   }
 
   private viewStudentInfo(data) {

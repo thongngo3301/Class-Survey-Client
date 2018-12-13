@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="card-body">
-          <app-data-manager #studentManager
+          <app-data-manager #studentManager *ngIf="data && data.length"
             [columns]="columns" [data]="data" [type]="'students'"
             (childEventEdit)="editStudentInfo($event)"
             (childEventView)="viewStudentInfo($event)"
