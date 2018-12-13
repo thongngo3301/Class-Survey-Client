@@ -21,7 +21,6 @@ export class SurveyComponent implements OnInit, AfterViewInit {
   @Input() title: string;
   @Input() subjectName: string;
   @Input() subjectId: string;
-  @Input() subjectClassId: number;
   @Input() selectedSemester: string;
   @Input() semesterOptions: Array<string>;
   @Input() selectedTemplate: any;
@@ -41,7 +40,6 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     this.surveyForm = this.formBuilder.group({
       subjectName: ['', Validators.required],
       subjectId: ['', Validators.required],
-      subjectClassId: [],
       deadline: []
     });
   }

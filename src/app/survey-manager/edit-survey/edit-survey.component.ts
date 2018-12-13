@@ -14,7 +14,6 @@ export class EditSurveyComponent implements OnInit {
   private title: string;
   private subjectName: string;
   private subjectId: string;
-  private subjectClassId: number;
   private selectedSemester: string;
   private semesterOptions: Array<string>;
   private selectedTemplate: any;
