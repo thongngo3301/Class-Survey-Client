@@ -1062,7 +1062,7 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
           let _row = {
             id: d._id,
             name: d.name,
-            dob: d.date_of_birth,
+            dob: d.date_of_birth || '',
             base_class: d.base_class,
             // class_id: c.id,
             // class_name: c.name
