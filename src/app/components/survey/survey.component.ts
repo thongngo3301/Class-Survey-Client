@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -14,7 +15,8 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private router: Router,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private location: Location
   ) { }
 
   @Input() type: string;
@@ -72,5 +74,9 @@ export class SurveyComponent implements OnInit, AfterViewInit {
 
     // TODO: call apiService to create/edit survey then navigate to survey manager
     this.router.navigate(['survey-manager']);
+  }
+
+  onBackButtonClicked() {
+    this.location.back();
   }
 }

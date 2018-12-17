@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -14,7 +15,8 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private router: Router,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private location: Location
   ) { }
 
   @Input() title: string;
@@ -67,5 +69,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
 
     // TODO: call apiService to create/edit student then navigate to student manager
     this.router.navigate(['student-manager']);
+  }
+
+  onBackButtonClicked() {
+    this.location.back();
   }
 }

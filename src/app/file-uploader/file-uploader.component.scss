@@ -31,3 +31,12 @@
 table.file-upload-table {
     table-layout: fixed !important;
 }
+
+.file-uploader-header {
+    display: flex;
+    align-items: baseline;
+    .file-uploader-header-right {
+        margin-left: auto;
+        order: 2;
+    }
+}

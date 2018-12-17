@@ -21,7 +21,6 @@ import { NewStudentComponent } from '../../student-manager/new-student/new-stude
 import { EditStudentComponent } from '../../student-manager/edit-student/edit-student.component';
 import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
 import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
-import { NewSurveyComponent } from '../../survey-manager/new-survey/new-survey.component';
 import { EditSurveyComponent } from '../../survey-manager/edit-survey/edit-survey.component';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
@@ -51,7 +50,6 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     EditStudentComponent,
     LecturerManagerComponent,
     SurveyManagerComponent,
-    NewSurveyComponent,
     EditSurveyComponent
   ]
 })

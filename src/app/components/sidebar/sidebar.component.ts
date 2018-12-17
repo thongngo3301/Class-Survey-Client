@@ -10,7 +10,7 @@ declare interface RouteInfo {
 const adminRoutes = [
     { path: '/home', title: 'Home', icon: 'design_app', class: '' },
     { path: '/icons', title: 'Icons', icon: 'education_atom', class: '' },
-    { path: '/file-uploader', title: 'Import Excel', icon: 'arrows-1_cloud-upload-94', class: '' },
+    // { path: '/file-uploader', title: 'Import Excel', icon: 'arrows-1_cloud-upload-94', class: '' },
     { path: '/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
     { path: '/student-manager', title: 'Student Manager', icon: 'business_badge', class: '' },
     { path: '/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' },

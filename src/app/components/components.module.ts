@@ -14,6 +14,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DataManagerComponent } from './data-manager/data-manager.component';
 import { SurveyComponent } from './survey/survey.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
+import { SurveySheetComponent } from './survey-sheet/survey-sheet.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { StudentProfileComponent } from './student-profile/student-profile.compo
     SidebarComponent,
     DataManagerComponent,
     SurveyComponent,
-    StudentProfileComponent
+    StudentProfileComponent,
+    SurveySheetComponent
   ],
   exports: [
     FooterComponent,
@@ -41,7 +43,8 @@ import { StudentProfileComponent } from './student-profile/student-profile.compo
     SidebarComponent,
     DataManagerComponent,
     SurveyComponent,
-    StudentProfileComponent
+    StudentProfileComponent,
+    SurveySheetComponent
   ]
 })
 export class ComponentsModule { }

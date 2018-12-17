@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
 
@@ -10,7 +11,10 @@ const URL = 'http://192.168.16.158:5000/admins/students';
   styleUrls: ['./file-uploader.component.scss']
 })
 export class FileUploaderComponent implements OnInit {
-  constructor(private toastr: ToastrNotificationService) { }
+  constructor(
+    private toastr: ToastrNotificationService,
+    private location: Location
+  ) { }
 
   public uploader: FileUploader = new FileUploader({ url: URL });
   public uploaderOptions: FileUploaderOptions = {};
@@ -35,5 +39,9 @@ export class FileUploaderComponent implements OnInit {
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
+  }
+
+  onBackButtonClicked() {
+    this.location.back();
   }
 }

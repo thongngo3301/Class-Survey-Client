@@ -10,7 +10,6 @@ import { NewStudentComponent } from '../../student-manager/new-student/new-stude
 import { EditStudentComponent } from '../../student-manager/edit-student/edit-student.component';
 import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
 import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
-import { NewSurveyComponent } from '../../survey-manager/new-survey/new-survey.component';
 import { EditSurveyComponent } from '../../survey-manager/edit-survey/edit-survey.component';
 
 export const AdminLayoutRoutes: Routes = [
@@ -24,6 +23,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'student-manager/edit/:id', component: EditStudentComponent },
     { path: 'lecturer-manager', component: LecturerManagerComponent },
     { path: 'survey-manager', component: SurveyManagerComponent },
-    { path: 'survey-manager/new', component: NewSurveyComponent },
     { path: 'survey-manager/edit/:id', component: EditSurveyComponent }
 ];
