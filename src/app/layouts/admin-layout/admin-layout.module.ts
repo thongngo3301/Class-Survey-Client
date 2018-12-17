@@ -22,6 +22,7 @@ import { EditStudentComponent } from '../../student-manager/edit-student/edit-st
 import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
 import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
 import { EditSurveyComponent } from '../../survey-manager/edit-survey/edit-survey.component';
+import { TemplateManagerComponent } from '../../template-manager/template-manager.component';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 @NgModule({
@@ -50,7 +51,8 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     EditStudentComponent,
     LecturerManagerComponent,
     SurveyManagerComponent,
-    EditSurveyComponent
+    EditSurveyComponent,
+    TemplateManagerComponent
   ]
 })
 

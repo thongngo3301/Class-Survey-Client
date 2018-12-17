@@ -1,0 +1,8 @@
+.template-editor-header {
+    display: flex;
+    align-items: baseline;
+    .template-editor-header-right {
+        margin-left: auto;
+        order: 2;
+    }
+}

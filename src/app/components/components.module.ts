@@ -15,6 +15,7 @@ import { DataManagerComponent } from './data-manager/data-manager.component';
 import { SurveyComponent } from './survey/survey.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import { SurveySheetComponent } from './survey-sheet/survey-sheet.component';
+import { TemplateEditorComponent } from './template-editor/template-editor.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { SurveySheetComponent } from './survey-sheet/survey-sheet.component';
     DataManagerComponent,
     SurveyComponent,
     StudentProfileComponent,
-    SurveySheetComponent
+    SurveySheetComponent,
+    TemplateEditorComponent
   ],
   exports: [
     FooterComponent,
@@ -44,7 +46,8 @@ import { SurveySheetComponent } from './survey-sheet/survey-sheet.component';
     DataManagerComponent,
     SurveyComponent,
     StudentProfileComponent,
-    SurveySheetComponent
+    SurveySheetComponent,
+    TemplateEditorComponent
   ]
 })
 export class ComponentsModule { }

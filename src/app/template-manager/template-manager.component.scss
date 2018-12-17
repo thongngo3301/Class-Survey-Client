@@ -1,0 +1,8 @@
+.template-manager-header {
+    display: flex;
+    align-items: baseline;
+    .template-manager-header-right {
+        margin-left: auto;
+        order: 2;
+    }
+}
