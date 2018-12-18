@@ -1,20 +1,17 @@
 import { Injectable, OnInit } from '@angular/core';
 
 const adminRoutes = [
-  { path: '/home', title: 'Home', icon: 'design_app', class: '' },
-  // { path: '/admin/icons', title: 'Icons', icon: 'education_atom', class: '' },
-  { path: '/admin/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
-  { path: '/admin/template-manager', title: 'Template Manager', icon: 'design_bullet-list-67', class: '' },
-  { path: '/admin/student-manager', title: 'Student Manager', icon: 'business_badge', class: '' },
-  { path: '/admin/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' },
-  { path: '/admin/user-profile', title: 'User Profile', icon: 'users_single-02', class: '' },
-  { path: '/admin/typography', title: 'Typography', icon: 'text_caps-small', class: '' }
+  { path: '/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
+  { path: '/template-manager', title: 'Template Manager', icon: 'design_bullet-list-67', class: '' },
+  { path: '/student-manager', title: 'Student Manager', icon: 'business_badge', class: '' },
+  { path: '/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' },
+  { path: '/user-profile', title: 'User Profile', icon: 'users_single-02', class: '' },
+  { path: '/typography', title: 'Typography', icon: 'text_caps-small', class: '' }
 ]
 
 const studentRoutes = [
-  // { path: '/home', title: 'Home', icon: 'design_app', class: '' },
-  { path: '/student/icons', title: 'Icons', icon: 'education_atom', class: '' },
-  { path: '/student/notifications', title: 'Notifications', icon: 'ui-1_bell-53', class: '' },
+  { path: '/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
+  { path: '/icons', title: 'Icons', icon: 'education_atom', class: '' }
 ]
 
 const lecturerRoutes = [

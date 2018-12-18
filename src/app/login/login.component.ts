@@ -56,17 +56,18 @@ export class LoginComponent implements OnInit {
       if (result && result.success) {
         this.userService.login(result.data, () => {
           this.toastr.success('Login successfully!');
-          switch (this.userService.getRoleId()) {
-            case '1':
-              this.router.navigate(['/admin/survey-manager']);
-              break;
-            case '2':
-              this.router.navigate(['/home']);
-              break;
-            case '3':
-              this.router.navigate(['/student/survey-manager']);
-              break;
-          }
+          this.router.navigate(['/survey-manager']);
+          // switch (this.userService.getRoleId()) {
+          //   case '1':
+          //     this.router.navigate(['/survey-manager']);
+          //     break;
+          //   case '2':
+          //     this.router.navigate(['/home']);
+          //     break;
+          //   case '3':
+          //     this.router.navigate(['/survey-manager']);
+          //     break;
+          // }
         });
       } else {
         this.toastr.error('Incorrect username or password!');

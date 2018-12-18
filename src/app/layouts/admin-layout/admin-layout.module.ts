@@ -8,21 +8,8 @@ import { NgxfUploaderModule } from 'ngxf-uploader';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ComponentsModule } from '../../components/components.module';
 import { ModalsModule } from '../../modals/modals.module';
+import { LayoutModule } from './../layout.module';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
-
-import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TableListComponent } from '../../table-list/table-list.component';
-import { TypographyComponent } from '../../typography/typography.component';
-// import { IconsComponent } from '../../icons/icons.component';
-import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
-import { StudentManagerComponent } from '../../student-manager/student-manager.component';
-import { NewStudentComponent } from '../../student-manager/new-student/new-student.component';
-import { EditStudentComponent } from '../../student-manager/edit-student/edit-student.component';
-import { LecturerManagerComponent } from '../../lecturer-manager/lecturer-manager.component';
-import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
-import { EditSurveyComponent } from '../../survey-manager/edit-survey/edit-survey.component';
-import { TemplateManagerComponent } from '../../template-manager/template-manager.component';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 @NgModule({
@@ -37,22 +24,8 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
     ProgressbarModule.forRoot(),
     FileUploadModule,
     ComponentsModule,
-    ModalsModule
-  ],
-  declarations: [
-    DashboardComponent,
-    UserProfileComponent,
-    TableListComponent,
-    TypographyComponent,
-    // IconsComponent,
-    FileUploaderComponent,
-    StudentManagerComponent,
-    NewStudentComponent,
-    EditStudentComponent,
-    LecturerManagerComponent,
-    SurveyManagerComponent,
-    EditSurveyComponent,
-    TemplateManagerComponent
+    ModalsModule,
+    LayoutModule
   ]
 })
 

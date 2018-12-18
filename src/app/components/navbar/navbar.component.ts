@@ -148,7 +148,12 @@ export class NavbarComponent implements OnInit {
     if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(2);
     }
-    titlee = titlee.split('/')[1].replace('-', ' ');
+    let _title = titlee.split('/')[1].replace('-', ' ');
+    if (_title == 'admin' || _title == 'student' || _title == 'lecturer') {
+      titlee = titlee.split('/')[2].replace('-', ' ');
+    } else {
+      titlee = _title;
+    }
 
     for (var item = 0; item < this.listTitles.length; item++) {
       if (this.listTitles[item].path === titlee) {

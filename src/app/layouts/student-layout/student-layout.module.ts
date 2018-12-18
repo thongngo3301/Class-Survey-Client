@@ -8,13 +8,8 @@ import { NgxfUploaderModule } from 'ngxf-uploader';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ComponentsModule } from '../../components/components.module';
 import { ModalsModule } from '../../modals/modals.module';
+import { LayoutModule } from './../layout.module';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
-
-// import { DashboardComponent } from '../../dashboard/dashboard.component';
-// import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { IconsComponent } from '../../icons/icons.component';
-// import { StudentManagerComponent } from '../../student-manager/student-manager.component';
-// import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
 
 import { StudentLayoutRoutes } from './student-layout.routing';
 @NgModule({
@@ -29,14 +24,8 @@ import { StudentLayoutRoutes } from './student-layout.routing';
     ProgressbarModule.forRoot(),
     FileUploadModule,
     ComponentsModule,
-    ModalsModule
-  ],
-  declarations: [
-    // DashboardComponent,
-    // UserProfileComponent,
-    IconsComponent,
-    // StudentManagerComponent,
-    // SurveyManagerComponent
+    ModalsModule,
+    LayoutModule
   ]
 })
 
