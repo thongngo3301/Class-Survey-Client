@@ -5,6 +5,7 @@ import { DataManagerComponent } from './../components/data-manager/data-manager.
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
 import { ModalLecturerInfoEditorComponent } from './../modals/modal-lecturer-info-editor/modal-lecturer-info-editor.component';
 import { ApiService } from './../services/api.service';
+import { UserService } from './../services/user.service';
 import { ToastrNotificationService } from './../services/toastr-notification.service';
 
 const modalOptions = {
@@ -23,21 +24,19 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
     private modalRef: BsModalRef,
     private modalService: BsModalService,
     private apiService: ApiService,
+    private userService: UserService,
     private toastr: ToastrNotificationService,
     private router: Router
   ) { }
 
-  private columns: Array<any> = [
-    { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
-    { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
-    { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
-    { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
-  ];
+  private columns: Array<any>;
 
   private data: Array<any> = [];
   private isReady: boolean = false;
 
   ngOnInit() {
+    const role_id = this.userService.getRoleId();
+    this.columns = this.getDataColumns(role_id);
     this.apiService.getAllLecturerData().subscribe((result) => {
       if (result && result.success) {
         this.data = this.reconstructData(result.data);
@@ -50,6 +49,25 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     $(document).on('click','button.add-lecturer-btn', e => e.stopPropagation());
+  }
+
+  getDataColumns(role_id: string) {
+    switch (role_id) {
+      case '1':
+        return [
+          { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
+          { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
+          { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
+          { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
+        ]
+      case '3':
+        return [
+          { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
+          { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
+          { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
+          { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
+        ]
+    }
   }
 
   reconstructData(data: Array<any>) {

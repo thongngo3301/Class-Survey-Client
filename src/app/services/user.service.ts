@@ -11,14 +11,12 @@ const adminRoutes = [
 
 const studentRoutes = [
   { path: '/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
-  { path: '/icons', title: 'Icons', icon: 'education_atom', class: '' }
+  { path: '/student-manager', title: 'Student Manager', icon: 'business_badge', class: '' }
 ]
 
 const lecturerRoutes = [
-  { path: '/home', title: 'Home', icon: 'design_app', class: '' },
-  { path: '/lecturer/user-profile', title: 'User Profile', icon: 'users_single-02', class: '' },
-  { path: '/lecturer/table-list', title: 'Table List', icon: 'design_bullet-list-67', class: '' },
-  { path: '/lecturer/typography', title: 'Typography', icon: 'text_caps-small', class: '' }
+  { path: '/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
+  { path: '/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' }
 ]
 
 @Injectable()

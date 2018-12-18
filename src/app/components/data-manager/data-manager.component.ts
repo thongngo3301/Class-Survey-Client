@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { UserService } from '../../services/user.service';
 import * as $ from 'jquery';
 
 @Component({
@@ -7,7 +8,7 @@ import * as $ from 'jquery';
   styleUrls: ['./data-manager.component.scss']
 })
 export class DataManagerComponent implements OnInit, AfterViewInit {
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   @Input() columns: Array<any>;
   @Input() data: Array<any>;
@@ -42,7 +43,9 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   public config: any;
 
   public ngOnInit() {
-    this.prepareTable();
+    if (this.userService.getRoleId() == '1') {
+      this.prepareTable();
+    }
     this.config = {
       paging: true,
       sorting: { columns: this.columns },

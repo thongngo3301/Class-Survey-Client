@@ -6,6 +6,7 @@ import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.c
 import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-editor/modal-student-info-editor.component';
 
 import { ApiService } from './../services/api.service';
+import { UserService } from './../services/user.service';
 import { ToastrNotificationService } from './../services/toastr-notification.service';
 
 const modalOptions = {
@@ -25,6 +26,7 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
     private modalService: BsModalService,
     private router: Router,
     private apiService: ApiService,
+    private userService: UserService,
     private toastr: ToastrNotificationService
   ) { }
 
@@ -38,14 +40,30 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   private isReady: boolean = false;
 
   ngOnInit() {
-    this.apiService.getAllSurveyData().subscribe((result) => {
+    const role_id = this.userService.getRoleId();
+    this.getAllSurveyData(role_id).subscribe((result) => {
       if (result && result.success) {
-        this.data = this.reconstructData(result.data);
+        if (result.data instanceof Array) {
+          this.data = this.reconstructData(result.data);
+        } else {
+          this.data = this.reconstructData(result.data.class);
+        }
         this.isReady = true;
       } else {
         this.toastr.error(result.message);
       }
     });
+  }
+
+  getAllSurveyData(role_id: string) {
+    switch (role_id) {
+      case '1':
+        return this.apiService.getAllSurveyData(null);
+      case '2':
+        return this.apiService.getAllSurveyData('tunghx');
+      case '3':
+        return this.apiService.getAllSurveyData('16022440');
+    }
   }
 
   ngAfterViewInit() {
@@ -55,8 +73,9 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   reconstructData(data: Array<any>) {
     let ret = new Array<any>();
     data.forEach(d => {
+      const _id = d.survey_id || d.id;
       let _row = {
-        name: d.name + ' ' + d.survey_id,
+        name: d.name + ' ' + _id,
         createdAt: this.stringifyDate(new Date()),
         modifiedAt: this.stringifyDate(new Date()),
       }

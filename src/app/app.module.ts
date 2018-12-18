@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { StudentLayoutComponent } from './layouts/student-layout/student-layout.component';
+import { LecturerLayoutComponent } from './layouts/lecturer-layout/lecturer-layout.component';
 
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -50,6 +51,7 @@ import { ToastrNotificationService } from './services/toastr-notification.servic
     AppComponent,
     AdminLayoutComponent,
     StudentLayoutComponent,
+    LecturerLayoutComponent,
     LoginComponent,
     ChangePasswordComponent,
     NotFoundComponent

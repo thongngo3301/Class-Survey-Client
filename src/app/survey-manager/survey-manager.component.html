@@ -8,7 +8,7 @@
           <div>
             <h4 class="card-title">Survey Manager</h4>
           </div>
-          <div class="survey-manager-header-right">
+          <div class="survey-manager-header-right" *ngIf="userService.getRoleId() == '1'">
             <button class="btn btn-success" [routerLink]="['/import-excel', 'surveys']">Import from Excel</button>
             <!-- <button class="btn btn-info add-survey-btn" [routerLink]="['/survey-manager/new']">Add survey</button>
             <button class="btn btn-success">Generate survey sheet template</button> -->

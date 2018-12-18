@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { IconsComponent } from '../../icons/icons.component';
 import { SurveyManagerComponent } from '../../survey-manager/survey-manager.component';
+import { StudentManagerComponent } from '../../student-manager/student-manager.component';
 
 export const StudentLayoutRoutes: Routes = [
     { path: 'survey-manager', component: SurveyManagerComponent },
-    { path: 'icons', component: IconsComponent }
+    { path: 'student-manager', component: StudentManagerComponent }
 ];

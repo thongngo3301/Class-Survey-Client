@@ -4,9 +4,10 @@ import {
   HttpHeaders,
   HttpErrorResponse
 } from "@angular/common/http";
-import { NgxfUploaderService } from 'ngxf-uploader';
 import { throwError, Observable } from "rxjs";
 import { map, catchError } from "rxjs/operators";
+
+import { UserService } from './user.service';
 
 const baseURL = "http://class-survey.herokuapp.com";
 // const baseURL = "http://192.168.17.52:5000";
@@ -16,7 +17,10 @@ const baseURL = "http://class-survey.herokuapp.com";
 })
 export class ApiService {
   baseURL: string;
-  constructor(private httpClient: HttpClient, private Upload: NgxfUploaderService) {
+  constructor(
+    private httpClient: HttpClient,
+    private userService: UserService,
+  ) {
     this.baseURL = baseURL;
   }
 
@@ -40,9 +44,17 @@ export class ApiService {
     return this.httpClient.post(`${this.baseURL}/users/change-password`, payload, httpOptions);
   }
 
-  getAllSurveyData(): Observable<any> {
+  getAllSurveyData(id: any): Observable<any> {
     const httpOptions = this.getHeaderOptions();
-    return this.httpClient.get(`${this.baseURL}/admins/classes`, httpOptions);
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        return this.httpClient.get(`${this.baseURL}/admins/classes`, httpOptions);
+      case '2':
+        return this.httpClient.get(`${this.baseURL}/teachers/${id}/classes`, httpOptions);
+      case '3':
+        return this.httpClient.get(`${this.baseURL}/students/${id}/classes`, httpOptions);
+    }
   }
 
   getAllStudentData(): Observable<any> {
