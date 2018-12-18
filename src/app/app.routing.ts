@@ -13,13 +13,19 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'survey-manager',
     pathMatch: 'full',
+    data: {
+      allow: ['1']
+    },
     canActivate: [AuthGuard]
   },
   {
     path: '',
     component: AdminLayoutComponent,
+    data: {
+      allow: ['1']
+    },
     children: [
       {
         path: '',
@@ -31,6 +37,9 @@ const routes: Routes = [
   {
     path: 'change-password',
     component: ChangePasswordComponent,
+    data: {
+      allow: ['1', '2', '3']
+    },
     canActivate: [AuthGuard]
   },
   {
