@@ -25,15 +25,6 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
     private toastr: ToastrNotificationService
   ) { }
 
-  public _columns: Array<any> = [
-    { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
-    { title: 'Position', name: 'position', filtering: { filterString: '', placeholder: 'Filter by position' } },
-    { title: 'Office', className: ['office-header', 'text-success'], name: 'office', filtering: { filterString: '', placeholder: 'Filter by office' } },
-    { title: 'Extn.', name: 'ext', filtering: { filterString: '', placeholder: 'Filter by extn.' } },
-    { title: 'Start date', className: 'text-warning', name: 'startDate', filtering: { filterString: '', placeholder: 'Filter by start date' } },
-    { title: 'Salary ($)', name: 'salary', filtering: { filterString: '', placeholder: 'Filter by salary' } }
-  ];
-
   private columns: Array<any> = [
     { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
     { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
@@ -63,19 +54,13 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
   reconstructData(data: Array<any>) {
     let ret = new Array<any>();
     data.forEach(d => {
-      // if (d.class && d.class.length) {
-        // d.class.forEach(c => {
-          let _row = {
-            id: d._id,
-            name: d.name,
-            username: d._id || '',
-            email: d.email || '',
-            // class_id: c.id,
-            // class_name: c.name
-          }
-          ret.push(_row);
-        // });
-      // }
+      let _row = {
+        id: d._id,
+        name: d.name,
+        username: d._id || '',
+        email: d.email || ''
+      }
+      ret.push(_row);
     });
     return ret;
   }

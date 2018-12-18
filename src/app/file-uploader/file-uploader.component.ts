@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
 
-const SURVEYS_URL = 'http://class-survey.herokuapp.com/admins/classes';
-const STUDENTS_URL = 'http://class-survey.herokuapp.com/admins/students';
-const LECTURERS_URL = 'http://class-survey.herokuapp.com/admins/teachers';
+const SURVEYS_URL = 'http://class-survey.herokuapp.com/admins/classes/file';
+const STUDENTS_URL = 'http://class-survey.herokuapp.com/admins/students/file';
+const LECTURERS_URL = 'http://class-survey.herokuapp.com/admins/teachers/file';
 
 @Component({
   selector: 'app-file-uploader',

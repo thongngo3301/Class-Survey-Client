@@ -58,6 +58,11 @@ export class ApiService {
     // });
   }
 
+  getAllSurveyData(): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/classes`, httpOptions);
+  }
+
   getAllStudentData(): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     return this.httpClient.get(`${this.baseURL}/admins/students`, httpOptions);

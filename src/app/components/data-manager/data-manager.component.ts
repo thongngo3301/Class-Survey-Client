@@ -13,9 +13,9 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   @Input() data: Array<any>;
   @Input() type: string;
 
-  @Output() childEventEdit = new EventEmitter();
-  @Output() childEventView = new EventEmitter();
-  @Output() childEventRemove = new EventEmitter();
+  @Output() childEventEdit = new EventEmitter(true);
+  @Output() childEventView = new EventEmitter(true);
+  @Output() childEventRemove = new EventEmitter(true);
 
   private actionColumn = { title: 'Action', name: 'action', sort: false };
   private actionButtons = `

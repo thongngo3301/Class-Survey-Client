@@ -37,7 +37,7 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
     // { title: 'Class Name', name: 'class_name', filtering: { filterString: '', placeholder: 'Filter by CN' } }
   ];
 
-  public data: Array<any>;
+  public data: Array<any> = [];
   private isReady: boolean = false;
 
   ngOnInit() {

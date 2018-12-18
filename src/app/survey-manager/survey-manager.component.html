@@ -15,12 +15,15 @@
           </div>
         </div>
         <div class="card-body">
-          <app-data-manager #surveyManager
+          <app-data-manager #surveyManager *ngIf="isReady && data.length"
             [columns]="columns" [data]="data" [type]="'surveys'"
             (childEventEdit)="editSurveyInfo($event)"
             (childEventView)="viewSurveyInfo($event)"
             (childEventRemove)="removeSurveyInfo($event)">
           </app-data-manager>
+          <div *ngIf="isReady && !data.length">
+            <i style="text-align: center;">No survey found</i>
+          </div>
         </div>
       </div>
     </div>
