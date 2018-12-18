@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
@@ -15,19 +15,24 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private router: Router,
+    private activatedRouter: ActivatedRoute,
     private toastr: ToastrNotificationService,
     private location: Location
   ) { }
 
-  @Input() type: string;
-  @Input() title: string;
-  @Input() subjectName: string;
-  @Input() subjectId: string;
-  @Input() selectedSemester: string;
-  @Input() semesterOptions: Array<string>;
-  @Input() selectedTemplate: any;
-  @Input() templateOptions: Array<any>;
-  @Input() deadline: Date;
+  private action: string;
+  private id: string;
+  private isReady: boolean = false;
+
+  private type: string;
+  private title: string;
+  private subjectName: string;
+  private subjectId: string;
+  private selectedSemester: string;
+  private semesterOptions: Array<string>;
+  private selectedTemplate: any;
+  private templateOptions: Array<any>;
+  private deadline: Date;
 
   private surveyForm: FormGroup;
   private config: object = {
@@ -39,11 +44,28 @@ export class SurveyComponent implements OnInit, AfterViewInit {
   private isSubmitted = false;
 
   ngOnInit() {
-    this.surveyForm = this.formBuilder.group({
-      subjectName: ['', Validators.required],
-      subjectId: ['', Validators.required],
-      deadline: []
-    });
+    this.action = this.activatedRouter.snapshot.paramMap.get('action');
+    this.buildForm();
+    if (this.action == 'edit') {
+      this.id = this.activatedRouter.snapshot.paramMap.get('id');
+
+      // TODO: call api to get survey data
+      this.title = 'Edit Survey';
+      this.semesterOptions = ['HK1-2018', 'HK2-2018'];
+      this.templateOptions = ['Template1', 'Template2'];
+      this.deadline = new Date("Tue Dec 25 2018 22:21:53 GMT+0700 (Indochina Time)");
+      this.isReady = true;
+      // this.apiService.getSurveyData(this.id).subscribe((result) => {
+      //   if (result && result.success) {
+      //     const _data = result.data;
+      //   } else {
+      //     this.toastr.error(result.message);
+      //   }
+      // });
+    } else {
+      this.title = 'New Survey';
+      this.isReady = true;
+    }
   }
 
   ngAfterViewInit() {
@@ -52,6 +74,14 @@ export class SurveyComponent implements OnInit, AfterViewInit {
 
   stringifyDate(date: Date) {
     return ((date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+  }
+
+  buildForm() {
+    this.surveyForm = this.formBuilder.group({
+      subjectName: ['', Validators.required],
+      subjectId: ['', Validators.required],
+      deadline: []
+    });
   }
 
   get formCtrl() { return this.surveyForm.controls; }

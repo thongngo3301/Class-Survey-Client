@@ -16,11 +16,8 @@ import { TypographyComponent } from './../typography/typography.component';
 import { IconsComponent } from './../icons/icons.component';
 import { FileUploaderComponent } from './../file-uploader/file-uploader.component';
 import { StudentManagerComponent } from './../student-manager/student-manager.component';
-import { NewStudentComponent } from './../student-manager/new-student/new-student.component';
-import { EditStudentComponent } from './../student-manager/edit-student/edit-student.component';
 import { LecturerManagerComponent } from './../lecturer-manager/lecturer-manager.component';
 import { SurveyManagerComponent } from './../survey-manager/survey-manager.component';
-import { EditSurveyComponent } from './../survey-manager/edit-survey/edit-survey.component';
 import { TemplateManagerComponent } from './../template-manager/template-manager.component';
 
 @NgModule({
@@ -44,11 +41,8 @@ import { TemplateManagerComponent } from './../template-manager/template-manager
     IconsComponent,
     FileUploaderComponent,
     StudentManagerComponent,
-    NewStudentComponent,
-    EditStudentComponent,
     LecturerManagerComponent,
     SurveyManagerComponent,
-    EditSurveyComponent,
     TemplateManagerComponent
   ]
 })

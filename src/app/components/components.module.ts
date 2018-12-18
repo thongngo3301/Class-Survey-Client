@@ -14,6 +14,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DataManagerComponent } from './data-manager/data-manager.component';
 import { SurveyComponent } from './survey/survey.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
+import { LecturerProfileComponent } from './lecturer-profile/lecturer-profile.component';
 import { SurveySheetComponent } from './survey-sheet/survey-sheet.component';
 import { TemplateEditorComponent } from './template-editor/template-editor.component';
 
@@ -36,6 +37,7 @@ import { TemplateEditorComponent } from './template-editor/template-editor.compo
     DataManagerComponent,
     SurveyComponent,
     StudentProfileComponent,
+    LecturerProfileComponent,
     SurveySheetComponent,
     TemplateEditorComponent
   ],
@@ -46,6 +48,7 @@ import { TemplateEditorComponent } from './template-editor/template-editor.compo
     DataManagerComponent,
     SurveyComponent,
     StudentProfileComponent,
+    LecturerProfileComponent,
     SurveySheetComponent,
     TemplateEditorComponent
   ]

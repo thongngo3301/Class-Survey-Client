@@ -72,7 +72,7 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('surveyManager') _surveyManager: DataManagerComponent;
 
   private editSurveyInfo(data) {
-    this.router.navigate(['/survey-manager/edit', data.row.name]);
+    this.router.navigate(['/survey-manager', 'edit', data.row.name]);
   }
 
   private viewSurveyInfo(data) {

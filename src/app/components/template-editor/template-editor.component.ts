@@ -20,7 +20,6 @@ export class TemplateEditorComponent implements OnInit {
 
   ngOnInit() {
     this.action = this.activatedRouter.snapshot.paramMap.get('action');
-    console.log(this.action);
     if (this.action == 'edit') {
       this.id = this.activatedRouter.snapshot.paramMap.get('id');
       console.log(this.id);

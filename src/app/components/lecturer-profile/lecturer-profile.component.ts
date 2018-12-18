@@ -6,11 +6,11 @@ import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
 
 @Component({
-  selector: 'app-student-profile',
-  templateUrl: './student-profile.component.html',
-  styleUrls: ['./student-profile.component.scss']
+  selector: 'app-lecturer-profile',
+  templateUrl: './lecturer-profile.component.html',
+  styleUrls: ['./lecturer-profile.component.scss']
 })
-export class StudentProfileComponent implements OnInit, AfterViewInit {
+export class LecturerProfileComponent implements OnInit, AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -27,13 +27,12 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
 
   private title: string;
   private fullName: string;
-  private studentId: string;
+  private lecturerId: string;
   private dob: Date;
-  private baseClass: string;
-  private selectedSubjectClasses: any;
-  private subjectClassOptions: Array<any>;
+  private username: string;
+  private email: string;
 
-  private studentProfileForm: FormGroup;
+  private lecturerProfileForm: FormGroup;
   private config: object = {
     search: true,
     placeholder: 'Select...',
@@ -47,23 +46,22 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     this.buildForm();
     if (this.action == 'edit') {
       this.id = this.activatedRouter.snapshot.paramMap.get('id');
-      this.apiService.getStudentData(this.id).subscribe((result) => {
+      this.apiService.getLecturerData(this.id).subscribe((result) => {
         if (result && result.success) {
           const _data = result.data;
-          this.title = 'Edit Student';
+          this.title = 'Edit Lecturer';
           this.fullName = _data.name;
-          this.studentId = _data._id;
-          this.dob = _data.date_of_birth;
-          this.baseClass = _data.base_class;
-          this.selectedSubjectClasses = _data.class.map(c => c.name);
-          this.subjectClassOptions = _data.class.map(c => c.name);
+          this.lecturerId = _data._id;
+          this.dob = _data.date_of_birth || '';
+          this.username = _data._id;
+          this.email = _data.email;
           this.isReady = true;
         } else {
           this.toastr.error(result.message);
         }
       });
     } else {
-      this.title = 'New Student';
+      this.title = 'New Lecturer';
       this.isReady = true;
     }
   }
@@ -73,34 +71,29 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
   }
 
   buildForm() {
-    this.studentProfileForm = this.formBuilder.group({
+    this.lecturerProfileForm = this.formBuilder.group({
       fullName: ['', Validators.required],
-      studentId: ['', Validators.required],
-      baseClass: ['', Validators.required],
+      lecturerId: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', Validators.required],
       dob: []
     });
   }
 
-  get formCtrl() { return this.studentProfileForm.controls; }
+  get formCtrl() { return this.lecturerProfileForm.controls; }
 
   onSubmit() {
     this.isSubmitted = true;
 
-    console.log(this.selectedSubjectClasses);
-
     if (!this.dob) {
-      this.toastr.error('Student DoB is required!');
-      return;
-    }
-    if (!this.selectedSubjectClasses) {
-      this.toastr.error('Please select at least one subject class!');
+      this.toastr.error('Lecturer DoB is required!');
       return;
     }
 
-    if (this.studentProfileForm.invalid) return;
+    if (this.lecturerProfileForm.invalid) return;
 
-    // TODO: call apiService to create/edit student then navigate to student manager
-    this.router.navigate(['student-manager']);
+    // TODO: call apiService to create/edit lecturer then navigate to lecturer manager
+    this.router.navigate(['lecturer-manager']);
   }
 
   onBackButtonClicked() {

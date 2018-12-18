@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DataManagerComponent } from './../components/data-manager/data-manager.component';
 import { ModalConfirmComponent } from './../modals/modal-confirm/modal-confirm.component';
@@ -22,7 +23,8 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
     private modalRef: BsModalRef,
     private modalService: BsModalService,
     private apiService: ApiService,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private router: Router
   ) { }
 
   private columns: Array<any> = [
@@ -38,7 +40,6 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.apiService.getAllLecturerData().subscribe((result) => {
       if (result && result.success) {
-        // console.log(result.data);
         this.data = this.reconstructData(result.data);
         this.isReady = true;
       } else {
@@ -68,18 +69,7 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('lecturerManager') _lecturerManager: DataManagerComponent;
 
   private editLecturerInfo(data) {
-    const initialState = {
-      list: [
-        'Lecturer edit'
-      ],
-      title: 'Edit lecturer',
-      data: data
-    }
-    const config = Object.assign({ initialState }, modalOptions);
-    this.modalRef = this.modalService.show(ModalLecturerInfoEditorComponent, config);
-    this.modalRef.content.onClose.subscribe(ret => {
-      console.log('edit ret', ret);
-    });
+    this.router.navigate(['/lecturer-manager', 'edit', data.row.id]);
   }
 
   private viewLecturerInfo(data) {

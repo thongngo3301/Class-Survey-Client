@@ -1,0 +1,8 @@
+.lecturer-profile-component-header {
+    display: flex;
+    align-items: baseline;
+    .lecturer-profile-component-header-right {
+        margin-left: auto;
+        order: 2;
+    }
+}

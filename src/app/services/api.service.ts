@@ -40,24 +40,6 @@ export class ApiService {
     return this.httpClient.post(`${this.baseURL}/users/change-password`, payload, httpOptions);
   }
 
-  uploadFiles(payload: any): Observable<any> {
-    const formData: any = new FormData();
-    const files: Array<File> = payload;
-    files.forEach(f => formData.append('fileUpload', f));
-    console.log('formData', formData.toString());
-    // return this.httpClient.post(`${this.baseURL}/upload`, formData);
-    return this.httpClient.post('https://us-central1-alanzouhome.cloudfunctions.net/api/file', formData);
-    // return this.Upload.upload({
-    //   url: 'https://us-central1-alanzouhome.cloudfunctions.net/api/file',
-    //   // url: `${this.baseURL}/upload`,
-    //   headers: {
-    //     Authorization: localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token")
-    //   },
-    //   files: payload,
-    //   process: true
-    // });
-  }
-
   getAllSurveyData(): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     return this.httpClient.get(`${this.baseURL}/admins/classes`, httpOptions);

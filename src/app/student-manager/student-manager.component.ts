@@ -78,7 +78,7 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('studentManager') _studentManager: DataManagerComponent;
 
   private editStudentInfo(data) {
-    this.router.navigate(['/student-manager/edit', data.row.id]);
+    this.router.navigate(['/student-manager', 'edit', data.row.id]);
   }
 
   private viewStudentInfo(data) {
