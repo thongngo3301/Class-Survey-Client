@@ -8,7 +8,7 @@
           <div>
             <h4 class="card-title">Student Manager</h4>
           </div>
-          <div class="student-manager-header-right">
+          <div class="student-manager-header-right" *ngIf="data && data.length">
             <button class="btn btn-info add-student-btn" [routerLink]="['/student-manager/new']">Add student</button>
             <button class="btn btn-success add-student-btn" [routerLink]="['/import-excel', 'students']">Import from Excel</button>
           </div>

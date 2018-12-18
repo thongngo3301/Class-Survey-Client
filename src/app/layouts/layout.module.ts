@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import { NgxfUploaderModule } from 'ngxf-uploader';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ComponentsModule } from './../components/components.module';
 import { ModalsModule } from './../modals/modals.module';
@@ -32,7 +31,6 @@ import { TemplateManagerComponent } from './../template-manager/template-manager
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     ChartsModule,
     HttpClientModule,
-    NgxfUploaderModule,
     ProgressbarModule.forRoot(),
     FileUploadModule,
     ComponentsModule,
