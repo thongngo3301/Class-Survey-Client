@@ -8,7 +8,8 @@ import { NgxfUploaderService } from 'ngxf-uploader';
 import { throwError, Observable } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
-const baseURL = "http://192.168.16.158:5000";
+const baseURL = "http://class-survey.herokuapp.com";
+// const baseURL = "http://192.168.17.52:5000";
 
 @Injectable({
   providedIn: "root"
@@ -23,6 +24,7 @@ export class ApiService {
     return {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
         "access_token":
           localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token")
       })
@@ -64,6 +66,16 @@ export class ApiService {
   getStudentData(payload: string): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     return this.httpClient.get(`${this.baseURL}/admins/students/${payload}`, httpOptions);
+  }
+
+  getAllLecturerData(): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/teachers`, httpOptions);
+  }
+
+  getLecturerData(payload: string): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/teachers/${payload}`, httpOptions);
   }
 
   private handleError(error: HttpErrorResponse) {

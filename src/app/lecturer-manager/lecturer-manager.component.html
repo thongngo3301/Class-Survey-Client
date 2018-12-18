@@ -4,11 +4,17 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Lecturer Manager</h4>
+        <div class="card-header lecturer-manager-header">
+          <div>
+            <h4 class="card-title">Lecturer Manager</h4>
+          </div>
+          <div class="lecturer-manager-header-right">
+            <button class="btn btn-info add-lecturer-btn" [routerLink]="['/lecturer-manager/new']">Add lecturer</button>
+            <button class="btn btn-success add-lecturer-btn" [routerLink]="['/import-excel', 'lecturers']">Import from Excel</button>
+          </div>
         </div>
         <div class="card-body">
-          <app-data-manager #lecturerManager
+          <app-data-manager #lecturerManager *ngIf="data && data.length"
             [columns]="columns" [data]="data" [type]="'lecturers'"
             (childEventEdit)="editLecturerInfo($event)"
             (childEventView)="viewLecturerInfo($event)"

@@ -19,7 +19,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user-profile', component: UserProfileComponent },
     { path: 'typography', component: TypographyComponent },
     { path: 'icons', component: IconsComponent },
-    { path: 'file-uploader', component: FileUploaderComponent },
+    { path: 'import-excel/:type', component: FileUploaderComponent },
     { path: 'student-manager', component: StudentManagerComponent },
     { path: 'student-manager/new', component: NewStudentComponent },
     { path: 'student-manager/edit/:id', component: EditStudentComponent },
