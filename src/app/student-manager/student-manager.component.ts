@@ -38,11 +38,13 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
   ];
 
   public data: Array<any>;
+  private isReady: boolean = false;
 
   ngOnInit() {
     this.apiService.getAllStudentData().subscribe((result) => {
       if (result && result.success) {
         this.data = this.reconstructData(result.data);
+        this.isReady = true;
       } else {
         this.toastr.error(result.message);
       }

@@ -42,12 +42,14 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
   ];
 
   private data: Array<any> = [];
+  private isReady: boolean = false;
 
   ngOnInit() {
     this.apiService.getAllLecturerData().subscribe((result) => {
       if (result && result.success) {
         // console.log(result.data);
         this.data = this.reconstructData(result.data);
+        this.isReady = true;
       } else {
         this.toastr.error(result.message);
       }

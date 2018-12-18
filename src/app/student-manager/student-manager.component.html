@@ -8,18 +8,21 @@
           <div>
             <h4 class="card-title">Student Manager</h4>
           </div>
-          <div class="student-manager-header-right" *ngIf="data && data.length">
+          <div class="student-manager-header-right">
             <button class="btn btn-info add-student-btn" [routerLink]="['/student-manager/new']">Add student</button>
             <button class="btn btn-success add-student-btn" [routerLink]="['/import-excel', 'students']">Import from Excel</button>
           </div>
         </div>
         <div class="card-body">
-          <app-data-manager #studentManager *ngIf="data && data.length"
+          <app-data-manager #studentManager *ngIf="isReady && data.length"
             [columns]="columns" [data]="data" [type]="'students'"
             (childEventEdit)="editStudentInfo($event)"
             (childEventView)="viewStudentInfo($event)"
             (childEventRemove)="removeStudentInfo($event)">
           </app-data-manager>
+          <div *ngIf="isReady && !data.length">
+            <i style="text-align: center;">No student found</i>
+          </div>
         </div>
       </div>
     </div>
