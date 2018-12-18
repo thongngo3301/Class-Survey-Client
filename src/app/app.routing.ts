@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { StudentLayoutComponent } from './layouts/student-layout/student-layout.component';
+
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -13,19 +15,13 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'survey-manager',
+    redirectTo: 'home',
     pathMatch: 'full',
-    data: {
-      allow: ['1']
-    },
     canActivate: [AuthGuard]
   },
   {
     path: '',
     component: AdminLayoutComponent,
-    data: {
-      allow: ['1']
-    },
     children: [
       {
         path: '',
@@ -35,11 +31,19 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: '',
+    component: StudentLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './layouts/student-layout/student-layout.module#StudentLayoutModule'
+      }
+    ],
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'change-password',
     component: ChangePasswordComponent,
-    data: {
-      allow: ['1', '2', '3']
-    },
     canActivate: [AuthGuard]
   },
   {

@@ -1,5 +1,29 @@
 import { Injectable, OnInit } from '@angular/core';
 
+const adminRoutes = [
+  { path: '/home', title: 'Home', icon: 'design_app', class: '' },
+  // { path: '/admin/icons', title: 'Icons', icon: 'education_atom', class: '' },
+  { path: '/admin/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
+  { path: '/admin/template-manager', title: 'Template Manager', icon: 'design_bullet-list-67', class: '' },
+  { path: '/admin/student-manager', title: 'Student Manager', icon: 'business_badge', class: '' },
+  { path: '/admin/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' },
+  { path: '/admin/user-profile', title: 'User Profile', icon: 'users_single-02', class: '' },
+  { path: '/admin/typography', title: 'Typography', icon: 'text_caps-small', class: '' }
+]
+
+const studentRoutes = [
+  // { path: '/home', title: 'Home', icon: 'design_app', class: '' },
+  { path: '/student/icons', title: 'Icons', icon: 'education_atom', class: '' },
+  { path: '/student/notifications', title: 'Notifications', icon: 'ui-1_bell-53', class: '' },
+]
+
+const lecturerRoutes = [
+  { path: '/home', title: 'Home', icon: 'design_app', class: '' },
+  { path: '/lecturer/user-profile', title: 'User Profile', icon: 'users_single-02', class: '' },
+  { path: '/lecturer/table-list', title: 'Table List', icon: 'design_bullet-list-67', class: '' },
+  { path: '/lecturer/typography', title: 'Typography', icon: 'text_caps-small', class: '' }
+]
+
 @Injectable()
 export class UserService implements OnInit {
   private loggedIn: boolean;
@@ -42,6 +66,18 @@ export class UserService implements OnInit {
     this.setAuthToken(null);
     localStorage.removeItem('auth_token');
     localStorage.removeItem('role_id');
+  }
+
+  getUserRoutes() {
+    const _role = this.getRoleId();
+    switch (_role) {
+      case '1':
+        return adminRoutes;
+      case '2':
+        return lecturerRoutes;
+      case '3':
+        return studentRoutes;
+    }
   }
 
   login(authData, callback) {

@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { TypographyComponent } from '../../typography/typography.component';
-import { IconsComponent } from '../../icons/icons.component';
+// import { IconsComponent } from '../../icons/icons.component';
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 import { StudentManagerComponent } from '../../student-manager/student-manager.component';
 import { NewStudentComponent } from '../../student-manager/new-student/new-student.component';
@@ -16,17 +16,17 @@ import { TemplateEditorComponent } from '../../components/template-editor/templa
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home', component: DashboardComponent },
-    { path: 'user-profile', component: UserProfileComponent },
-    { path: 'typography', component: TypographyComponent },
-    { path: 'icons', component: IconsComponent },
-    { path: 'import-excel/:type', component: FileUploaderComponent },
-    { path: 'student-manager', component: StudentManagerComponent },
-    { path: 'student-manager/new', component: NewStudentComponent },
-    { path: 'student-manager/edit/:id', component: EditStudentComponent },
-    { path: 'lecturer-manager', component: LecturerManagerComponent },
-    { path: 'survey-manager', component: SurveyManagerComponent },
-    { path: 'survey-manager/edit/:id', component: EditSurveyComponent },
-    { path: 'template-manager', component: TemplateManagerComponent },
-    { path: 'template-manager/:action', component: TemplateEditorComponent },
-    { path: 'template-manager/:action/:id', component: TemplateEditorComponent }
+    { path: 'admin/user-profile', component: UserProfileComponent },
+    { path: 'admin/typography', component: TypographyComponent },
+    // { path: 'admin/icons', component: IconsComponent },
+    { path: 'admin/import-excel/:type', component: FileUploaderComponent },
+    { path: 'admin/student-manager', component: StudentManagerComponent },
+    { path: 'admin/student-manager/new', component: NewStudentComponent },
+    { path: 'admin/student-manager/edit/:id', component: EditStudentComponent },
+    { path: 'admin/lecturer-manager', component: LecturerManagerComponent },
+    { path: 'admin/survey-manager', component: SurveyManagerComponent },
+    { path: 'admin/survey-manager/edit/:id', component: EditSurveyComponent },
+    { path: 'admin/template-manager', component: TemplateManagerComponent },
+    { path: 'admin/template-manager/:action', component: TemplateEditorComponent },
+    { path: 'admin/template-manager/:action/:id', component: TemplateEditorComponent }
 ];

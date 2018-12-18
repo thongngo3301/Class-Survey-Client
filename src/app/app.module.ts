@@ -11,7 +11,10 @@ import { ComponentsModule } from './components/components.module';
 import { ModalsModule } from './modals/modals.module';
 
 import { AppComponent } from './app.component';
+
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { StudentLayoutComponent } from './layouts/student-layout/student-layout.component';
+
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -46,6 +49,7 @@ import { ToastrNotificationService } from './services/toastr-notification.servic
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    StudentLayoutComponent,
     LoginComponent,
     ChangePasswordComponent,
     NotFoundComponent
