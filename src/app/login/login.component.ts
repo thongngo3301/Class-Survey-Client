@@ -54,20 +54,10 @@ export class LoginComponent implements OnInit {
     }
     this.apiService.login(payload).subscribe((result) => {
       if (result && result.success) {
+        this.userService.setUserId(payload.username);
         this.userService.login(result.data, () => {
           this.toastr.success('Login successfully!');
           this.router.navigate(['/survey-manager']);
-          // switch (this.userService.getRoleId()) {
-          //   case '1':
-          //     this.router.navigate(['/survey-manager']);
-          //     break;
-          //   case '2':
-          //     this.router.navigate(['/home']);
-          //     break;
-          //   case '3':
-          //     this.router.navigate(['/survey-manager']);
-          //     break;
-          // }
         });
       } else {
         this.toastr.error('Incorrect username or password!');

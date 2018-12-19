@@ -89,18 +89,28 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
         break;
       case '3':
         data.forEach(d => {
-          if (d.class && d.class.length) {
+          if (d.class.length) {
             d.class.forEach(c => {
               let _row = {
                 id: d._id,
                 name: d.name,
                 dob: d.date_of_birth || '',
                 base_class: d.base_class,
-                class_id: c.id,
-                class_name: c.name
+                class_id: c.id || '',
+                class_name: c.name || ''
               }
               ret.push(_row);
             });
+          } else {
+            let _row = {
+              id: d._id,
+              name: d.name,
+              dob: d.date_of_birth || '',
+              base_class: d.base_class,
+              class_id: '',
+              class_name: ''
+            }
+            ret.push(_row);
           }
         });
         break;

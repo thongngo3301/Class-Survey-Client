@@ -22,8 +22,6 @@ const lecturerRoutes = [
 @Injectable()
 export class UserService implements OnInit {
   private loggedIn: boolean;
-  private authToken: any;
-  private roleId: any;
 
   constructor() {
     this.setAuthStatus(!!this.getAuthToken());
@@ -42,12 +40,13 @@ export class UserService implements OnInit {
   }
 
   setAuthToken(token: any) {
-    this.authToken = token;
     localStorage.setItem('auth_token', token);
   }
   setRoleId(roleId: any) {
-    this.roleId = roleId;
     localStorage.setItem('role_id', roleId);
+  }
+  setUserId(userId: any) {
+    localStorage.setItem('user_id', userId);
   }
 
   getAuthToken() {
@@ -56,11 +55,15 @@ export class UserService implements OnInit {
   getRoleId() {
     return localStorage.getItem('role_id');
   }
+  getUserId() {
+    return localStorage.getItem('user_id');
+  }
 
   removeAuthToken() {
     this.setAuthToken(null);
     localStorage.removeItem('auth_token');
     localStorage.removeItem('role_id');
+    localStorage.removeItem('user_id');
   }
 
   getUserRoutes() {

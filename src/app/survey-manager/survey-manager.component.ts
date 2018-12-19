@@ -40,30 +40,14 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   private isReady: boolean = false;
 
   ngOnInit() {
-    const role_id = this.userService.getRoleId();
-    this.getAllSurveyData(role_id).subscribe((result) => {
+    this.apiService.getAllSurveyData().subscribe((result) => {
       if (result && result.success) {
-        if (result.data instanceof Array) {
-          this.data = this.reconstructData(result.data);
-        } else {
-          this.data = this.reconstructData(result.data.class);
-        }
+        this.data = this.reconstructData(result.data);
         this.isReady = true;
       } else {
         this.toastr.error(result.message);
       }
     });
-  }
-
-  getAllSurveyData(role_id: string) {
-    switch (role_id) {
-      case '1':
-        return this.apiService.getAllSurveyData(null);
-      case '2':
-        return this.apiService.getAllSurveyData('tunghx');
-      case '3':
-        return this.apiService.getAllSurveyData('16022440');
-    }
   }
 
   ngAfterViewInit() {

@@ -39,7 +39,7 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
     this.columns = this.getDataColumns(role_id);
     this.apiService.getAllLecturerData().subscribe((result) => {
       if (result && result.success) {
-        this.data = this.reconstructData(result.data);
+        this.data = this.reconstructData(result.data, role_id);
         this.isReady = true;
       } else {
         this.toastr.error(result.message);
@@ -60,28 +60,61 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
           { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
           { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
         ]
-      case '3':
+      case '2':
         return [
           { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
           { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
           { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
-          { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
+          { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } },
+          { title: 'Class ID', name: 'class_id', filtering: { filterString: '', placeholder: 'Filter by CID' } },
+          { title: 'Class Name', name: 'class_name', filtering: { filterString: '', placeholder: 'Filter by CN' } }
         ]
     }
   }
 
-  reconstructData(data: Array<any>) {
+  reconstructData(data: Array<any>, role_id: string) {
     let ret = new Array<any>();
-    data.forEach(d => {
-      let _row = {
-        id: d._id,
-        name: d.name,
-        username: d._id || '',
-        email: d.email || ''
+    switch (role_id) {
+      case '1':
+        data.forEach(d => {
+          let _row = {
+            id: d._id,
+            name: d.name,
+            username: d._id || '',
+            email: d.email || ''
+          }
+          ret.push(_row);
+        });
+        break;
+      case '2':
+        data.forEach(d => {
+          if (d.class.length) {
+            d.class.forEach(c => {
+              let _row = {
+                id: d._id,
+                name: d.name,
+                username: d._id || '',
+                email: d.email || '',
+                class_id: c.id || '',
+                class_name: c.name || ''
+              }
+              ret.push(_row);
+            });
+          } else {
+            let _row = {
+              id: d._id,
+              name: d.name,
+              username: d._id || '',
+              email: d.email || '',
+              class_id: '',
+              class_name: ''
+            }
+            ret.push(_row);
+          }
+        });
+        break;
       }
-      ret.push(_row);
-    });
-    return ret;
+      return ret;
   }
 
   @ViewChild('lecturerManager') _lecturerManager: DataManagerComponent;

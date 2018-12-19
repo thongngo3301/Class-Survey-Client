@@ -44,22 +44,29 @@ export class ApiService {
     return this.httpClient.post(`${this.baseURL}/users/change-password`, payload, httpOptions);
   }
 
-  getAllSurveyData(id: any): Observable<any> {
+  getAllSurveyData(): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     const role_id = this.userService.getRoleId();
+    const user_id = this.userService.getUserId();
     switch (role_id) {
       case '1':
         return this.httpClient.get(`${this.baseURL}/admins/classes`, httpOptions);
       case '2':
-        return this.httpClient.get(`${this.baseURL}/teachers/${id}/classes`, httpOptions);
+        return this.httpClient.get(`${this.baseURL}/teachers/${user_id}/classes`, httpOptions);
       case '3':
-        return this.httpClient.get(`${this.baseURL}/students/${id}/classes`, httpOptions);
+        return this.httpClient.get(`${this.baseURL}/students/${user_id}/classes`, httpOptions);
     }
   }
 
   getAllStudentData(): Observable<any> {
     const httpOptions = this.getHeaderOptions();
-    return this.httpClient.get(`${this.baseURL}/admins/students`, httpOptions);
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        return this.httpClient.get(`${this.baseURL}/admins/students`, httpOptions);
+      case '3':
+        return this.httpClient.get(`${this.baseURL}/students`, httpOptions);
+    }
   }
 
   getStudentData(payload: string): Observable<any> {
@@ -69,7 +76,13 @@ export class ApiService {
 
   getAllLecturerData(): Observable<any> {
     const httpOptions = this.getHeaderOptions();
-    return this.httpClient.get(`${this.baseURL}/admins/teachers`, httpOptions);
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        return this.httpClient.get(`${this.baseURL}/admins/teachers`, httpOptions);
+      case '2':
+        return this.httpClient.get(`${this.baseURL}/teachers`, httpOptions);
+    }
   }
 
   getLecturerData(payload: string): Observable<any> {
