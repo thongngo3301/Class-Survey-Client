@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
@@ -23,7 +24,8 @@ export class ChangePasswordComponent implements OnInit {
     private apiService: ApiService,
     private userService: UserService,
     private router: Router,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -69,6 +71,10 @@ export class ChangePasswordComponent implements OnInit {
         this.toastr.error(result.message);
       }
     });
+  }
+
+  onBackButtonClicked() {
+    this.location.back();
   }
 
 }
