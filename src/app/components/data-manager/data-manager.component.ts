@@ -98,6 +98,11 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
           </div>
         `
       case '2':
+        return `
+          <div style="display: flex">
+            ${viewBtn}
+          </div>
+        `
       case '3':
         return `
           <div style="display: flex">
