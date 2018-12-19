@@ -2,6 +2,22 @@ import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output } from '@
 import { UserService } from '../../services/user.service';
 import * as $ from 'jquery';
 
+const editBtn = `
+  <button class="btn btn-info edit-data-btn" style="border-radius: 50%">
+    <i class="fas fa-pen"></i>
+  </button>
+`
+const viewBtn = `
+  <button class="btn btn-info view-data-btn" style="border-radius: 50%">
+    <i class="far fa-eye"></i>
+  </button>
+`
+const removeBtn = `
+  <button class="btn btn-info remove-data-btn" style="border-radius: 50%">
+    <i class="fas fa-trash-alt"></i>
+  </button>
+`
+
 @Component({
   selector: 'app-data-manager',
   templateUrl: './data-manager.component.html',
@@ -19,19 +35,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   @Output() childEventRemove = new EventEmitter(true);
 
   private actionColumn = { title: 'Action', name: 'action', sort: false };
-  private actionButtons = `
-    <div style="display: flex">
-      <button class="btn btn-info edit-data-btn" style="border-radius: 50%">
-        <i class="fas fa-pen"></i>
-      </button>
-      <button class="btn btn-info view-data-btn" style="border-radius: 50%">
-        <i class="far fa-eye"></i>
-      </button>
-      <button class="btn btn-info remove-data-btn" style="border-radius: 50%">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </div>
-  `;
+  private actionButtons: string;
   private selectedData: any;
 
   public rows: Array<any> = [];
@@ -43,7 +47,8 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   public config: any;
 
   public ngOnInit() {
-    if (this.userService.getRoleId() == '1') {
+    this.actionButtons = this.getActionButtons();
+    if (this.doShowActionButtons()) {
       this.prepareTable();
     }
     this.config = {
@@ -61,13 +66,46 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
     $(document).on('click','button.view-data-btn', this.viewData);
     $(document).on('click','button.remove-data-btn', this.removeData);
     $('ng-table > table').css('table-layout', 'fixed');
-    $('ng-table > table').find('th:not(:first)').css('cursor', 'pointer');
+    if (this.doShowActionButtons()) {
+      $('ng-table > table').find('th:not(:first)').css('cursor', 'pointer');
+    } else {
+      $('ng-table > table').find('th').css('cursor', 'pointer');
+    }
     $('ng-table > table').find('input').css('width', '-webkit-fill-available');
   }
 
   public rerenderTable(_data) {
     this.data = _data;
     this.ngOnInit();
+  }
+
+  private doShowActionButtons() {
+    const role_id = this.userService.getRoleId();
+    if (role_id == '2' && this.type == 'lecturers') return false;
+    else if (role_id == '3' && this.type == 'students') return false;
+    return true;
+  }
+
+  private getActionButtons() {
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        return  `
+          <div style="display: flex">
+            ${editBtn}
+            ${viewBtn}
+            ${removeBtn}
+          </div>
+        `
+      case '2':
+      case '3':
+        return `
+          <div style="display: flex">
+            ${editBtn}
+            ${viewBtn}
+          </div>
+        `
+    }
   }
 
   public updateItemsPerPage(value) {

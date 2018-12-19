@@ -55,15 +55,15 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
     switch (role_id) {
       case '1':
         return [
-          { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
-          { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
+          { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
           { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
           { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
         ]
       case '2':
         return [
-          { title: 'Lecturer ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by LID' } },
-          { title: 'Lecturer Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by LN' } },
+          { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
           { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
           { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } },
           { title: 'Class ID', name: 'class_id', filtering: { filterString: '', placeholder: 'Filter by CID' } },

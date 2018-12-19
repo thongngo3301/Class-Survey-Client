@@ -56,15 +56,15 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
     switch (role_id) {
       case '1':
         return [
-          { title: 'Student ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by SID' } },
-          { title: 'Student Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by SN' } },
+          { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
           { title: 'Date of Birth', name: 'dob', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
           { title: 'Base Class', name: 'base_class', filtering: { filterString: '', placeholder: 'Filter by BC' } }
         ]
       case '3':
         return [
-          { title: 'Student ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by SID' } },
-          { title: 'Student Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by SN' } },
+          { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
           { title: 'Date of Birth', name: 'dob', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
           { title: 'Base Class', name: 'base_class', filtering: { filterString: '', placeholder: 'Filter by BC' } },
           { title: 'Class ID', name: 'class_id', filtering: { filterString: '', placeholder: 'Filter by CID' } },
