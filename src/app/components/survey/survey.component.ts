@@ -3,8 +3,8 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { UserService } from '../../services/user.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
-import { isRegExp } from 'util';
 
 @Component({
   selector: 'app-survey',
@@ -18,7 +18,8 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRouter: ActivatedRoute,
     private toastr: ToastrNotificationService,
-    private location: Location
+    private location: Location,
+    private userService: UserService
   ) { }
 
   private action: string;
@@ -69,38 +70,26 @@ export class SurveyComponent implements OnInit, AfterViewInit {
         // });
         break;
       case 'view':
-        this.title = 'Class List';
-        // TODO: call api to get class list
-        this.columns = [
-          { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
-          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
-          { title: 'Date of Birth', name: 'dob', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
-          { title: 'Base Class', name: 'base_class', filtering: { filterString: '', placeholder: 'Filter by BC' } }
-        ];
-        this.data = [
-          { "id": "537", "name": "Wallie Kenset", "dob": "10/10/2018", "base_class": "Kutch, Howell and Legros" },
-          { "id": "749", "name": "Dominic Cranfield", "dob": "1/30/2018", "base_class": "Sanford-Cartwright" },
-          { "id": "1", "name": "Joete Charlwood", "dob": "4/29/2018", "base_class": "Fay and Sons" },
-          { "id": "37158", "name": "Rickert Toulson", "dob": "5/12/2018", "base_class": "Balistreri-Hudson" },
-          { "id": "7", "name": "Roman Bodley", "dob": "1/24/2018", "base_class": "Wiza LLC" },
-          { "id": "6263", "name": "Llewellyn Benedikt", "dob": "10/12/2018", "base_class": "Auer, Casper and Hettinger" },
-          { "id": "04", "name": "Torry Guard", "dob": "5/28/2018", "base_class": "Denesik-Green" },
-          { "id": "3243", "name": "Lonni Leighfield", "dob": "11/20/2018", "base_class": "Legros-Klein" },
-          { "id": "0", "name": "Drusy Scourge", "dob": "1/5/2018", "base_class": "Renner-Goldner" },
-          { "id": "00", "name": "Dominick Koomar", "dob": "12/6/2017", "base_class": "Luettgen Inc" },
-          { "id": "6132", "name": "Hort Barsby", "dob": "6/21/2018", "base_class": "Hettinger, Towne and Graham" },
-          { "id": "8", "name": "Kyle Coultard", "dob": "5/8/2018", "base_class": "Wilderman-Hirthe" },
-          { "id": "1", "name": "Padget Matysiak", "dob": "2/12/2018", "base_class": "Vandervort-Bechtelar" },
-          { "id": "0591", "name": "Reine Camin", "dob": "7/7/2018", "base_class": "Kemmer, Gottlieb and Jakubowski" },
-          { "id": "00520", "name": "Linn Duckitt", "dob": "11/22/2018", "base_class": "Koepp-Lehner" },
-          { "id": "1", "name": "Rozele Varley", "dob": "2/2/2018", "base_class": "Rowe, Bartoletti and Trantow" },
-          { "id": "8", "name": "Templeton Halt", "dob": "3/13/2018", "base_class": "Hyatt-Waters" },
-          { "id": "51", "name": "Orelie Ellesmere", "dob": "8/29/2018", "base_class": "Carter-Auer" },
-          { "id": "9321", "name": "Antonina Beau", "dob": "8/1/2018", "base_class": "Considine, Runte and Bins" },
-          { "id": "49", "name": "Nolie McCaughey", "dob": "10/6/2018", "base_class": "Parisian, Walker and Pfannerstill" },
-          { "id": "33", "name": "Amby Somerfield", "dob": "6/18/2018", "base_class": "Runte, Heller and West" }
-        ];
-        this.isReady = true;
+        this.title = this.id;
+        const payload = {
+          userId: this.userService.getUserId(),
+          classId: this.getClassId(this.id)
+        }
+        this.apiService.getStudentsInClass(payload).subscribe((result) => {
+          if (result && result.success) {
+            this.columns = [
+              { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+              { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
+              { title: 'Date of Birth', name: 'date_of_birth', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
+              { title: 'Base Class', name: 'base_class', filtering: { filterString: '', placeholder: 'Filter by BC' } }
+            ];
+            result.data.forEach(d => delete d.stt);
+            this.data = result.data;
+            this.isReady = true;
+          } else {
+            this.toastr.error(result.message);
+          }
+        });
         break;
       case 'result':
         this.title = "Survey Result";
@@ -159,6 +148,10 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getClassId(str: string) {
+    return str.trim().split(' ').slice(-2).join(' ');
+  }
+
   get formCtrl() { return this.surveyForm.controls; }
 
   onSubmit() {
@@ -182,7 +175,18 @@ export class SurveyComponent implements OnInit, AfterViewInit {
   }
 
   onResultButtonClicked() {
-    this.router.navigate(['/survey-manager', 'result', this.id]);
+    const payload = {
+      userId: this.userService.getUserId(),
+      classId: this.getClassId(this.id)
+    }
+    this.apiService.getSurveyResult(payload).subscribe((result) => {
+      if (result && result.success) {
+        console.log(result.data);
+        this.router.navigate(['/survey-manager', 'result', this.id]);
+      } else {
+        this.toastr.error(result.message);
+      }
+    });
   }
 
   onPrintButtonClicked() {

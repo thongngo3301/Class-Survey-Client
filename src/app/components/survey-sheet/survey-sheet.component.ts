@@ -27,6 +27,8 @@ export class SurveySheetComponent implements OnInit {
   private isReady: boolean = false;
   private isSubmitted: boolean = false;
   private sections: Array<any> = [];
+  private criterias: Array<any> = [];
+  private cols: Array<any> = [];
 
   ngOnInit() {
     this.action = this.activatedRouter.snapshot.paramMap.get('action');
@@ -43,6 +45,31 @@ export class SurveySheetComponent implements OnInit {
           const _data = result.data.survey;
           this.isSubmitted = this.wasSubmittedBefore(_data.create_at, _data.modify_at);
           this.sections = _data.group_fields;
+          this.criterias = [1, 2, 3, 4, 5];
+          if (this.isSubmitted) {
+            this.cols = this.criterias;
+          } else {
+            this.cols = [0, ...this.criterias];
+          }
+          this.isReady = true;
+        } else {
+          this.toastr.error(result.message);
+          this.isReady = true;
+        }
+      });
+    } else if (this.action == 'result') {
+      this.title = this.activatedRouter.snapshot.paramMap.get('id');
+      this.id = this.getSurveyIdFromTitle(this.title);
+      const payload = {
+        userId: this.userService.getUserId(),
+        classId: this.id
+      }
+      this.apiService.getSurveyResult(payload).subscribe((result) => {
+        if (result && result.success) {
+          const _data = result.data;
+          this.sections = _data.group_fields;
+          this.criterias = ['M', 'M1', 'M2', 'STD', 'STD1', 'STD2'];
+          this.cols = [0, 1, 2, 3, 4, 5];
           this.isReady = true;
         } else {
           this.toastr.error(result.message);
@@ -65,6 +92,10 @@ export class SurveySheetComponent implements OnInit {
 
   getAllFirstLetters(str: string) {
     return str.trim().split(' ').map(s => s.charAt(0)).join('');
+  }
+
+  getValueFromIdx(obj: Object, idx: number): number {
+    return obj[Object.keys(obj)[idx]].toFixed(2);
   }
 
   submitSurvey() {

@@ -19,6 +19,7 @@
             [columns]="columns" [data]="data" [type]="'surveys'"
             (childEventEdit)="editSurveyInfo($event)"
             (childEventView)="viewSurveyInfo($event)"
+            (childEventResult)="resultSurveyInfo($event)"
             (childEventRemove)="removeSurveyInfo($event)">
           </app-data-manager>
           <div *ngIf="isReady && !data.length">

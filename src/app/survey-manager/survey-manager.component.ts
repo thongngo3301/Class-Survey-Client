@@ -95,6 +95,15 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private resultSurveyInfo(data) {
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '2':
+        this.router.navigate(['/survey-sheet', 'result', data.row.name]);
+        break;
+    }
+  }
+
   private removeSurveyInfo(data) {
     const initialState = {
       title: 'Remove survey',

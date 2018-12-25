@@ -100,6 +100,16 @@ export class ApiService {
     return this.httpClient.put(`${this.baseURL}/students/${payload.studentId}/classes/${payload.surveyId}/survey`, payload.data, httpOptions);
   }
 
+  getStudentsInClass(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/teachers/${payload.userId}/classes/${payload.classId}/students`, httpOptions);
+  }
+
+  getSurveyResult(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/teachers/${payload.userId}/classes/${payload.classId}/survey`, httpOptions);
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error("An error occurred:", error.error.message);

@@ -17,6 +17,11 @@ const removeBtn = `
     <i class="fas fa-trash-alt"></i>
   </button>
 `
+const resultBtn = `
+  <button class="btn btn-success result-data-btn" style="width:38px;padding-left:0;padding-right:0;">
+    <i class="fas fa-poll"></i>
+  </button>
+`
 
 @Component({
   selector: 'app-data-manager',
@@ -33,6 +38,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
 
   @Output() childEventEdit = new EventEmitter(true);
   @Output() childEventView = new EventEmitter(true);
+  @Output() childEventResult = new EventEmitter(true);
   @Output() childEventRemove = new EventEmitter(true);
 
   private actionColumn = { title: 'Action', name: 'action', sort: false };
@@ -65,6 +71,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit() {
     $(document).on('click','button.edit-data-btn', this.editData);
     $(document).on('click','button.view-data-btn', this.viewData);
+    $(document).on('click','button.result-data-btn', this.resultData);
     $(document).on('click','button.remove-data-btn', this.removeData);
     $('ng-table > table').css('table-layout', 'fixed');
     if (this.doShowActionButtons()) {
@@ -90,7 +97,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
     const role_id = this.userService.getRoleId();
     if (this.notShowActions) return false;
     if (role_id == '2' && this.type == 'lecturers') return false;
-    if (role_id == '3' && this.type == 'students') return false;
+    if ((role_id == '2' || role_id == '3') && this.type == 'students') return false;
     return true;
   }
 
@@ -109,6 +116,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
         return `
           <div class="action-button-group" style="text-align: center">
             ${viewBtn}
+            ${resultBtn}
           </div>
         `
       case '3':
@@ -150,6 +158,11 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   private viewData = () => {
     let _selectedData = this.getSelectedData();
     this.childEventView.emit(_selectedData);
+  }
+
+  private resultData = () => {
+    let _selectedData = this.getSelectedData();
+    this.childEventResult.emit(_selectedData);
   }
 
   private removeData = () => {
