@@ -9,12 +9,14 @@
             <h4 class="card-title">{{title}}</h4>
           </div>
           <div class="survey-component-header-right">
-            <button class="btn btn-info" type="submit" form="surveyForm">Save</button>
+            <button class="btn btn-info" type="submit" form="surveyForm" *ngIf="title == 'Edit Survey'">Save</button>
+            <button class="btn btn-info" *ngIf="title == 'Class List'" (click)="onResultButtonClicked()">Result</button>
+            <button class="btn btn-info" *ngIf="title == 'Survey Result'" (click)="onPrintButtonClicked()">Print</button>
             <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>
           </div>
         </div>
         <div class="card-body" *ngIf="isReady">
-          <form id="surveyForm" role="form" [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
+          <form id="surveyForm" role="form" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" *ngIf="title == 'Edit Survey'">
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
@@ -70,6 +72,9 @@
               </div>
             </div>
           </form>
+          <app-data-manager *ngIf="title != 'Edit Survey'"
+            [columns]="columns" [data]="data" [type]="'students'">
+          </app-data-manager>
         </div>
       </div>
     </div>

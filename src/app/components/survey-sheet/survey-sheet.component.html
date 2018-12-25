@@ -1,3 +1,38 @@
-<p>
-  survey-sheet works!
-</p>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header survey-sheet-header">
+          <div>
+            <h4 class="card-title">{{title}}</h4>
+          </div>
+          <div class="survey-sheet-header-right">
+            <button class="btn btn-info" (click)="submitSurvey()" [disabled]="!validateAllInputs()">Submit</button>
+            <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="isReady">
+          <div class="section" *ngFor="let section of sections">
+            <span><strong>{{sections.indexOf(section) + 1}}.<span style="color: red">*</span> {{section.title}}</strong></span>
+            <div class="question">
+              <span class="content"></span>
+              <span *ngFor="let idx of [1, 2, 3, 4, 5]">
+                <strong>{{idx}}</strong>
+              </span>
+            </div>
+            <div class="question" *ngFor="let question of section.fields">
+              <span class="content">{{question.title}}</span>
+              <span *ngFor="let idx of [0, 1, 2, 3, 4, 5]">
+              <!-- <span *ngFor="let idx of [1, 2, 3, 4, 5]"> -->
+                <input type="radio" name="{{getAllFirstLetters(section.title + ' ' + question.title)}}"
+                  [(ngModel)]="question.value" [value]="idx">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.survey-sheet-header {
+    display: flex;
+    align-items: baseline;
+    .survey-sheet-header-right {
+        margin-left: auto;
+        order: 2;
+    }
+}
+
+.section {
+    margin: 2em;
+}
+
+.section:not(:last-child) {
+    margin-bottom: 2em;
+}
+
+.question {
+    display: flex;
+    padding: 0.5em;
+    border-bottom: 1px solid #ddd;
+}
+
+.question:last-child {
+    border-bottom: none;
+}
+
+.question .content {
+    flex: 1;
+}
+
+.question *:not(.content) {
+    flex-basis: 3em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

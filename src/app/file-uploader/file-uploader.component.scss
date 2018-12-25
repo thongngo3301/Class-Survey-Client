@@ -1,6 +1,12 @@
 .my-drop-zone {
     border: dotted 3px #9A9A9A;
-    height: calc(100% - 69px);
+    height: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &>div {
+        margin: 1em;
+    }
 }
 
 .nv-file-over {

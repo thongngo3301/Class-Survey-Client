@@ -12,6 +12,7 @@ import { SurveyManagerComponent } from '../../survey-manager/survey-manager.comp
 import { SurveyComponent } from '../../components/survey/survey.component';
 import { TemplateManagerComponent } from '../../template-manager/template-manager.component';
 import { TemplateEditorComponent } from '../../components/template-editor/template-editor.component';
+import { SurveySheetComponent } from '../../components/survey-sheet/survey-sheet.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home', component: DashboardComponent },
@@ -29,5 +30,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'survey-manager/:action/:id', component: SurveyComponent },
     { path: 'template-manager', component: TemplateManagerComponent },
     { path: 'template-manager/:action', component: TemplateEditorComponent },
-    { path: 'template-manager/:action/:id', component: TemplateEditorComponent }
+    { path: 'template-manager/:action/:id', component: TemplateEditorComponent },
+    { path: 'survey-sheet/:action/:id', component: SurveySheetComponent }
 ];

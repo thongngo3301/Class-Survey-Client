@@ -75,22 +75,24 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('surveyManager') _surveyManager: DataManagerComponent;
 
   private editSurveyInfo(data) {
-    this.router.navigate(['/survey-manager', 'edit', data.row.name]);
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        this.router.navigate(['/survey-manager', 'edit', data.row.name]);
+        break;
+      case '3':
+        this.router.navigate(['/survey-sheet', 'answer', data.row.name]);
+        break;
+    }
   }
 
   private viewSurveyInfo(data) {
-    const initialState = {
-      list: [
-        'Survey view'
-      ],
-      title: 'Survey info',
-      data: data
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '2':
+        this.router.navigate(['/survey-manager', 'view', data.row.name]);
+        break;
     }
-    const config = Object.assign({ initialState }, modalOptions);
-    this.modalRef = this.modalService.show(ModalStudentInfoEditorComponent, config);
-    this.modalRef.content.onClose.subscribe(ret => {
-      console.log('view ret', ret);
-    });
   }
 
   private removeSurveyInfo(data) {

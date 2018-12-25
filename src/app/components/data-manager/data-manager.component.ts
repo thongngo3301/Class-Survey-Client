@@ -3,17 +3,17 @@ import { UserService } from '../../services/user.service';
 import * as $ from 'jquery';
 
 const editBtn = `
-  <button class="btn btn-info edit-data-btn" style="border-radius: 50%">
+  <button class="btn btn-info edit-data-btn" style="width:38px;padding-left:0;padding-right:0;">
     <i class="fas fa-pen"></i>
   </button>
 `
 const viewBtn = `
-  <button class="btn btn-info view-data-btn" style="border-radius: 50%">
+  <button class="btn btn-warning view-data-btn" style="width:38px;padding-left:0;padding-right:0;">
     <i class="far fa-eye"></i>
   </button>
 `
 const removeBtn = `
-  <button class="btn btn-info remove-data-btn" style="border-radius: 50%">
+  <button class="btn btn-danger remove-data-btn" style="width:38px;padding-left:0;padding-right:0;">
     <i class="fas fa-trash-alt"></i>
   </button>
 `
@@ -29,6 +29,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
   @Input() columns: Array<any>;
   @Input() data: Array<any>;
   @Input() type: string;
+  @Input() notShowActions: boolean;
 
   @Output() childEventEdit = new EventEmitter(true);
   @Output() childEventView = new EventEmitter(true);
@@ -67,7 +68,13 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
     $(document).on('click','button.remove-data-btn', this.removeData);
     $('ng-table > table').css('table-layout', 'fixed');
     if (this.doShowActionButtons()) {
+      let actionButtonGroupWidth = 0;
+      let currActionButtonGroupElem = $('ng-table > table').find('.action-button-group:first').get(0);
       $('ng-table > table').find('th:not(:first)').css('cursor', 'pointer');
+      $(currActionButtonGroupElem).find('button').each(function () {
+        actionButtonGroupWidth += this.clientWidth;
+      });
+      $('ng-table > table').find('th:first').css('width', `${actionButtonGroupWidth + 50}px`);
     } else {
       $('ng-table > table').find('th').css('cursor', 'pointer');
     }
@@ -81,8 +88,9 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
 
   private doShowActionButtons() {
     const role_id = this.userService.getRoleId();
+    if (this.notShowActions) return false;
     if (role_id == '2' && this.type == 'lecturers') return false;
-    else if (role_id == '3' && this.type == 'students') return false;
+    if (role_id == '3' && this.type == 'students') return false;
     return true;
   }
 
@@ -91,7 +99,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
     switch (role_id) {
       case '1':
         return  `
-          <div style="display: flex">
+          <div class="action-button-group" style="text-align: center">
             ${editBtn}
             ${viewBtn}
             ${removeBtn}
@@ -99,15 +107,14 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
         `
       case '2':
         return `
-          <div style="display: flex">
+          <div class="action-button-group" style="text-align: center">
             ${viewBtn}
           </div>
         `
       case '3':
         return `
-          <div style="display: flex">
+          <div class="action-button-group" style="text-align: center">
             ${editBtn}
-            ${viewBtn}
           </div>
         `
     }
