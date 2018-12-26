@@ -134,6 +134,7 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
           this.apiService.removeLecturerClass(payload).subscribe(res => {
             if (res && res.success) {
               this.toastr.success(`Lecturer "${this.fullName}" is no longer teaching class "${diffClass[0]}"`);
+              this.reservedArr = this.selectedSubjectClasses.slice();
             } else {
               this.selectedSubjectClasses = this.reservedArr.slice();
               this.toastr.error(res.message);
@@ -162,6 +163,7 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
           this.apiService.addLecturerClass(payload).subscribe(res => {
             if (res && res.success) {
               this.toastr.success(`Lecturer "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
+              this.reservedArr = this.selectedSubjectClasses.slice();
             } else {
               this.selectedSubjectClasses = this.reservedArr.slice();
               this.toastr.error(res.message);

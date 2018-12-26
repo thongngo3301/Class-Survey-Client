@@ -120,6 +120,7 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
           this.apiService.removeStudentClass(payload).subscribe(res => {
             if (res && res.success) {
               this.toastr.success(`Student "${this.fullName}" is no longer in class "${diffClass[0]}"`);
+              this.reservedArr = this.selectedSubjectClasses.slice();
             } else {
               this.selectedSubjectClasses = this.reservedArr.slice();
               this.toastr.error(res.message);
@@ -148,6 +149,7 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
           this.apiService.addStudentClass(payload).subscribe(res => {
             if (res && res.success) {
               this.toastr.success(`Student "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
+              this.reservedArr = this.selectedSubjectClasses.slice();
             } else {
               this.selectedSubjectClasses = this.reservedArr.slice();
               this.toastr.error(res.message);
