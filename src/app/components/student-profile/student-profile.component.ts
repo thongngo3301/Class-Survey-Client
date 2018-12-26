@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
+import { ModalConfirmComponent } from '../../modals/modal-confirm/modal-confirm.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import * as async from 'async';
 
 @Component({
   selector: 'app-student-profile',
@@ -17,7 +20,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRouter: ActivatedRoute,
     private toastr: ToastrNotificationService,
-    private location: Location
+    private location: Location,
+    private modalRef: BsModalRef,
+    private modalService: BsModalService
   ) { }
 
   private action: string;
@@ -32,6 +37,8 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
   private baseClass: string;
   private selectedSubjectClasses: any;
   private subjectClassOptions: Array<any>;
+
+  private reservedArr: Array<any>;
 
   private studentProfileForm: FormGroup;
   private config: object = {
@@ -55,9 +62,22 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
           this.studentId = _data._id;
           this.dob = _data.date_of_birth;
           this.baseClass = _data.base_class;
-          this.selectedSubjectClasses = _data.class.map(c => c.name);
-          this.subjectClassOptions = _data.class.map(c => c.name);
-          this.isReady = true;
+          this.selectedSubjectClasses = _data.class.map(c => c.name + ' ' + c.id);
+          this.reservedArr = this.selectedSubjectClasses.slice();
+          this.subjectClassOptions = this.selectedSubjectClasses.slice();
+          this.apiService.getAllSurveyData().subscribe(res => {
+            if (res && res.success) {
+              res.data.forEach(d => {
+                const _name = d.name + ' ' + d._id;
+                if (!this.subjectClassOptions.includes(_name)) {
+                  this.subjectClassOptions.push(_name);
+                }
+              });
+              this.isReady = true;
+            } else {
+              this.toastr.error(res.message);
+            }
+          });
         } else {
           this.toastr.error(result.message);
         }
@@ -65,6 +85,76 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     } else {
       this.title = 'New Student';
       this.isReady = true;
+    }
+  }
+
+  stringifyDate(date: Date) {
+    const dd = (date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate());
+    const mm = (date.getMonth().toString().length > 1 || date.getMonth().toString() == '9') ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
+    const yyyy = date.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  onChange(evt) {
+    // remove case
+    let currArr = evt.value;
+    const modalOptions = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    if (currArr.length < this.reservedArr.length) {
+      const diffClass = this.reservedArr.filter(c => !currArr.includes(c));
+      const initialState = {
+        title: 'Remove class',
+        message: `Are you sure to remove student "${this.fullName}" from class "${diffClass[0]}"?`
+      }
+      const config = Object.assign({ initialState }, modalOptions);
+      this.modalRef = this.modalService.show(ModalConfirmComponent, config);
+      this.modalRef.content.onClose.subscribe(ret => {
+        if (ret) {
+          const payload = {
+            studentId: this.studentId,
+            classId: diffClass[0].split(' ').slice(-2).join(' ')
+          }
+          this.apiService.removeStudentClass(payload).subscribe(res => {
+            if (res && res.success) {
+              this.toastr.success(`Student "${this.fullName}" is no longer in class "${diffClass[0]}"`);
+            } else {
+              this.toastr.error(res.message);
+            }
+          });
+        } else {
+          this.selectedSubjectClasses = this.reservedArr.slice();
+        }
+      });
+    }
+    // add case
+    else {
+      const diffClass = currArr.filter(c => !this.reservedArr.includes(c));
+      const initialState = {
+        title: 'Add class',
+        message: `Are you sure to add student "${this.fullName}" to class "${diffClass[0]}"?`
+      }
+      const config = Object.assign({ initialState }, modalOptions);
+      this.modalRef = this.modalService.show(ModalConfirmComponent, config);
+      this.modalRef.content.onClose.subscribe(ret => {
+        if (ret) {
+          const payload = {
+            studentId: this.studentId,
+            classId: diffClass[0].split(' ').slice(-2).join(' ')
+          }
+          this.apiService.addStudentClass(payload).subscribe(res => {
+            if (res && res.success) {
+              this.toastr.success(`Student "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
+            } else {
+              this.toastr.error(res.message);
+            }
+          });
+        } else {
+          this.selectedSubjectClasses = this.reservedArr.slice();
+        }
+      });
     }
   }
 
@@ -86,21 +176,54 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
   onSubmit() {
     this.isSubmitted = true;
 
-    console.log(this.selectedSubjectClasses);
-
     if (!this.dob) {
       this.toastr.error('Student DoB is required!');
       return;
     }
-    if (!this.selectedSubjectClasses) {
+    if (!this.selectedSubjectClasses && this.action == 'edit') {
       this.toastr.error('Please select at least one subject class!');
       return;
     }
 
     if (this.studentProfileForm.invalid) return;
 
-    // TODO: call apiService to create/edit student then navigate to student manager
-    this.router.navigate(['student-manager']);
+    if (this.action == 'edit') {
+      const payload = {
+        studentId: this.studentId,
+        data: {
+          name: this.fullName,
+          base_class: this.baseClass,
+          date_of_birth: (typeof this.dob == 'string' ? this.dob : this.stringifyDate(this.dob)) || '',
+          email: ''
+        }
+      }
+      this.apiService.editStudentData(payload).subscribe(result => {
+        if (result && result.success) {
+          this.toastr.success('Update student successfully');
+          this.router.navigate(['student-manager']);
+        } else {
+          this.toastr.error(result.message);
+        }
+      });
+    } else {
+      const payload = {
+        data: {
+          id: this.studentId,
+          name: this.fullName,
+          base_class: this.baseClass,
+          date_of_birth: (typeof this.dob == 'string' ? this.dob : this.stringifyDate(this.dob)) || '',
+          email: ''
+        }
+      }
+      this.apiService.addStudentData(payload).subscribe(result => {
+        if (result && result.success) {
+          this.toastr.success('Add student successfully');
+          this.router.navigate(['student-manager']);
+        } else {
+          this.toastr.error(result.message);
+        }
+      });
+    }
   }
 
   onBackButtonClicked() {

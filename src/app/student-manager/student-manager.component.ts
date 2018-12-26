@@ -142,14 +142,24 @@ export class StudentManagerComponent implements OnInit, AfterViewInit {
   private removeStudentInfo(data) {
     const initialState = {
       title: 'Remove student',
-      message: 'Are you sure to remove this student?'
+      message: `Are you sure to remove student "${data.row.name} (${data.row.id})"?`
     }
     const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       if (ret) {
-        this.data.splice(data.row.index, 1);
-        this.rerenderStudentManager();
+        const payload = {
+          studentId: data.row.id
+        }
+        this.apiService.removeStudentData(payload).subscribe(res => {
+          if (res && res.success) {
+            this.toastr.success(`Student "${data.row.name} (${data.row.id})" has been removed`);
+            this.data.splice(data.row.index, 1);
+            this.rerenderStudentManager();
+          } else {
+            this.toastr.error(res.message);
+          }
+        });
       }
     });
   }

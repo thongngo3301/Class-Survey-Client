@@ -78,12 +78,11 @@ export class SurveyComponent implements OnInit, AfterViewInit {
         this.apiService.getStudentsInClass(payload).subscribe((result) => {
           if (result && result.success) {
             this.columns = [
-              { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+              { title: 'ID', name: '_id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
               { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
               { title: 'Date of Birth', name: 'date_of_birth', filtering: { filterString: '', placeholder: 'Filter by DoB' } },
               { title: 'Base Class', name: 'base_class', filtering: { filterString: '', placeholder: 'Filter by BC' } }
             ];
-            result.data.forEach(d => delete d.stt);
             this.data = result.data;
             this.isReady = true;
           } else {
@@ -104,7 +103,7 @@ export class SurveyComponent implements OnInit, AfterViewInit {
 
   stringifyDate(date: Date) {
     const dd = (date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate());
-    const mm = (date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
+    const mm = (date.getMonth().toString().length > 1 || date.getMonth().toString() == '9') ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
     const yyyy = date.getFullYear();
     return `${dd}/${mm}/${yyyy}`;
   }

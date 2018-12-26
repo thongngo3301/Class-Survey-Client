@@ -99,7 +99,7 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
 
   stringifyDate(date: Date) {
     const dd = (date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate());
-    const mm = (date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
+    const mm = (date.getMonth().toString().length > 1 || date.getMonth().toString() == '9') ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
     const yyyy = date.getFullYear();
     return `${dd}/${mm}/${yyyy}`;
   }

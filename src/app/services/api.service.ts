@@ -9,8 +9,8 @@ import { map, catchError } from "rxjs/operators";
 
 import { UserService } from './user.service';
 
-const baseURL = "http://class-survey.herokuapp.com";
-// const baseURL = "http://192.168.16.158:5000";
+// const baseURL = "http://class-survey.herokuapp.com";
+const baseURL = "http://192.168.16.158:5000";
 
 @Injectable({
   providedIn: "root"
@@ -72,6 +72,31 @@ export class ApiService {
   getStudentData(payload: string): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     return this.httpClient.get(`${this.baseURL}/admins/students/${payload}`, httpOptions);
+  }
+
+  addStudentData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.post(`${this.baseURL}/admins/students`, payload, httpOptions);
+  }
+
+  editStudentData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.put(`${this.baseURL}/admins/students/${payload.studentId}`, payload, httpOptions);
+  }
+
+  removeStudentData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.delete(`${this.baseURL}/admins/students/${payload.studentId}`, httpOptions);
+  }
+
+  removeStudentClass(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.delete(`${this.baseURL}/students/${payload.studentId}/classes/${payload.classId}`, httpOptions);
+  }
+
+  addStudentClass(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.post(`${this.baseURL}/students/${payload.studentId}/classes`, { classId: payload.classId }, httpOptions);
   }
 
   getAllLecturerData(): Observable<any> {
