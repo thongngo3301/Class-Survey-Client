@@ -36,6 +36,7 @@ export class SurveySheetComponent implements OnInit {
     if (this.action == 'answer') {
       this.title = this.activatedRouter.snapshot.paramMap.get('id');
       this.id = this.getSurveyIdFromTitle(this.title);
+      this.title += ' - Answer Questionnaire';
       const payload = {
         studentId: this.userService.getUserId(),
         surveyId: this.id
@@ -60,6 +61,7 @@ export class SurveySheetComponent implements OnInit {
     } else if (this.action == 'result') {
       this.title = this.activatedRouter.snapshot.paramMap.get('id');
       this.id = this.getSurveyIdFromTitle(this.title);
+      this.title += ' - Survey Result';
       const payload = {
         userId: this.userService.getUserId(),
         classId: this.id

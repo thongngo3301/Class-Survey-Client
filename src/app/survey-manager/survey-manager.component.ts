@@ -30,18 +30,14 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
     private toastr: ToastrNotificationService
   ) { }
 
-  public columns: Array<any> = [
-    { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
-    { title: 'Created At', name: 'createdAt', filtering: { filterString: '', placeholder: 'Filter by created date' } },
-    { title: 'Modified At', name: 'modifiedAt', filtering: { filterString: '', placeholder: 'Filter by modified date' } }
-  ];
-
+  public columns: Array<any> = [];
   private data: Array<any> = [];
   private isReady: boolean = false;
 
   ngOnInit() {
     this.apiService.getAllSurveyData().subscribe((result) => {
       if (result && result.success) {
+        this.columns = this.determineCols();
         this.data = this.reconstructData(result.data);
         this.isReady = true;
       } else {
@@ -54,14 +50,47 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
     $(document).on('click','button.add-survey-btn', e => e.stopPropagation());
   }
 
+  determineCols() {
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        return [
+          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
+          { title: 'Created At', name: 'createdAt', filtering: { filterString: '', placeholder: 'Filter by Created date' } },
+          { title: 'Modified At', name: 'modifiedAt', filtering: { filterString: '', placeholder: 'Filter by Modified date' } },
+          { title: 'Deadline', name: 'deadline', filtering: { filterString: '', placeholder: 'Filter by Deadline' } }
+        ]
+      case '2':
+      case '3':
+        return [
+          { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
+          { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } }
+        ]
+    }
+  }
+
   reconstructData(data: Array<any>) {
     let ret = new Array<any>();
+    const role_id = this.userService.getRoleId();
     data.forEach(d => {
       const _id = d.survey_id || d.id;
-      let _row = {
-        name: d.name + ' ' + _id,
-        createdAt: this.stringifyDate(new Date()),
-        modifiedAt: this.stringifyDate(new Date()),
+      let _row;
+      switch (role_id) {
+        case '1':
+          _row = {
+            name: d.name + ' ' + _id,
+            createdAt: this.stringifyDate(new Date(parseInt(d.create_at))),
+            modifiedAt: this.stringifyDate(new Date(parseInt(d.last_modify))),
+            deadline: this.stringifyDate(new Date(parseInt(d.deadline)))
+          }
+          break;
+        case '2':
+        case '3':
+          _row = {
+            id: _id,
+            name: d.name
+          }
+          break;
       }
       ret.push(_row);
     });
@@ -69,7 +98,10 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   }
 
   stringifyDate(date: Date) {
-    return ((date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+    const dd = (date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate());
+    const mm = (date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
+    const yyyy = date.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
   }
 
   @ViewChild('surveyManager') _surveyManager: DataManagerComponent;
@@ -81,7 +113,8 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/survey-manager', 'edit', data.row.name]);
         break;
       case '3':
-        this.router.navigate(['/survey-sheet', 'answer', data.row.name]);
+        const _data = data.row.name + ' ' + data.row.id;
+        this.router.navigate(['/survey-sheet', 'answer', _data]);
         break;
     }
   }
@@ -90,18 +123,24 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
     const role_id = this.userService.getRoleId();
     switch (role_id) {
       case '2':
-        this.router.navigate(['/survey-manager', 'view', data.row.name]);
+        const _data = data.row.name + ' ' + data.row.id;
+        this.router.navigate(['/survey-manager', 'view', _data]);
         break;
     }
   }
 
   private resultSurveyInfo(data) {
     const role_id = this.userService.getRoleId();
+    let _data;
     switch (role_id) {
+      case '1':
+        _data = data.row.name;
+        break;
       case '2':
-        this.router.navigate(['/survey-sheet', 'result', data.row.name]);
+        _data = data.row.name + ' ' + data.row.id;
         break;
     }
+    this.router.navigate(['/survey-sheet', 'result', _data]);
   }
 
   private removeSurveyInfo(data) {

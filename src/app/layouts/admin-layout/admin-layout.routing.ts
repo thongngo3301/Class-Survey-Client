@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TypographyComponent } from '../../typography/typography.component';
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 import { StudentManagerComponent } from '../../student-manager/student-manager.component';
 import { StudentProfileComponent } from '../../components/student-profile/student-profile.component';
@@ -15,9 +12,6 @@ import { TemplateEditorComponent } from '../../components/template-editor/templa
 import { SurveySheetComponent } from '../../components/survey-sheet/survey-sheet.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'home', component: DashboardComponent },
-    { path: 'user-profile', component: UserProfileComponent },
-    { path: 'typography', component: TypographyComponent },
     { path: 'import-excel/:type', component: FileUploaderComponent },
     { path: 'student-manager', component: StudentManagerComponent },
     { path: 'student-manager/:action', component: StudentProfileComponent },

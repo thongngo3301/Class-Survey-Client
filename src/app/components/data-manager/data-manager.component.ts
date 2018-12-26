@@ -82,6 +82,9 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
         actionButtonGroupWidth += this.clientWidth;
       });
       $('ng-table > table').find('th:first').css('width', `${actionButtonGroupWidth + 50}px`);
+      if (this.type == 'surveys' && this.userService.getRoleId() != '1') {
+        $('ng-table > table').find('th:nth-child(2)').css('width', `${actionButtonGroupWidth + 50}px`);
+      }
     } else {
       $('ng-table > table').find('th').css('cursor', 'pointer');
     }
@@ -105,10 +108,18 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
     const role_id = this.userService.getRoleId();
     switch (role_id) {
       case '1':
-        return  `
+        return  this.type == 'surveys' ?
+        `
           <div class="action-button-group" style="text-align: center">
             ${editBtn}
-            ${viewBtn}
+            ${resultBtn}
+            ${removeBtn}
+          </div>
+        `
+          :
+        `
+          <div class="action-button-group" style="text-align: center">
+            ${editBtn}
             ${removeBtn}
           </div>
         `

@@ -4,9 +4,7 @@ const adminRoutes = [
   { path: '/survey-manager', title: 'Survey Manager', icon: 'education_paper', class: '' },
   { path: '/template-manager', title: 'Template Manager', icon: 'design_bullet-list-67', class: '' },
   { path: '/student-manager', title: 'Student Manager', icon: 'business_badge', class: '' },
-  { path: '/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' },
-  { path: '/user-profile', title: 'User Profile', icon: 'users_single-02', class: '' },
-  { path: '/typography', title: 'Typography', icon: 'text_caps-small', class: '' }
+  { path: '/lecturer-manager', title: 'Lecturer Manager', icon: 'business_briefcase-24', class: '' }
 ]
 
 const studentRoutes = [

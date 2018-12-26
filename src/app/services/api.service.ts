@@ -10,7 +10,7 @@ import { map, catchError } from "rxjs/operators";
 import { UserService } from './user.service';
 
 const baseURL = "http://class-survey.herokuapp.com";
-// const baseURL = "http://192.168.17.52:5000";
+// const baseURL = "http://192.168.16.158:5000";
 
 @Injectable({
   providedIn: "root"
@@ -107,7 +107,18 @@ export class ApiService {
 
   getSurveyResult(payload: any): Observable<any> {
     const httpOptions = this.getHeaderOptions();
-    return this.httpClient.get(`${this.baseURL}/teachers/${payload.userId}/classes/${payload.classId}/survey`, httpOptions);
+    const role_id = this.userService.getRoleId();
+    switch (role_id) {
+      case '1':
+        return this.httpClient.get(`${this.baseURL}/admins/classes/${payload.classId}/survey`, httpOptions);
+      case '2':
+        return this.httpClient.get(`${this.baseURL}/teachers/${payload.userId}/classes/${payload.classId}/survey`, httpOptions);
+    }
+  }
+
+  getAllTemplates(): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/templates`, httpOptions);
   }
 
   private handleError(error: HttpErrorResponse) {
