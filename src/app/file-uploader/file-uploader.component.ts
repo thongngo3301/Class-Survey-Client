@@ -41,9 +41,9 @@ export class FileUploaderComponent implements OnInit {
     this.uploader.onCompleteItem = (item, res) => {
       let _res = JSON.parse(res);
       if (_res.success) {
-        this.toastr.success(`File ${item._file.name} is uploaded successfully`);
+        this.toastr.success(`File "${item._file.name}" is uploaded successfully`);
       } else {
-        this.toastr.error(`File ${item._file.name} doesn't have correct format`);
+        this.toastr.error(`File "${item._file.name}" doesn't have correct format`);
       }
     }
   }
