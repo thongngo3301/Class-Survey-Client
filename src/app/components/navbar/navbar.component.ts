@@ -3,6 +3,9 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { Router } from '@angular/router';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
 import { UserService } from '../../services/user.service';
+import { ApiService } from '../../services/api.service';
+import { ModalConfirmComponent } from '../../modals/modal-confirm/modal-confirm.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-navbar',
@@ -23,7 +26,10 @@ export class NavbarComponent implements OnInit {
     private element: ElementRef,
     private router: Router,
     private userService: UserService,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private apiService: ApiService,
+    private modalRef: BsModalRef,
+    private modalService: BsModalService
   ) {
     this.location = location;
     this.sidebarVisible = false;
@@ -161,6 +167,31 @@ export class NavbarComponent implements OnInit {
       }
     }
     return titlee;
+  }
+
+  reset() {
+    const modalOptions = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    const initialState = {
+      title: 'Reset all',
+      message: `Are you sure to RESET ALL?`
+    }
+    const config = Object.assign({ initialState }, modalOptions);
+    this.modalRef = this.modalService.show(ModalConfirmComponent, config);
+    this.modalRef.content.onClose.subscribe(ret => {
+      if (ret) {
+        this.apiService.reset().subscribe(res => {
+          if (res && res.success) {
+            window.location.reload();
+          } else {
+            this.toastr.error(res.message);
+          }
+        });
+      }
+    });
   }
 
   logout() {

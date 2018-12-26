@@ -9,8 +9,8 @@ import { map, catchError } from "rxjs/operators";
 
 import { UserService } from './user.service';
 
-// const baseURL = "http://class-survey.herokuapp.com";
-const baseURL = "http://192.168.16.158:5000";
+const baseURL = "http://class-survey.herokuapp.com";
+// const baseURL = "http://192.168.16.158:5000";
 
 @Injectable({
   providedIn: "root"
@@ -189,6 +189,11 @@ export class ApiService {
   activateTemplate(payload): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     return this.httpClient.put(`${this.baseURL}/admins/templates/${payload.templateId}/toUse`, '', httpOptions);
+  }
+
+  reset(): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.put(`${this.baseURL}/admins/reset`, '', httpOptions);
   }
 
   private handleError(error: HttpErrorResponse) {
