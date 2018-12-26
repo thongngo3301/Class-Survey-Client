@@ -1,6 +1,6 @@
-<div class="panel-header panel-header-sm" *ngIf="isReady">
+<div class="panel-header panel-header-sm">
 </div>
-<div class="main-content" *ngIf="isReady">
+<div class="main-content">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -8,12 +8,64 @@
           <div>
             <h4 class="card-title">{{capitalize()}} Template</h4>
           </div>
-          <div class="template-editor-header-right">
-            <button class="btn btn-info" type="submit" form="templateEditorForm">Save</button>
+          <div class="template-editor-header-right" *ngIf="isReady">
+            <button class="btn btn-success" type="submit" (click)="activate()" *ngIf="!activated">Activate</button>
+            <button class="btn btn-success" type="submit" [disabled]="activated" *ngIf="activated">Activated</button>
+            <button class="btn btn-info" type="submit" (click)="onSubmit()" [disabled]="!validateAllInputs()">Save</button>
             <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" *ngIf="isReady">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Enter template name" [(ngModel)]="name"
+                [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </div>
+          <label>Sections</label>
+          <div class="section" *ngFor="let section of sections">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Enter section name" [(ngModel)]="section.title"
+                  [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="question" *ngFor="let question of section.fields">
+              <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter question" [(ngModel)]="question.title"
+                    [ngModelOptions]="{standalone: true}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-11">
+                <div class="form-group">
+                  <button class="form-control btn-info" (click)="addQuestion(sections.indexOf(section))">
+                    <i class="fas fa-plus fa-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <button class="form-control btn-success" (click)="addSection()">
+                  <i class="fas fa-plus fa-lg"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

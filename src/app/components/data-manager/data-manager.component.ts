@@ -85,6 +85,10 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
       if (this.type == 'surveys' && this.userService.getRoleId() != '1') {
         $('ng-table > table').find('th:nth-child(2)').css('width', `${actionButtonGroupWidth + 50}px`);
       }
+      if (this.type == 'templates') {
+        const idx = this.data.findIndex(d => d.isUse) + 2;
+        $('ng-table > table > tbody').find(`tr:nth-child(${idx})`).css('background-color', 'lightgreen');
+      }
     } else {
       $('ng-table > table').find('th').css('cursor', 'pointer');
     }
@@ -108,12 +112,19 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
     const role_id = this.userService.getRoleId();
     switch (role_id) {
       case '1':
-        return  this.type == 'surveys' ?
+        return this.type == 'surveys' ?
         `
           <div class="action-button-group" style="text-align: center">
             ${editBtn}
             ${resultBtn}
             ${removeBtn}
+          </div>
+        `
+          :
+        (this.type == 'templates' ?
+        `
+          <div class="action-button-group" style="text-align: center">
+            ${editBtn}
           </div>
         `
           :
@@ -123,6 +134,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit {
             ${removeBtn}
           </div>
         `
+        )
       case '2':
         return `
           <div class="action-button-group" style="text-align: center">

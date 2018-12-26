@@ -171,6 +171,26 @@ export class ApiService {
     return this.httpClient.get(`${this.baseURL}/admins/templates`, httpOptions);
   }
 
+  getTemplateData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.get(`${this.baseURL}/admins/templates/${payload.templateId}`, httpOptions);
+  }
+
+  addTemplateData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.post(`${this.baseURL}/admins/templates`, payload, httpOptions);
+  }
+
+  editTemplateData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.put(`${this.baseURL}/admins/templates/${payload.templateId}`, payload, httpOptions);
+  }
+
+  activateTemplate(payload): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.put(`${this.baseURL}/admins/templates/${payload.templateId}/toUse`, '', httpOptions);
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error("An error occurred:", error.error.message);

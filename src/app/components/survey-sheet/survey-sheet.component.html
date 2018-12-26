@@ -26,7 +26,8 @@
               <span class="content">{{question.title}}</span>
               <span *ngFor="let idx of cols">
               <!-- <span *ngFor="let idx of [1, 2, 3, 4, 5]"> -->
-                <input *ngIf="action == 'answer'" type="radio" name="{{getAllFirstLetters(section.title + ' ' + question.title)}}"
+                <input *ngIf="action == 'answer'" type="radio"
+                  name="{{getAllFirstLetters(section.title + ' ' + question.title) + sections.indexOf(section) + 1}}"
                   [(ngModel)]="question.value" [value]="idx">
                 <span *ngIf="action == 'result'">
                   {{ getValueFromIdx(question.value, idx) }}

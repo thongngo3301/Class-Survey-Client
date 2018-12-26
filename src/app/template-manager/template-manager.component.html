@@ -12,13 +12,16 @@
             <button class="btn btn-info new-template-btn" [routerLink]="['/template-manager', 'new']">New template</button>
           </div>
         </div>
-        <div class="card-body" *ngIf="isReady">
+        <div class="card-body" *ngIf="isReady && data.length">
           <app-data-manager #templateManager
             [columns]="columns" [data]="data" [type]="'templates'"
             (childEventEdit)="editTemplate($event)"
             (childEventView)="viewTemplate($event)"
             (childEventRemove)="removeTemplate($event)">
           </app-data-manager>
+          <div *ngIf="isReady && !data.length">
+            <i style="text-align: center;">No lecturer found</i>
+          </div>
         </div>
       </div>
     </div>

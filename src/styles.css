@@ -20,3 +20,7 @@
     width: 260px;
     text-transform: none;
 }
+
+button {
+    cursor: pointer;
+}
