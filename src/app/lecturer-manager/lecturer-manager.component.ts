@@ -57,14 +57,12 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
         return [
           { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
           { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
-          { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
           { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } }
         ]
       case '2':
         return [
           { title: 'ID', name: 'id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
           { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by Name' } },
-          { title: 'Username', name: 'username', filtering: { filterString: '', placeholder: 'Filter by Username' } },
           { title: 'Email', name: 'email', filtering: { filterString: '', placeholder: 'Filter by Email' } },
           { title: 'Class ID', name: 'class_id', filtering: { filterString: '', placeholder: 'Filter by CID' } },
           { title: 'Class Name', name: 'class_name', filtering: { filterString: '', placeholder: 'Filter by CN' } }
@@ -80,7 +78,6 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
           let _row = {
             id: d._id,
             name: d.name,
-            username: d._id || '',
             email: d.email || ''
           }
           ret.push(_row);
@@ -93,7 +90,6 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
               let _row = {
                 id: d._id,
                 name: d.name,
-                username: d._id || '',
                 email: d.email || '',
                 class_id: c.id || '',
                 class_name: c.name || ''
@@ -104,7 +100,6 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
             let _row = {
               id: d._id,
               name: d.name,
-              username: d._id || '',
               email: d.email || '',
               class_id: '',
               class_name: ''
@@ -141,14 +136,24 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
   private removeLecturerInfo(data) {
     const initialState = {
       title: 'Remove lecturer',
-      message: 'Are you sure to remove this lecturer?'
+      message: `Are you sure to remove lecturer "${data.row.name} (${data.row.id})"?`
     }
     const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       if (ret) {
-        this.data.splice(data.row.index, 1);
-        this.rerenderLecturerManager()
+        const payload = {
+          lecturerId: data.row.id
+        }
+        this.apiService.removeLecturerData(payload).subscribe(res => {
+          if (res && res.success) {
+            this.toastr.success(`Lecturer "${data.row.name} (${data.row.id})" has been removed`);
+            this.data.splice(data.row.index, 1);
+            this.rerenderLecturerManager();
+          } else {
+            this.toastr.error(res.message);
+          }
+        });
       }
     });
   }

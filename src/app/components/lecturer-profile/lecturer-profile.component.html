@@ -2,80 +2,73 @@
 </div>
 <div class="main-content">
     <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-        <div class="card-header lecturer-profile-component-header">
-            <div>
-            <h4 class="card-title">{{title}}</h4>
-            </div>
-            <div class="lecturer-profile-component-header-right">
-            <button class="btn btn-info" type="submit" form="lecturerProfileForm">Save</button>
-            <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header lecturer-profile-component-header">
+                    <div>
+                        <h4 class="card-title">{{title}}</h4>
+                    </div>
+                    <div class="lecturer-profile-component-header-right">
+                        <button class="btn btn-info" type="submit" form="lecturerProfileForm">Save</button>
+                        <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="isReady">
+                    <form id="lecturerProfileForm" role="form" [formGroup]="lecturerProfileForm" (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter full name" [(ngModel)]="fullName"
+                                        formControlName="fullName" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.fullName.errors }">
+                                    <div *ngIf="isSubmitted && formCtrl.fullName.errors" class="invalid-feedback">
+                                        <div *ngIf="formCtrl.fullName.errors.required">Full name is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Lecturer ID</label>
+                                    <input type="text" class="form-control" placeholder="Enter lecturer ID" [(ngModel)]="lecturerId"
+                                        formControlName="lecturerId" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.lecturerId.errors }">
+                                    <div *ngIf="isSubmitted && formCtrl.lecturerId.errors" class="invalid-feedback">
+                                        <div *ngIf="formCtrl.lecturerId.errors.required">Lecturer ID is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input class="form-control" [(ngModel)]="dob" #dpMDY="bsDatepicker" bsDatepicker
+                                        formControlName="dob" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" placeholder="Enter email" [(ngModel)]="email"
+                                        formControlName="email" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.email.errors }">
+                                    <div *ngIf="isSubmitted && formCtrl.email.errors" class="invalid-feedback">
+                                        <div *ngIf="formCtrl.email.errors.required">Email is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1" *ngIf="action == 'edit'">
+                                <div class="form-group">
+                                  <label>Subject Classes</label>
+                                  <ngx-select-dropdown [multiple]="true" [(value)]="selectedSubjectClasses"
+                                    [config]="config" [options]="subjectClassOptions" (change)="onChange($event)">
+                                  </ngx-select-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="card-body" *ngIf="isReady">
-            <form id="lecturerProfileForm" role="form" [formGroup]="lecturerProfileForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-                <div class="col-md-12">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" class="form-control" placeholder="Enter full name" [(ngModel)]="fullName"
-                    formControlName="fullName" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.fullName.errors }">
-                    <div *ngIf="isSubmitted && formCtrl.fullName.errors" class="invalid-feedback">
-                    <div *ngIf="formCtrl.fullName.errors.required">Full name is required</div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 pr-1">
-                <div class="form-group">
-                    <label>Lecturer ID</label>
-                    <input type="text" class="form-control" placeholder="Enter lecturer ID" [(ngModel)]="lecturerId"
-                    formControlName="lecturerId" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.lecturerId.errors }">
-                    <div *ngIf="isSubmitted && formCtrl.lecturerId.errors" class="invalid-feedback">
-                    <div *ngIf="formCtrl.lecturerId.errors.required">Lecturer ID is required</div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-6 pl-1">
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input
-                    class="form-control"
-                    [(ngModel)]="dob"
-                    #dpMDY="bsDatepicker"
-                    bsDatepicker
-                    formControlName="dob"
-                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
-                </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 pr-1">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" class="form-control" placeholder="Enter username" [(ngModel)]="username"
-                    formControlName="username" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.username.errors }">
-                    <div *ngIf="isSubmitted && formCtrl.username.errors" class="invalid-feedback">
-                    <div *ngIf="formCtrl.username.errors.required">Username is required</div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-6 pl-1">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" class="form-control" placeholder="Enter email" [(ngModel)]="email"
-                    formControlName="email" [ngClass]="{ 'is-invalid': isSubmitted && formCtrl.email.errors }">
-                    <div *ngIf="isSubmitted && formCtrl.email.errors" class="invalid-feedback">
-                    <div *ngIf="formCtrl.email.errors.required">Email is required</div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
     </div>
 </div>

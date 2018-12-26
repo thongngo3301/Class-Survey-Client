@@ -121,6 +121,7 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
             if (res && res.success) {
               this.toastr.success(`Student "${this.fullName}" is no longer in class "${diffClass[0]}"`);
             } else {
+              this.selectedSubjectClasses = this.reservedArr.slice();
               this.toastr.error(res.message);
             }
           });
@@ -148,6 +149,7 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
             if (res && res.success) {
               this.toastr.success(`Student "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
             } else {
+              this.selectedSubjectClasses = this.reservedArr.slice();
               this.toastr.error(res.message);
             }
           });

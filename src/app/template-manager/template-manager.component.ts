@@ -29,6 +29,8 @@ export class TemplateManagerComponent implements OnInit, AfterViewInit {
     private toastr: ToastrNotificationService
   ) { }
 
+  private isReady: boolean = false;
+
   public columns: Array<any> = [
     { title: 'Name', name: 'name', filtering: { filterString: '', placeholder: 'Filter by name' } },
     { title: 'Created At', name: 'createdAt', filtering: { filterString: '', placeholder: 'Filter by created date' } },
@@ -62,6 +64,13 @@ export class TemplateManagerComponent implements OnInit, AfterViewInit {
   { "name": "Hatity", "createdAt": "4/7/2018", "modifiedAt": "8/16/2018" }]
 
   ngOnInit() {
+    this.apiService.getAllTemplates().subscribe((result) => {
+      if (result && result.success) {
+      this.isReady = true;
+      } else {
+        this.toastr.error(result.message);
+      }
+    });
   }
 
   ngAfterViewInit() {

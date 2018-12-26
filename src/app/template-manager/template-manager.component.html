@@ -8,11 +8,11 @@
           <div>
             <h4 class="card-title">Template Manager</h4>
           </div>
-          <div class="template-manager-header-right">
+          <div class="template-manager-header-right" *ngIf="isReady">
             <button class="btn btn-info new-template-btn" [routerLink]="['/template-manager', 'new']">New template</button>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" *ngIf="isReady">
           <app-data-manager #templateManager
             [columns]="columns" [data]="data" [type]="'templates'"
             (childEventEdit)="editTemplate($event)"

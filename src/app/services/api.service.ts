@@ -115,6 +115,31 @@ export class ApiService {
     return this.httpClient.get(`${this.baseURL}/admins/teachers/${payload}`, httpOptions);
   }
 
+  addLecturerData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.post(`${this.baseURL}/admins/teachers`, payload, httpOptions);
+  }
+
+  editLecturerData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.put(`${this.baseURL}/admins/teachers/${payload.teacherId}`, payload, httpOptions);
+  }
+
+  removeLecturerData(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.delete(`${this.baseURL}/admins/teachers/${payload.lecturerId}`, httpOptions);
+  }
+
+  removeLecturerClass(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.delete(`${this.baseURL}/teachers/${payload.lecturerId}/classes/${payload.classId}`, httpOptions);
+  }
+
+  addLecturerClass(payload: any): Observable<any> {
+    const httpOptions = this.getHeaderOptions();
+    return this.httpClient.post(`${this.baseURL}/teachers/${payload.lecturerId}/classes`, { classId: payload.classId }, httpOptions);
+  }
+
   getSurveyOfStudent(payload: any): Observable<any> {
     const httpOptions = this.getHeaderOptions();
     return this.httpClient.get(`${this.baseURL}/students/${payload.studentId}/classes/${payload.surveyId}/survey`, httpOptions);

@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
+import { ModalConfirmComponent } from '../../modals/modal-confirm/modal-confirm.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-lecturer-profile',
@@ -17,7 +19,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRouter: ActivatedRoute,
     private toastr: ToastrNotificationService,
-    private location: Location
+    private location: Location,
+    private modalRef: BsModalRef,
+    private modalService: BsModalService
   ) { }
 
   private action: string;
@@ -29,8 +33,11 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
   private fullName: string;
   private lecturerId: string;
   private dob: Date;
-  private username: string;
   private email: string;
+
+  private selectedSubjectClasses: any;
+  private subjectClassOptions: Array<any>;
+  private reservedArr: Array<any>;
 
   private lecturerProfileForm: FormGroup;
   private config: object = {
@@ -53,9 +60,23 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
           this.fullName = _data.name;
           this.lecturerId = _data._id;
           this.dob = _data.date_of_birth || '';
-          this.username = _data._id;
           this.email = _data.email;
-          this.isReady = true;
+          this.selectedSubjectClasses = _data.class.map(c => c.name + ' ' + c.id);
+          this.reservedArr = this.selectedSubjectClasses.slice();
+          this.subjectClassOptions = this.selectedSubjectClasses.slice();
+          this.apiService.getAllSurveyData().subscribe(res => {
+            if (res && res.success) {
+              res.data.forEach(d => {
+                const _name = d.name + ' ' + d._id;
+                if (!this.subjectClassOptions.includes(_name)) {
+                  this.subjectClassOptions.push(_name);
+                }
+              });
+              this.isReady = true;
+            } else {
+              this.toastr.error(res.message);
+            }
+          });
         } else {
           this.toastr.error(result.message);
         }
@@ -70,17 +91,88 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
     $('ngx-select-dropdown button.ngx-dropdown-button').css('border-radius', '30px');
   }
 
+  stringifyDate(date: Date) {
+    const dd = (date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate());
+    const mm = (date.getMonth().toString().length > 1 || date.getMonth().toString() == '9') ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
+    const yyyy = date.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
   buildForm() {
     this.lecturerProfileForm = this.formBuilder.group({
       fullName: ['', Validators.required],
       lecturerId: ['', Validators.required],
-      username: ['', Validators.required],
       email: ['', Validators.required],
       dob: []
     });
   }
 
   get formCtrl() { return this.lecturerProfileForm.controls; }
+
+  onChange(evt) {
+    // remove case
+    let currArr = evt.value;
+    const modalOptions = {
+      class: 'gray modal-lg',
+      ignoreBackdropClick: true,
+      keyboard: false
+    }
+    if (currArr.length < this.reservedArr.length) {
+      const diffClass = this.reservedArr.filter(c => !currArr.includes(c));
+      const initialState = {
+        title: 'Remove class',
+        message: `Are you sure to remove lecturer "${this.fullName}" from class "${diffClass[0]}"?`
+      }
+      const config = Object.assign({ initialState }, modalOptions);
+      this.modalRef = this.modalService.show(ModalConfirmComponent, config);
+      this.modalRef.content.onClose.subscribe(ret => {
+        if (ret) {
+          const payload = {
+            lecturerId: this.lecturerId,
+            classId: diffClass[0].split(' ').slice(-2).join(' ')
+          }
+          this.apiService.removeLecturerClass(payload).subscribe(res => {
+            if (res && res.success) {
+              this.toastr.success(`Lecturer "${this.fullName}" is no longer teaching class "${diffClass[0]}"`);
+            } else {
+              this.selectedSubjectClasses = this.reservedArr.slice();
+              this.toastr.error(res.message);
+            }
+          });
+        } else {
+          this.selectedSubjectClasses = this.reservedArr.slice();
+        }
+      });
+    }
+    // add case
+    else {
+      const diffClass = currArr.filter(c => !this.reservedArr.includes(c));
+      const initialState = {
+        title: 'Add class',
+        message: `Are you sure to add lecturer "${this.fullName}" to class "${diffClass[0]}"?`
+      }
+      const config = Object.assign({ initialState }, modalOptions);
+      this.modalRef = this.modalService.show(ModalConfirmComponent, config);
+      this.modalRef.content.onClose.subscribe(ret => {
+        if (ret) {
+          const payload = {
+            lecturerId: this.lecturerId,
+            classId: diffClass[0].split(' ').slice(-2).join(' ')
+          }
+          this.apiService.addLecturerClass(payload).subscribe(res => {
+            if (res && res.success) {
+              this.toastr.success(`Lecturer "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
+            } else {
+              this.selectedSubjectClasses = this.reservedArr.slice();
+              this.toastr.error(res.message);
+            }
+          });
+        } else {
+          this.selectedSubjectClasses = this.reservedArr.slice();
+        }
+      });
+    }
+  }
 
   onSubmit() {
     this.isSubmitted = true;
@@ -90,10 +182,48 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if (!this.selectedSubjectClasses && this.action == 'edit') {
+      this.toastr.error('Please select at least one subject class!');
+      return;
+    }
+
     if (this.lecturerProfileForm.invalid) return;
 
-    // TODO: call apiService to create/edit lecturer then navigate to lecturer manager
-    this.router.navigate(['lecturer-manager']);
+    if (this.action == 'edit') {
+      const payload = {
+        teacherId: this.lecturerId,
+        data: {
+          name: this.fullName,
+          date_of_birth: (typeof this.dob == 'string' ? this.dob : this.stringifyDate(this.dob)) || '',
+          email: this.email
+        }
+      }
+      this.apiService.editLecturerData(payload).subscribe(result => {
+        if (result && result.success) {
+          this.toastr.success('Update lecturer successfully');
+          this.router.navigate(['lecturer-manager']);
+        } else {
+          this.toastr.error(result.message);
+        }
+      });
+    } else {
+      const payload = {
+        data: {
+          id: this.lecturerId,
+          name: this.fullName,
+          date_of_birth: (typeof this.dob == 'string' ? this.dob : this.stringifyDate(this.dob)) || '',
+          email: this.email
+        }
+      }
+      this.apiService.addLecturerData(payload).subscribe(result => {
+        if (result && result.success) {
+          this.toastr.success('Add lecturer successfully');
+          this.router.navigate(['lecturer-manager']);
+        } else {
+          this.toastr.error(result.message);
+        }
+      });
+    }
   }
 
   onBackButtonClicked() {
