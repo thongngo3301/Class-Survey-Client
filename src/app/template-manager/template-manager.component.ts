@@ -7,6 +7,7 @@ import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-
 
 import { ApiService } from './../services/api.service';
 import { ToastrNotificationService } from './../services/toastr-notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const modalOptions = {
   class: 'gray modal-lg',
@@ -26,7 +27,8 @@ export class TemplateManagerComponent implements OnInit, AfterViewInit {
     private modalService: BsModalService,
     private router: Router,
     private apiService: ApiService,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   private isReady: boolean = false;
@@ -41,7 +43,9 @@ export class TemplateManagerComponent implements OnInit, AfterViewInit {
   public data: Array<any> = [];
 
   ngOnInit() {
+    this.spinner.show();
     this.apiService.getAllTemplates().subscribe((result) => {
+      this.spinner.hide();
       if (result && result.success) {
         this.data = result.data;
         this.isReady = true;

@@ -8,6 +8,7 @@ import { ModalStudentInfoEditorComponent } from './../modals/modal-student-info-
 import { ApiService } from './../services/api.service';
 import { UserService } from './../services/user.service';
 import { ToastrNotificationService } from './../services/toastr-notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const modalOptions = {
   class: 'gray modal-lg',
@@ -27,7 +28,8 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
     private router: Router,
     private apiService: ApiService,
     private userService: UserService,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   public columns: Array<any> = [];
@@ -35,7 +37,9 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   private isReady: boolean = false;
 
   ngOnInit() {
+    this.spinner.show();
     this.apiService.getAllSurveyData().subscribe((result) => {
+      this.spinner.hide();
       if (result && result.success) {
         this.columns = this.determineCols();
         this.data = this.reconstructData(result.data);
@@ -155,7 +159,9 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
         const payload = {
           classId: data.row.name.split(' ').slice(-2).join(' ')
         }
+        this.spinner.show();
         this.apiService.removeSurveyData(payload).subscribe(res => {
+          this.spinner.hide();
           if (res && res.success) {
             this.toastr.success(`Survey/Class "${data.row.name}" has been removed`);
             this.data.splice(data.row.index, 1);

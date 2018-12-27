@@ -9,6 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ModalsModule } from './modals/modals.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppComponent } from './app.component';
 
@@ -35,6 +36,7 @@ import { ToastrNotificationService } from './services/toastr-notification.servic
     HttpClientModule,
     ComponentsModule,
     ModalsModule,
+    NgxSpinnerModule,
     RouterModule,
     AppRoutingModule,
     NgbModule.forRoot(),

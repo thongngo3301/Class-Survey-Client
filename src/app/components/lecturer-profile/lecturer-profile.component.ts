@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
 import { ModalConfirmComponent } from '../../modals/modal-confirm/modal-confirm.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-lecturer-profile',
@@ -21,7 +22,8 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
     private toastr: ToastrNotificationService,
     private location: Location,
     private modalRef: BsModalRef,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private spinner: NgxSpinnerService
   ) { }
 
   private action: string;
@@ -54,7 +56,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
     if (this.action == 'edit') {
       this.id = this.activatedRouter.snapshot.paramMap.get('id');
       this.title = 'Edit Lecturer';
+      this.spinner.show();
       this.apiService.getLecturerData(this.id).subscribe((result) => {
+        this.spinner.hide();
         if (result && result.success) {
           const _data = result.data;
           this.fullName = _data.name;
@@ -64,7 +68,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
           this.selectedSubjectClasses = _data.class.map(c => c.name + ' ' + c.id);
           this.reservedArr = this.selectedSubjectClasses.slice();
           this.subjectClassOptions = this.selectedSubjectClasses.slice();
+          this.spinner.show();
           this.apiService.getAllSurveyData().subscribe(res => {
+            this.spinner.hide();
             if (res && res.success) {
               res.data.forEach(d => {
                 const _name = d.name + ' ' + d._id;
@@ -131,7 +137,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
             lecturerId: this.lecturerId,
             classId: diffClass[0].split(' ').slice(-2).join(' ')
           }
+          this.spinner.show();
           this.apiService.removeLecturerClass(payload).subscribe(res => {
+            this.spinner.hide();
             if (res && res.success) {
               this.toastr.success(`Lecturer "${this.fullName}" is no longer teaching class "${diffClass[0]}"`);
               this.reservedArr = this.selectedSubjectClasses.slice();
@@ -160,7 +168,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
             lecturerId: this.lecturerId,
             classId: diffClass[0].split(' ').slice(-2).join(' ')
           }
+          this.spinner.show();
           this.apiService.addLecturerClass(payload).subscribe(res => {
+            this.spinner.hide();
             if (res && res.success) {
               this.toastr.success(`Lecturer "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
               this.reservedArr = this.selectedSubjectClasses.slice();
@@ -200,7 +210,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
           email: this.email
         }
       }
+      this.spinner.show();
       this.apiService.editLecturerData(payload).subscribe(result => {
+        this.spinner.hide();
         if (result && result.success) {
           this.toastr.success('Update lecturer successfully');
           this.router.navigate(['lecturer-manager']);
@@ -217,7 +229,9 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
           email: this.email
         }
       }
+      this.spinner.show();
       this.apiService.addLecturerData(payload).subscribe(result => {
+        this.spinner.hide();
         if (result && result.success) {
           this.toastr.success('Add lecturer successfully');
           this.router.navigate(['lecturer-manager']);

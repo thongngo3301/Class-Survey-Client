@@ -9,7 +9,7 @@
             <h4 class="card-title">{{capitalize()}} Template</h4>
           </div>
           <div class="template-editor-header-right" *ngIf="isReady">
-            <button class="btn btn-success" type="submit" (click)="activate()" *ngIf="!activated">Activate</button>
+            <button class="btn btn-success" type="submit" (click)="activate()" *ngIf="!activated && action == 'edit'">Activate</button>
             <button class="btn btn-success" type="submit" [disabled]="activated" *ngIf="activated">Activated</button>
             <button class="btn btn-info" type="submit" (click)="onSubmit()" [disabled]="!validateAllInputs()">Save</button>
             <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>

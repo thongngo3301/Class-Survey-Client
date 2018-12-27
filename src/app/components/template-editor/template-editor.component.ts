@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
 import { UserService } from '../../services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-template-editor',
@@ -18,7 +19,8 @@ export class TemplateEditorComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private toastr: ToastrNotificationService,
-    private userService: UserService
+    private userService: UserService,
+    private spinner: NgxSpinnerService
   ) { }
 
   private action: string;
@@ -38,7 +40,9 @@ export class TemplateEditorComponent implements OnInit {
       const payload = {
         templateId: this.id
       }
+      this.spinner.show();
       this.apiService.getTemplateData(payload).subscribe(res => {
+        this.spinner.hide();
         if (res && res.success) {
           this.activated = res.data.isUse;
           this.name = res.data.name;
@@ -99,7 +103,9 @@ export class TemplateEditorComponent implements OnInit {
     const payload = {
       templateId: this.id
     }
+    this.spinner.show();
     this.apiService.activateTemplate(payload).subscribe(res => {
+      this.spinner.hide();
       if (res && res.success) {
         this.toastr.success('Activated successfully');
         this.activated = true;
@@ -117,7 +123,9 @@ export class TemplateEditorComponent implements OnInit {
         modify_at: this.stringifyDate(new Date()),
         group_fields: this.sections
       }
+      this.spinner.show();
       this.apiService.editTemplateData(payload).subscribe(res => {
+        this.spinner.hide();
         if (res && res.success) {
           this.toastr.success(`Update template "${this.name}" successfully`);
           this.router.navigate(['/template-manager']);
@@ -132,7 +140,9 @@ export class TemplateEditorComponent implements OnInit {
         modify_at: this.stringifyDate(new Date()),
         group_fields: this.sections
       }
+      this.spinner.show();
       this.apiService.addTemplateData(payload).subscribe(res => {
+        this.spinner.hide();
         if (res && res.success) {
           this.toastr.success(`Add new template successfully"`);
           this.router.navigate(['/template-manager']);

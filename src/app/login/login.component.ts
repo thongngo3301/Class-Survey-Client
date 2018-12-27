@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { NgxSpinnerService } from 'ngx-spinner';
+
 import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
@@ -22,7 +24,8 @@ export class LoginComponent implements OnInit {
     private apiService: ApiService,
     private userService: UserService,
     private router: Router,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -52,7 +55,9 @@ export class LoginComponent implements OnInit {
       username: this.username,
       password: this.password
     }
+    this.spinner.show();
     this.apiService.login(payload).subscribe((result) => {
+      this.spinner.hide();
       if (result && result.success) {
         this.userService.setUserId(payload.username);
         this.userService.login(result.data, () => {

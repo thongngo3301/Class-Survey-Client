@@ -7,6 +7,7 @@ import { ModalLecturerInfoEditorComponent } from './../modals/modal-lecturer-inf
 import { ApiService } from './../services/api.service';
 import { UserService } from './../services/user.service';
 import { ToastrNotificationService } from './../services/toastr-notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const modalOptions = {
   class: 'gray modal-lg',
@@ -26,7 +27,8 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
     private apiService: ApiService,
     private userService: UserService,
     private toastr: ToastrNotificationService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   private columns: Array<any>;
@@ -37,7 +39,9 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const role_id = this.userService.getRoleId();
     this.columns = this.getDataColumns(role_id);
+    this.spinner.show();
     this.apiService.getAllLecturerData().subscribe((result) => {
+      this.spinner.hide();
       if (result && result.success) {
         this.data = this.reconstructData(result.data, role_id);
         this.isReady = true;
@@ -145,7 +149,9 @@ export class LecturerManagerComponent implements OnInit, AfterViewInit {
         const payload = {
           lecturerId: data.row.id
         }
+        this.spinner.show()
         this.apiService.removeLecturerData(payload).subscribe(res => {
+          this.spinner.hide();
           if (res && res.success) {
             this.toastr.success(`Lecturer "${data.row.name} (${data.row.id})" has been removed`);
             this.data.splice(data.row.index, 1);

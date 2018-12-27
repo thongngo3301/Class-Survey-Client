@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-survey',
@@ -19,7 +20,8 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     private activatedRouter: ActivatedRoute,
     private toastr: ToastrNotificationService,
     private location: Location,
-    private userService: UserService
+    private userService: UserService,
+    private spinner: NgxSpinnerService
   ) { }
 
   private action: string;
@@ -58,7 +60,9 @@ export class SurveyComponent implements OnInit, AfterViewInit {
         const _payload = {
           classId: this.id.split(' ').slice(-2).join(' ')
         }
+        this.spinner.show();
         this.apiService.getSurveyData(_payload).subscribe(res => {
+          this.spinner.hide();
           if (res && res.success) {
             this.subjectName = res.data.name;
             this.subjectId = res.data._id || res.data.survey_id;
@@ -75,7 +79,9 @@ export class SurveyComponent implements OnInit, AfterViewInit {
           userId: this.userService.getUserId(),
           classId: this.getClassId(this.id)
         }
+        this.spinner.show();
         this.apiService.getStudentsInClass(payload).subscribe((result) => {
+          this.spinner.hide();
           if (result && result.success) {
             this.columns = [
               { title: 'ID', name: '_id', filtering: { filterString: '', placeholder: 'Filter by ID' } },
@@ -134,7 +140,9 @@ export class SurveyComponent implements OnInit, AfterViewInit {
         name: this.subjectName
       }
     }
+    this.spinner.show();
     this.apiService.editSurveyData(payload).subscribe(res => {
+      this.spinner.hide();
       if (res && res.success) {
         this.toastr.success('Updated survey successfully');
         this.router.navigate(['/survey-manager']);

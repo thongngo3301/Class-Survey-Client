@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-survey-sheet',
@@ -18,7 +19,8 @@ export class SurveySheetComponent implements OnInit {
     private activatedRouter: ActivatedRoute,
     private apiService: ApiService,
     private userService: UserService,
-    private toastr: ToastrNotificationService
+    private toastr: ToastrNotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   private title: string;
@@ -41,7 +43,9 @@ export class SurveySheetComponent implements OnInit {
         studentId: this.userService.getUserId(),
         surveyId: this.id
       }
+      this.spinner.show();
       this.apiService.getSurveyOfStudent(payload).subscribe((result) => {
+        this.spinner.hide();
         if (result && result.success) {
           const _data = result.data.survey;
           this.isSubmitted = this.wasSubmittedBefore(_data.create_at, _data.modify_at);
@@ -66,7 +70,9 @@ export class SurveySheetComponent implements OnInit {
         userId: this.userService.getUserId(),
         classId: this.id
       }
+      this.spinner.show();
       this.apiService.getSurveyResult(payload).subscribe((result) => {
+        this.spinner.hide();
         if (result && result.success) {
           const _data = result.data;
           this.sections = _data.group_fields;
@@ -108,7 +114,9 @@ export class SurveySheetComponent implements OnInit {
         survey: this.sections
       }
     }
+    this.spinner.show();
     this.apiService.submitSurvey(payload).subscribe((result) => {
+      this.spinner.hide();
       if (result && result.success) {
         this.toastr.success('Submit survey successfully');
         this.router.navigate(['/survey-manager']);

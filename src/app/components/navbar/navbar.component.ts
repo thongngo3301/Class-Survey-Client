@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 import { ModalConfirmComponent } from '../../modals/modal-confirm/modal-confirm.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-navbar',
@@ -29,7 +30,8 @@ export class NavbarComponent implements OnInit {
     private toastr: ToastrNotificationService,
     private apiService: ApiService,
     private modalRef: BsModalRef,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private spinner: NgxSpinnerService
   ) {
     this.location = location;
     this.sidebarVisible = false;
@@ -183,7 +185,9 @@ export class NavbarComponent implements OnInit {
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       if (ret) {
+        this.spinner.show();
         this.apiService.reset().subscribe(res => {
+          this.spinner.hide();
           if (res && res.success) {
             window.location.reload();
           } else {

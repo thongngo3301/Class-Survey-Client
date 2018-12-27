@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrNotificationService } from '../../services/toastr-notification.service';
 import { ModalConfirmComponent } from '../../modals/modal-confirm/modal-confirm.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
 import * as async from 'async';
 
 @Component({
@@ -22,7 +23,8 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     private toastr: ToastrNotificationService,
     private location: Location,
     private modalRef: BsModalRef,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private spinner: NgxSpinnerService
   ) { }
 
   private action: string;
@@ -55,7 +57,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     if (this.action == 'edit') {
       this.id = this.activatedRouter.snapshot.paramMap.get('id');
       this.title = 'Edit Student';
+      this.spinner.show();
       this.apiService.getStudentData(this.id).subscribe((result) => {
+        this.spinner.hide();
         if (result && result.success) {
           const _data = result.data;
           this.fullName = _data.name;
@@ -65,7 +69,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
           this.selectedSubjectClasses = _data.class.map(c => c.name + ' ' + c.id);
           this.reservedArr = this.selectedSubjectClasses.slice();
           this.subjectClassOptions = this.selectedSubjectClasses.slice();
+          this.spinner.show();
           this.apiService.getAllSurveyData().subscribe(res => {
+            this.spinner.hide();
             if (res && res.success) {
               res.data.forEach(d => {
                 const _name = d.name + ' ' + d._id;
@@ -117,7 +123,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
             studentId: this.studentId,
             classId: diffClass[0].split(' ').slice(-2).join(' ')
           }
+          this.spinner.show();
           this.apiService.removeStudentClass(payload).subscribe(res => {
+            this.spinner.hide();
             if (res && res.success) {
               this.toastr.success(`Student "${this.fullName}" is no longer in class "${diffClass[0]}"`);
               this.reservedArr = this.selectedSubjectClasses.slice();
@@ -146,7 +154,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
             studentId: this.studentId,
             classId: diffClass[0].split(' ').slice(-2).join(' ')
           }
+          this.spinner.show();
           this.apiService.addStudentClass(payload).subscribe(res => {
+            this.spinner.hide();
             if (res && res.success) {
               this.toastr.success(`Student "${this.fullName}" is successfully added to class "${diffClass[0]}"`);
               this.reservedArr = this.selectedSubjectClasses.slice();
@@ -201,7 +211,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
           email: ''
         }
       }
+      this.spinner.show();
       this.apiService.editStudentData(payload).subscribe(result => {
+        this.spinner.hide();
         if (result && result.success) {
           this.toastr.success('Update student successfully');
           this.router.navigate(['student-manager']);
@@ -219,7 +231,9 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
           email: ''
         }
       }
+      this.spinner.show();
       this.apiService.addStudentData(payload).subscribe(result => {
+        this.spinner.hide();
         if (result && result.success) {
           this.toastr.success('Add student successfully');
           this.router.navigate(['student-manager']);

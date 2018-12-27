@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 
+import { NgxSpinnerService } from 'ngx-spinner';
+
 import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
@@ -25,7 +27,8 @@ export class ChangePasswordComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private toastr: ToastrNotificationService,
-    private location: Location
+    private location: Location,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -63,7 +66,9 @@ export class ChangePasswordComponent implements OnInit {
       oldPassword: this.oldPassword,
       newPassword: this.newPassword
     }
+    this.spinner.show();
     this.apiService.changePassword(payload).subscribe((result) => {
+      this.spinner.hide();
       if (result && result.success) {
         this.toastr.success('Change password successfully!');
         this.router.navigate(['']);
