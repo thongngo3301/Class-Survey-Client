@@ -146,14 +146,24 @@ export class SurveyManagerComponent implements OnInit, AfterViewInit {
   private removeSurveyInfo(data) {
     const initialState = {
       title: 'Remove survey',
-      message: 'Are you sure to remove this survey?'
+      message: `Are you sure to remove survey/class "${data.row.name + ' ' + data.row.id}"?`
     }
     const config = Object.assign({ initialState }, modalOptions);
     this.modalRef = this.modalService.show(ModalConfirmComponent, config);
     this.modalRef.content.onClose.subscribe(ret => {
       if (ret) {
-        this.data.splice(data.row.index, 1);
-        this.rerenderSurveyManager();
+        const payload = {
+          classId: data.row.id
+        }
+        this.apiService.removeSurveyData(payload).subscribe(res => {
+          if (res && res.success) {
+            this.toastr.success(`Survey/Class "${data.row.name} ${data.row.id}" has been removed`);
+            this.data.splice(data.row.index, 1);
+            this.rerenderSurveyManager();
+          } else {
+            this.toastr.error(res.message);
+          }
+        });
       }
     });
   }

@@ -54,20 +54,20 @@ export class SurveyComponent implements OnInit, AfterViewInit {
     this.buildForm();
     switch (this.action) {
       case 'edit':
-
-        // TODO: call api to get survey data
         this.title = 'Edit Survey';
-        this.semesterOptions = ['HK1-2018', 'HK2-2018'];
-        this.templateOptions = ['Template1', 'Template2'];
-        this.deadline = new Date("Tue Dec 25 2018 22:21:53 GMT+0700 (Indochina Time)");
-        this.isReady = true;
-        // this.apiService.getSurveyData(this.id).subscribe((result) => {
-        //   if (result && result.success) {
-        //     const _data = result.data;
-        //   } else {
-        //     this.toastr.error(result.message);
-        //   }
-        // });
+        const _payload = {
+          classId: this.id.split(' ').slice(-2).join(' ')
+        }
+        this.apiService.getSurveyData(_payload).subscribe(res => {
+          if (res && res.success) {
+            this.subjectName = res.data.name;
+            this.subjectId = res.data._id || res.data.survey_id;
+            this.deadline = new Date(parseInt(res.data.deadline));
+            this.isReady = true;
+          } else {
+            this.toastr.error(res.message);
+          }
+        })
         break;
       case 'view':
         this.title = this.id + ' - Class List';
@@ -111,7 +111,6 @@ export class SurveyComponent implements OnInit, AfterViewInit {
   buildForm() {
     this.surveyForm = this.formBuilder.group({
       subjectName: ['', Validators.required],
-      subjectId: ['', Validators.required],
       deadline: []
     });
   }
@@ -125,21 +124,24 @@ export class SurveyComponent implements OnInit, AfterViewInit {
   onSubmit() {
     this.isSubmitted = true;
 
-    console.log(this.subjectName);
-
-    if (!this.selectedSemester) {
-      this.toastr.error('Please select a semester!');
-      return;
-    }
-    if (!this.selectedTemplate) {
-      this.toastr.error('Please select a survey template!');
-      return;
-    }
-
     if (this.surveyForm.invalid) return;
 
-    // TODO: call apiService to create/edit survey then navigate to survey manager
-    this.router.navigate(['/survey-manager']);
+    const payload = {
+      classId: this.subjectId,
+      data: {
+        last_modify: new Date().getTime().toString(),
+        deadline: this.deadline.getTime().toString(),
+        name: this.subjectName
+      }
+    }
+    this.apiService.editSurveyData(payload).subscribe(res => {
+      if (res && res.success) {
+        this.toastr.success('Updated survey successfully');
+        this.router.navigate(['/survey-manager']);
+      } else {
+        this.toastr.error(res.message);
+      }
+    });
   }
 
   onBackButtonClicked() {

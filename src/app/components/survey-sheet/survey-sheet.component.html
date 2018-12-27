@@ -10,10 +10,11 @@
           </div>
           <div class="survey-sheet-header-right">
             <button class="btn btn-info" *ngIf="action == 'answer'" (click)="submitSurvey()" [disabled]="!validateAllInputs()">Submit</button>
+            <!-- <button class="btn btn-info" *ngIf="action == 'result' && userService.getRoleId() == '2'" (click)="print()">Print</button> -->
             <button class="btn btn-primary" (click)="onBackButtonClicked()">Back</button>
           </div>
         </div>
-        <div class="card-body" *ngIf="isReady">
+        <div class="card-body to-print" *ngIf="isReady">
           <div class="section" *ngFor="let section of sections">
             <span><strong>{{sections.indexOf(section) + 1}}.<span style="color: red" *ngIf="action == 'answer'">*</span> {{section.title}}</strong></span>
             <div class="question">

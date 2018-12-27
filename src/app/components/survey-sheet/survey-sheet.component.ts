@@ -128,6 +128,10 @@ export class SurveySheetComponent implements OnInit {
     return true;
   }
 
+  print() {
+    window.print();
+  }
+
   onBackButtonClicked() {
     this.location.back();
   }
