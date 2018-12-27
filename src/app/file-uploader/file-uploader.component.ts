@@ -4,9 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ToastrNotificationService } from '../services/toastr-notification.service';
 
-const SURVEYS_URL = 'http://class-survey.herokuapp.com/admins/classes/file';
-const STUDENTS_URL = 'http://class-survey.herokuapp.com/admins/students/file';
-const LECTURERS_URL = 'http://class-survey.herokuapp.com/admins/teachers/file';
+const SURVEYS_URL = 'https://class-survey.herokuapp.com/admins/classes/file';
+const STUDENTS_URL = 'https://class-survey.herokuapp.com/admins/students/file';
+const LECTURERS_URL = 'https://class-survey.herokuapp.com/admins/teachers/file';
+
+// const SURVEYS_URL = 'http://class-survey.herokuapp.com/admins/classes/file';
+// const STUDENTS_URL = 'http://class-survey.herokuapp.com/admins/students/file';
+// const LECTURERS_URL = 'http://class-survey.herokuapp.com/admins/teachers/file';
 
 // const SURVEYS_URL = 'http://192.168.16.158:5000/admins/classes/file';
 // const STUDENTS_URL = 'http://192.168.16.158:5000/admins/students/file';
