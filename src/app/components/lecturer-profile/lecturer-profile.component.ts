@@ -53,10 +53,10 @@ export class LecturerProfileComponent implements OnInit, AfterViewInit {
     this.buildForm();
     if (this.action == 'edit') {
       this.id = this.activatedRouter.snapshot.paramMap.get('id');
+      this.title = 'Edit Lecturer';
       this.apiService.getLecturerData(this.id).subscribe((result) => {
         if (result && result.success) {
           const _data = result.data;
-          this.title = 'Edit Lecturer';
           this.fullName = _data.name;
           this.lecturerId = _data._id;
           this.dob = _data.date_of_birth || '';

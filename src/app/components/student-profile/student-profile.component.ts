@@ -54,10 +54,10 @@ export class StudentProfileComponent implements OnInit, AfterViewInit {
     this.buildForm();
     if (this.action == 'edit') {
       this.id = this.activatedRouter.snapshot.paramMap.get('id');
+      this.title = 'Edit Student';
       this.apiService.getStudentData(this.id).subscribe((result) => {
         if (result && result.success) {
           const _data = result.data;
-          this.title = 'Edit Student';
           this.fullName = _data.name;
           this.studentId = _data._id;
           this.dob = _data.date_of_birth;
