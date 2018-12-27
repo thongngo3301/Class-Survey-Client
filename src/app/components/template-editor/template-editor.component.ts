@@ -81,6 +81,14 @@ export class TemplateEditorComponent implements OnInit {
     });
   }
 
+  deleteQuestion(sectionIdx: number, questionIdx: number) {
+    this.sections[sectionIdx].fields.splice(questionIdx, 1);
+  }
+
+  deleteSection(idx: number) {
+    this.sections.splice(idx, 1);
+  }
+
   validateAllInputs() {
     for (let i = 0; i < this.sections.length; i++) {
       if (!this.sections[i].title.length) return false;

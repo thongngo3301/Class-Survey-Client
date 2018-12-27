@@ -33,6 +33,7 @@ export class SurveySheetComponent implements OnInit {
   private cols: Array<any> = [];
   private comment: string = "";
   private comments: Array<string> = [];
+  private numOfStudents: number;
 
   ngOnInit() {
     this.action = this.activatedRouter.snapshot.paramMap.get('action');
@@ -80,7 +81,8 @@ export class SurveySheetComponent implements OnInit {
           const _data = result.data;
           this.sections = _data.group_fields;
           this.comments = _data.comments;
-          this.criterias = ['M', 'M1', 'M2', 'STD', 'STD1', 'STD2'];
+          this.criterias = ['M', 'STD', 'M1', 'STD1', 'M2', 'STD2'];
+          this.numOfStudents = _data.count_of_students;
           this.cols = [0, 1, 2, 3, 4, 5];
           this.isReady = true;
         } else {

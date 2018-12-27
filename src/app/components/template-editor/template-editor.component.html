@@ -34,14 +34,29 @@
                   [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <button class="form-control btn-danger" (click)="deleteSection(sections.indexOf(section))">
+                    <i class="fas fa-trash-alt fa-lg"></i>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="question" *ngFor="let question of section.fields">
               <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-11">
+                <div class="col-md-10">
                   <div class="form-group">
                     <input type="text" class="form-control" placeholder="Enter question" [(ngModel)]="question.title"
                     [ngModelOptions]="{standalone: true}">
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <button class="form-control btn-primary"
+                      (click)="deleteQuestion(sections.indexOf(section), section.fields.indexOf(question))">
+                      <i class="fas fa-trash-alt fa-lg"></i>
+                    </button>
                   </div>
                 </div>
               </div>

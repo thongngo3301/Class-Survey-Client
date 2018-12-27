@@ -15,6 +15,9 @@
           </div>
         </div>
         <div class="card-body to-print" *ngIf="isReady">
+          <div class="section" *ngIf="userService.getRoleId() != '3'">
+            <strong>Num. of Students that submitted:&nbsp;</strong>{{numOfStudents}}
+          </div>
           <div class="section" *ngFor="let section of sections">
             <span><strong>{{sections.indexOf(section) + 1}}.<span style="color: red" *ngIf="action == 'answer'">*</span> {{section.title}}</strong></span>
             <div class="question">
@@ -41,11 +44,44 @@
             <textarea [(ngModel)]="comment">Enter your comment here...</textarea>
           </div>
           <div class="section" *ngIf="userService.getRoleId() != '3'">
-            <span style="padding: 0.5em;"><strong>Comments by students</strong></span>
+            <span><strong>Comments by students</strong></span>
             <br>
-            <span *ngFor="let comment of comments">
+            <span style="padding: 0.5em;" *ngFor="let comment of comments">
               <i>- {{comment}}</i>
               <br>
+            </span>
+          </div>
+          <div class="section" *ngIf="userService.getRoleId() != '3'">
+            <span><strong>Notes</strong></span>
+            <br>
+            <span style="padding: 0.5em;">
+              <strong>M:&nbsp;</strong>
+              <span>Giá trị trung bình của các tiêu chí theo lớp học phần</span>
+            </span>
+            <br>
+            <span style="padding: 0.5em;">
+              <strong>STD:&nbsp;</strong>
+              <span>Độ lệch chuẩn các giá trị trung bình của các tiêu chí theo lớp học phần</span>
+            </span>
+            <br>
+            <span style="padding: 0.5em;">
+              <strong>M1:&nbsp;</strong>
+              <span>Giá trị trung bình của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên cho các giảng viên dạy cùng môn học với thầy cô</span>
+            </span>
+            <br>
+            <span style="padding: 0.5em;">
+              <strong>STD1:&nbsp;</strong>
+              <span>Độ lệch chuẩn các giá trị trung bình của các tiêu chí dựa trên dữ liệu phản hồi của sinh viên cho các giảng viên dạy cùng môn học với thầy cô</span>
+            </span>
+            <br>
+            <span style="padding: 0.5em;">
+              <strong>M2:&nbsp;</strong>
+              <span>Giá trị trung bình của các tiêu chí dựa trên ý kiến phản hồi của sinh viên về các môn học mà thầy/cô đã thực hiện giảng dạy</span>
+            </span>
+            <br>
+            <span style="padding: 0.5em;">
+              <strong>STD2:&nbsp;</strong>
+              <span>Độ lệch chuẩn các giá trị trung bình của các tiêu chí dựa trên ý kiến phản hồi của sinh viên về các môn học mà thầy/cô đã thực hiện giảng dạy</span>
             </span>
           </div>
         </div>
