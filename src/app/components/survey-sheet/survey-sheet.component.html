@@ -36,6 +36,18 @@
               </span>
             </div>
           </div>
+          <div class="section" *ngIf="userService.getRoleId() == '3'">
+            <span><strong>Add comment</strong></span>
+            <textarea [(ngModel)]="comment">Enter your comment here...</textarea>
+          </div>
+          <div class="section" *ngIf="userService.getRoleId() != '3'">
+            <span style="padding: 0.5em;"><strong>Comments by students</strong></span>
+            <br>
+            <span *ngFor="let comment of comments">
+              <i>- {{comment}}</i>
+              <br>
+            </span>
+          </div>
         </div>
       </div>
     </div>

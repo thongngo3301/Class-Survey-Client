@@ -31,6 +31,8 @@ export class SurveySheetComponent implements OnInit {
   private sections: Array<any> = [];
   private criterias: Array<any> = [];
   private cols: Array<any> = [];
+  private comment: string = "";
+  private comments: Array<string> = [];
 
   ngOnInit() {
     this.action = this.activatedRouter.snapshot.paramMap.get('action');
@@ -50,6 +52,7 @@ export class SurveySheetComponent implements OnInit {
           const _data = result.data.survey;
           this.isSubmitted = this.wasSubmittedBefore(_data.create_at, _data.modify_at);
           this.sections = _data.group_fields;
+          this.comment = _data.comment;
           this.criterias = [1, 2, 3, 4, 5];
           if (this.isSubmitted) {
             this.cols = this.criterias;
@@ -76,6 +79,7 @@ export class SurveySheetComponent implements OnInit {
         if (result && result.success) {
           const _data = result.data;
           this.sections = _data.group_fields;
+          this.comments = _data.comments;
           this.criterias = ['M', 'M1', 'M2', 'STD', 'STD1', 'STD2'];
           this.cols = [0, 1, 2, 3, 4, 5];
           this.isReady = true;
@@ -111,7 +115,8 @@ export class SurveySheetComponent implements OnInit {
       studentId: this.userService.getUserId(),
       surveyId: this.id,
       data: {
-        survey: this.sections
+        survey: this.sections,
+        comment: this.comment
       }
     }
     this.spinner.show();
